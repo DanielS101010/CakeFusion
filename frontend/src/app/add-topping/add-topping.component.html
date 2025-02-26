@@ -1,0 +1,22 @@
+<div class="add-container">
+    <h2>Toppingrezept hinzufügen</h2>
+    <div class="form-group">
+      <label>Toppingname: </label>
+      <input id="ToppingName" placeholder="Toppingname eintragen" [(ngModel)]="toppingName">
+    </div>
+    <div class="form-group">
+      <label>Das Rezept ergibt ... Portionen</label>
+      <input placeholder="1" [(ngModel)]="toppingQuantity">
+    </div>
+    <div class="form-group">
+      <label>Zutaten:</label>
+      <textarea placeholder="Zutaten einfügen" [(ngModel)]="toppingIngredients"></textarea>
+    </div>
+    <div class="form-group">
+      <label>Anleitung:</label>
+      <textarea placeholder="Anleitung einfügen" [(ngModel)]="toppingInstructions"></textarea>
+    </div>
+    <div class="form-group">
+      <button class="submit-btn" (click)="addTopping()">Rezept hinzufügen</button>
+    </div>
+  </div>

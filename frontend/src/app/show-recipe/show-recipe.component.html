@@ -1,0 +1,101 @@
+<div class="container">
+    <mat-card *ngIf="dough" class="card">
+      <mat-card-header>
+        <div class="header">
+          <mat-card-title>{{ dough.name }}</mat-card-title>
+          <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+        </div>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <div class="form-group">
+          <label>Das Rezept ergibt ... Böden</label>
+          <input [(ngModel)]="doughQuantity">
+        </div>
+        <h4>Zutaten:</h4>
+        <p *ngFor="let ingredient of dough.ingredients  ">
+          {{ (ingredient.quantity/dough.quantity)*doughQuantity }}  {{ ingredient.description }}
+        </p>
+  
+        <h4>Anleitung:</h4>
+        <p>{{ dough.instruction }}</p>
+          
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card *ngIf="filling" class="card">
+      <mat-card-header class="header">
+        <mat-card-title>{{ filling.name }}</mat-card-title>
+        <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+  
+      </mat-card-header>
+  
+      <mat-card-content>
+        <div class="form-group">
+          <label>Das Rezept ergibt ... Portionen</label>
+          <input [(ngModel)]="fillingQuantity">
+        </div>
+        <h4>Zutaten:</h4>
+        <p *ngFor="let ingredient of filling.ingredients">
+          {{ (ingredient.quantity/filling.quantity)*fillingQuantity }}  {{ ingredient.description }}
+        </p>
+  
+        <h4>Anleitung:</h4>
+        <p>{{ filling.instruction }}</p>
+          
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card *ngIf="topping" class="card">
+      <mat-card-header class="header">
+        <mat-card-title>{{ topping.name }}</mat-card-title>
+        <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <div class="form-group">
+          <label>Das Rezept ergibt ... Portionen</label>
+          <input [(ngModel)]="toppingQuantity">
+        </div>
+        <h4>Zutaten:</h4>
+        <p *ngFor="let ingredient of topping.ingredients">
+          {{ (ingredient.quantity/topping.quantity)*toppingQuantity }} {{ ingredient.description }}
+        </p>
+  
+        <h4>Anleitung:</h4>
+        <p>{{ topping.instruction }}</p>
+          
+      </mat-card-content>
+    </mat-card>
+  
+    <mat-card *ngIf="cake" class="card">
+      <mat-card-header class="header">
+        <mat-card-title>{{ cake.name }}</mat-card-title>
+        <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+      </mat-card-header>
+    
+      <mat-card-content>
+        <div *ngFor="let comp of componentsToDisplay">  
+          <h4> {{ comp.name }}</h4>
+          <p *ngFor="let ingredient of comp.ingredients">
+            {{ (ingredient.quantity/comp.baseQuantity)*comp.quantity }}  {{ ingredient.description }}
+          </p>
+          <p>{{ comp.instruction }}</p>
+        </div>
+        
+      </mat-card-content>
+  
+      <mat-card-content>
+        <div *ngIf="ingredients !==''">
+          <p>
+            {{ingredients}}
+          </p>
+          <p>
+            {{instructions}}
+          </p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  
+  </div>
+    

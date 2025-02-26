@@ -1,0 +1,69 @@
+<div class="add-container">
+    <h2>Kuchenrezept hinzufügen</h2>
+  
+    <div class="form-group">
+      <label>Andere Komponenten benutzen?</label>
+      
+      <div class="radio-container">
+        <input type="radio" id="useComponentsYes" name="useComponents" value="yes" [(ngModel)]="useComponents"/>
+        <label for="useComponentsYes">Ja</label>
+      </div>
+  
+      <div class="radio-container">
+        <input type="radio" id="useComponentsNo" name="useComponents" value="no" [(ngModel)]="useComponents"/>
+        <label for="useComponentsNo">Nein</label>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <label for="KuchenName">Kuchenname:</label>
+      <input id="KuchenName" placeholder="Kuchenname eintragen" [(ngModel)]="cakeName" />
+  
+      <div *ngIf="useComponents === 'yes'">
+        <label>Teig(e):</label>
+        <div class="options-list">
+          <div *ngFor="let dough of doughs" class="checkbox-item">
+            <input type="checkbox" id="dough-{{ dough._id }}" [value]="dough._id" (change)="onComponentChange($event, 'dough', 1)" [checked]="isComponentSelected('dough', dough._id)"/>
+            <label for="dough-{{ dough._id }}">{{ dough.name }}</label>
+          </div>
+        </div>
+  
+        <label>Füllung(en):</label>
+        <div class="options-list">
+          <div *ngFor="let filling of fillings" class="checkbox-item">
+            <input type="checkbox" id="filling-{{ filling._id }}" [value]="filling._id" (change)="onComponentChange($event, 'filling', 1)" [checked]="isComponentSelected('filling', filling._id)"/>
+            <label for="filling-{{ filling._id }}">{{ filling.name }}</label>
+          </div>
+        </div>
+  
+        <label>Topping(s):</label>
+        <div class="options-list">
+          <div *ngFor="let topping of toppings" class="checkbox-item">
+            <input type="checkbox" id="topping-{{ topping._id }}" [value]="topping._id" (change)="onComponentChange($event, 'topping', 1)" [checked]="isComponentSelected('topping', topping._id)"/>
+            <label for="topping-{{ topping._id }}">{{ topping.name }}</label>
+          </div>
+        </div>
+  
+        <h4>Ausgewählte Komponenten in der Reihenfolge der Auswahl:</h4>
+        <ol>
+          <li *ngFor="let component of selectedComponents; let i = index">
+            {{ getComponentName(component.type, component.id) }}
+            <input type="number" [(ngModel)]="component.quantity" placeholder="1">
+            <button (click)="moveUp(i)" [disabled]="i === 0">Up</button>
+            <button (click)="moveDown(i)" [disabled]="i === selectedComponents.length - 1">Down</button>
+          </li>
+        </ol>
+      </div>
+  
+      <div *ngIf="useComponents === 'no'">
+        <label> Zutaten:</label>
+        <textarea placeholder="Zutaten einfügen" [(ngModel)]="ingredients"></textarea>
+  
+        <label> Anleitung:</label>
+        <textarea placeholder="Anleitung einfügen" [(ngModel)]="instructions"></textarea>
+      </div>
+  
+      <button class="submit-btn" (click)="addCake()">Rezept hinzufügen</button>
+    </div>
+  </div>
+  
