@@ -24,7 +24,6 @@ export class EditRecipeComponent {
   cake!: Cake;
  
   doughName = "";
-  doughCategory = "";
   doughIngredients = "";
   doughInstructions = "";
   doughQuantity!: number;
@@ -69,7 +68,6 @@ export class EditRecipeComponent {
       this.apiService.singleDough(this.id).subscribe((data: Dough) => {
         this.dough = data;
         this.doughName = data.name;
-        this.doughCategory = data.category;
         this.doughIngredients = data.ingredients
           .map(ing => `${ing.quantity} ${ing.description}`)
           .join('\n');

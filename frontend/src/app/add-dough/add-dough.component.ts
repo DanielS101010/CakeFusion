@@ -15,7 +15,7 @@ export class AddDoughComponent {
   doughName = "";
   doughIngredients = "";
   doughInstructions = "";
-  doughQuantity! :number ;
+  doughQuantity = 1 ;
 
   constructor(private apiService: ApiService, private sharedDataService: SharedDataService, private router: Router){}
   

@@ -19,7 +19,7 @@ export class FillingService{
     ){
         const ingredientList = parseIngredients(ingredients)
         
-        const newFilling = new this.fillingModel({Name: name, ingredients: ingredientList, instruction: instruction, quantity: quantity})
+        const newFilling = new this.fillingModel({name: name, ingredients: ingredientList, instruction: instruction, quantity: quantity})
         const result = await newFilling.save();
         return result._id;
     }
@@ -48,7 +48,7 @@ export class FillingService{
     ){
         const ingredientList = parseIngredients(ingredients)
 
-        const res = await this.fillingModel.findByIdAndUpdate(id, {Name: name, ingredients: ingredientList, instruction: instruction, quantity: quantity})
+        const res = await this.fillingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instruction: instruction, quantity: quantity})
         return res
     }
 

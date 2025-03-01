@@ -19,7 +19,7 @@ export class ToppingService{
     ){
         const ingredientList = parseIngredients(ingredients)
 
-        const newTopping = new this.toppingModel({Name: name, Ingredients: ingredientList, instruction: instruction, quantity: quantity})
+        const newTopping = new this.toppingModel({name: name, ingredients: ingredientList, instruction: instruction, quantity: quantity})
         const result = await newTopping.save();
         return result._id;
     }
@@ -48,8 +48,8 @@ export class ToppingService{
         quantity: number,
     ){
         const ingredientList = parseIngredients(ingredients)
-        
-        const res = await this.toppingModel.findByIdAndUpdate(id, {Name: name, Ingredients: ingredientList, instruction: instruction, quantity:quantity})
+
+        const res = await this.toppingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instruction: instruction, quantity:quantity})
         return res
     }
 

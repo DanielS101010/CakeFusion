@@ -15,7 +15,7 @@ export class AddToppingComponent {
   toppingName = "";
   toppingIngredients = "";
   toppingInstructions = "";
-  toppingQuantity! : number;
+  toppingQuantity = 1;
   constructor(private apiServie: ApiService, private sharedDataService: SharedDataService, private router: Router){}
   
   addTopping(){

@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose'
 
 export const FillingSchema = new mongoose.Schema({
-    Name: {type: String, required: true},
+    name: {type: String, required: true},
     ingredients: [{
         quantity: { type: Number, required: true },
         description: { type: String, required: true }
@@ -12,7 +12,7 @@ export const FillingSchema = new mongoose.Schema({
 
 export interface Filling{
     id: string;
-    Name:string;
+    name:string;
     ingredients: { quantity: number; description: string }[];
     instruction: string;
     quantity: number;

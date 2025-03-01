@@ -9,6 +9,8 @@ import { Topping } from '../add-topping/topping.model';
 import { Cake } from '../add-cake/cake.model';
 import { FormsModule } from '@angular/forms';
 
+import { Ingredient } from '../add-cake/cake.model';
+
 @Component({
   selector: 'app-show-recipe',
   standalone: true,
@@ -32,7 +34,7 @@ export class ShowRecipeComponent {
   fillingQuantity!: number
   toppingQuantity!: number
 
-  ingredients = "";
+  ingredients: Ingredient[] = [];
   instructions = "";
 
   constructor(private apiService: ApiService, private route: ActivatedRoute){}
@@ -81,6 +83,8 @@ export class ShowRecipeComponent {
           });
           this.ingredients = data.ingredients 
           this.instructions = data.instructions
+          console.log(this.ingredients)
+          console.log(this.instructions)
         });
       }
   }

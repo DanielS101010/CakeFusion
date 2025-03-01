@@ -7,13 +7,13 @@ export class CakeController {
 
   @Post()
   async addCake(
-    @Body("Name") cakeName: string,
+    @Body("Name") name: string,
     @Body("Components") components: Array<{ type: string; id: string; quantity: number; }>,
     @Body("Ingredients") ingredients: string,
     @Body("Instructions") instructions: string
   ) {
     const result = await this.cakeService.addCake(
-      cakeName,
+      name,
       components,
       ingredients,
       instructions

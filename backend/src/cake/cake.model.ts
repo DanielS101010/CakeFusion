@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const CakeSchema = new mongoose.Schema({
-  Name: { type: String, required: true },
+  name: { type: String, required: true },
   components: [
     {
       type: {
@@ -12,18 +12,24 @@ export const CakeSchema = new mongoose.Schema({
       quantity: Number,
     },
   ],
-  ingredients: { type: String, required: false },
+  ingredients: [{
+    quantity: { type: Number, required: true },
+    description: { type: String, required: true }
+  }],  
   instructions: { type: String, required: false },
 });
 
 export interface Cake {
   id: string;
-  Name: string;
+  name: string;
   components: Array<{
     type: 'dough' | 'filling' | 'topping';
     id: string;
     quantity: number;
   }>;
-  ingredients: string;
+  ingredients: Array<{
+    quantity: number;
+    description: string;
+  }>;
   instructions: string;
 }

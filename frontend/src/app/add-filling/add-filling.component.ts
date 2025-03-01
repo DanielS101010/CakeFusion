@@ -16,7 +16,7 @@ export class AddFillingComponent {
   fillingName = "";
   fillingIngredients = "";
   fillingInstructions = "";
-  fillingQuantity! :number;
+  fillingQuantity = 1;
 
   constructor(private apiServie: ApiService, private sharedDataService: SharedDataService, private router: Router){}
   

@@ -1,3 +1,8 @@
+export interface Ingredient {
+  quantity: number;
+  description: string;
+}
+
 export interface Cake {
     _id: string;
     name: string;
@@ -6,6 +11,6 @@ export interface Cake {
       id: string;
       quantity: number;
     }>;
-    ingredients: string;
+    ingredients: Ingredient[];
     instructions: string;
   }

@@ -19,7 +19,7 @@ export class DoughService{
     ){
         const ingredientList = parseIngredients(ingredients)
  
-        const newDough = new this.doughModel({Name: name, ingredients: ingredientList, instruction: instruction, quantity:quantity})
+        const newDough = new this.doughModel({name: name, ingredients: ingredientList, instruction: instruction, quantity:quantity})
         
         const result = await newDough.save();
         return result._id;

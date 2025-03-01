@@ -74,7 +74,7 @@
         <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
       </mat-card-header>
     
-      <mat-card-content>
+      <mat-card-content *ngIf="this.cake.instructions ==''">
         <div *ngFor="let comp of componentsToDisplay">  
           <h4> {{ comp.name }}</h4>
           <p *ngFor="let ingredient of comp.ingredients">
@@ -85,17 +85,18 @@
         
       </mat-card-content>
   
-      <mat-card-content>
-        <div *ngIf="ingredients !==''">
-          <p>
-            {{ingredients}}
-          </p>
-          <p>
-            {{instructions}}
-          </p>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  
-  </div>
+    <mat-card-content>
+      <div *ngIf="cake.ingredients?.length">
+        <h4>Zutaten:</h4>
+        <p *ngFor="let ingredient of cake.ingredients">
+          {{ ingredient.quantity }} {{ ingredient.description }}
+        </p>
+      </div>
+      <div *ngIf="cake.instructions">
+        <h4>Anleitung:</h4>
+        <p>{{ cake.instructions }}</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
     

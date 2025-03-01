@@ -15,7 +15,10 @@ export class CakeService {
     ingredients: string,
     instruction: string
   ) {
-      const ingredientList = parseIngredients(ingredients)
+    let ingredientList: { quantity: number; description: string; }[]
+    if (ingredients != ""){
+      ingredientList = parseIngredients(ingredients)
+    }
     
     const newCake = new this.cakeModel({
       name,
