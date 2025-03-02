@@ -15,7 +15,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
   
-  baseUrl = 'http://localhost:3000'
+  baseUrl = '/api'
 
   allDoughs(): Observable<Dough[]>{
     return this.http.get<Dough[]>(this.baseUrl + '/dough')

@@ -18,7 +18,7 @@ function getLocalIp(): string {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   const localIp = getLocalIp();
   const localFrontendUrl = `http://${localIp}:4200`;
   const localhostUrl = 'http://localhost:4200';
@@ -32,6 +32,8 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   
+  app.setGlobalPrefix('api');
+
   await app.listen(3000);
 }
 bootstrap();
