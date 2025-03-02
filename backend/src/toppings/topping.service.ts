@@ -14,12 +14,12 @@ export class ToppingService{
     async addTopping(
         name: string,
         ingredients: string,
-        instruction: string,
+        instructions: string,
         quantity: number,
     ){
         const ingredientList = parseIngredients(ingredients)
 
-        const newTopping = new this.toppingModel({name: name, ingredients: ingredientList, instruction: instruction, quantity: quantity})
+        const newTopping = new this.toppingModel({name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity})
         const result = await newTopping.save();
         return result._id;
     }
@@ -44,12 +44,12 @@ export class ToppingService{
         id: string,
         name: string,
         ingredients: string,
-        instruction: string,
+        instructions: string,
         quantity: number,
     ){
         const ingredientList = parseIngredients(ingredients)
 
-        const res = await this.toppingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instruction: instruction, quantity:quantity})
+        const res = await this.toppingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity:quantity})
         return res
     }
 

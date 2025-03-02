@@ -14,12 +14,12 @@ export class FillingService{
     async addFilling(
         name: string,
         ingredients: string,
-        instruction: string,
+        instructions: string,
         quantity: number,
     ){
         const ingredientList = parseIngredients(ingredients)
         
-        const newFilling = new this.fillingModel({name: name, ingredients: ingredientList, instruction: instruction, quantity: quantity})
+        const newFilling = new this.fillingModel({name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity})
         const result = await newFilling.save();
         return result._id;
     }
@@ -43,12 +43,11 @@ export class FillingService{
         id: string,
         name: string,
         ingredients: string,
-        instruction: string,
+        instructions: string,
         quantity: number,
     ){
         const ingredientList = parseIngredients(ingredients)
-
-        const res = await this.fillingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instruction: instruction, quantity: quantity})
+        const res = await this.fillingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity})
         return res
     }
 

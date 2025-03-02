@@ -33,6 +33,7 @@ export class ShowRecipeComponent {
   doughQuantity!: number
   fillingQuantity!: number
   toppingQuantity!: number
+  cakeQuantity = 1
 
   ingredients: Ingredient[] = [];
   instructions = "";
@@ -83,8 +84,6 @@ export class ShowRecipeComponent {
           });
           this.ingredients = data.ingredients 
           this.instructions = data.instructions
-          console.log(this.ingredients)
-          console.log(this.instructions)
         });
       }
   }

@@ -8,11 +8,12 @@ import { Topping } from '../add-topping/topping.model';
 
 import { NgFor, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
+import { TextFieldModule } from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-cake',
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule],
+  imports: [NgFor, NgIf, FormsModule, TextFieldModule],
   templateUrl: './add-cake.component.html',
   styleUrl: './add-cake.component.css'
 })
@@ -61,6 +62,10 @@ export class CakeComponent {
   }
 
   addCake() {
+    if (this.cakeName == "" || this.selectedComponents.length == 0 && (this.ingredients == "" || this.instructions =="" )){
+      alert("Fülle alle benötigten Felder aus.")
+      return;
+    }
     this.apiService.addCake(this.cakeName, this.ingredients, this.instructions, this.selectedComponents).subscribe({next: () => {
           this.sharedDataService.refreshCakes();
           this.router.navigate(['/']);

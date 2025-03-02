@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as os from 'os';
+import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
 
 function getLocalIp(): string {
   const interfaces = os.networkInterfaces();
@@ -29,6 +30,8 @@ async function bootstrap() {
           credentials: true,
   });
 
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
+  
   await app.listen(3000);
 }
 bootstrap();

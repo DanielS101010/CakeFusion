@@ -54,8 +54,8 @@
   }
   
   textarea {
-    height: 120px;
     resize: none;
+    overflow: hidden;
   }
   
   .options-list {
@@ -115,18 +115,28 @@
   }
   
   .container {
-    display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px;
+
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 2em;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
   }
   
   .card {
-    width: 60%;
+    width: 100%;
     padding: 20px;
     background-color: #f9f9f9;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+  }
+  
+  .instructions{
+    white-space: pre-line;
   }
   
   @media (max-width: 768px) {

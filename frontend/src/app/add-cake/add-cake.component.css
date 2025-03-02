@@ -1,4 +1,10 @@
 .radio-container {
     display: flex;
-  }
-  
+}
+
+.moveButton{
+  height: 3.5em;
+  width: 4em;
+  padding-left: 0.5em;
+  margin-left: 0.5em;
+}

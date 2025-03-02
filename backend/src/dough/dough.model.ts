@@ -6,7 +6,7 @@ export const DoughSchema = new mongoose.Schema({
         quantity: { type: Number, required: true },
         description: { type: String, required: true }
       }],
-    instruction: {type: String, required: true},
+    instructions: {type: String, required: true},
     quantity: {type: Number, required: true},
 });
 
@@ -14,6 +14,6 @@ export interface Dough{
     id: string;
     name:string;
     ingredients: { quantity: number; description: string }[];
-    instruction: string;
+    instructions: string;
     quantity: number;
 }

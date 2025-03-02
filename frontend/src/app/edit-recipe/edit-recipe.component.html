@@ -1,84 +1,81 @@
 <div class="container">
-    <mat-card *ngIf= "component == 'dough'" class="card">
-      <mat-card-header>
-        <div>
-          <mat-card-title><input [(ngModel)] = "doughName"></mat-card-title>
-        </div>
-      </mat-card-header>
-  
-      <mat-card-content>
-        <div class="form-group">
-          <label>Das Rezept ergibt ... Böden</label>
-          <input [(ngModel)]="doughQuantity">
-        </div>
+  <mat-card *ngIf= "component == 'dough'" class="card">
+    <mat-card-header>
+      <mat-card-title>
+        <input [(ngModel)] = "doughName">
+      </mat-card-title>
+    </mat-card-header>
 
-        <h4>Zutaten:</h4>
-        <textarea [(ngModel)] = doughIngredients></textarea>
+    <mat-card-content>
+      <div class="form-group">
+        <label>Das Rezept ergibt ... Böden</label>
+        <input type="number" [(ngModel)]="doughQuantity">
+      </div>
+
+      <h4>Zutaten:</h4>
+      <textarea cdkTextareaAutosize [(ngModel)] = doughIngredients></textarea>
         
-        <h4>Anleitung:</h4>
-        <textarea [(ngModel)]="doughInstructions"></textarea>
+      <h4>Anleitung:</h4>
+      <textarea cdkTextareaAutosize [(ngModel)]="doughInstructions"></textarea>
 
-        <button class="submit-btn" (click)="saveEdit()">Speichern</button>
-      </mat-card-content>
-    </mat-card>
+      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
+    </mat-card-content>
+  </mat-card>
     
+  <mat-card *ngIf="component == 'filling'" class="card">
+    <mat-card-header>
+      <mat-card-title>
+        <input [(ngModel)] = "fillingName">
+      </mat-card-title>
+    </mat-card-header>
 
-    <mat-card *ngIf="component == 'filling'" class="card">
-      <mat-card-header>
-        <div>
-          <mat-card-title><input [(ngModel)] = "fillingName"></mat-card-title>
-        </div>
-      </mat-card-header>
-  
-      <mat-card-content>
-        <div class="form-group">
-          <label>Das Rezept ergibt ... Portionen</label>
-          <input [(ngModel)]="fillingQuantity">
-        </div>
+    <mat-card-content>
+      <div class="form-group">
+        <label>Das Rezept ergibt ... Portionen</label>
+        <input type="number" [(ngModel)]="fillingQuantity">
+      </div>
 
-        <h4>Zutaten:</h4>
-        <textarea [(ngModel)] = fillingIngredients></textarea>
-  
-        <h4>Anleitung:</h4>
-        <textarea [(ngModel)]="fillingInstructions"></textarea>
+      <h4>Zutaten:</h4>
+      <textarea TextFieldModule [(ngModel)] = fillingIngredients></textarea>
 
-        <button class="submit-btn" (click)="saveEdit()">Speichern</button>
-      </mat-card-content>
-    </mat-card>
+      <h4>Anleitung:</h4>
+      <textarea TextFieldModule [(ngModel)]="fillingInstructions"></textarea>
+
+      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
+    </mat-card-content>
+  </mat-card>
 
 
-    <mat-card *ngIf="component == 'topping'" class="card">
-      <mat-card-header>
-        <div>
-          <mat-card-title><input [(ngModel)] = "toppingName"></mat-card-title>
-        </div>
-      </mat-card-header>
-  
-      <mat-card-content>
-        <div class="form-group">
-          <label>Das Rezept ergibt ... Portionen</label>
-          <input [(ngModel)]="toppingQuantity">
-        </div>
-        <h4>Zutaten:</h4>
-        <textarea [(ngModel)] = toppingIngredients></textarea>
-  
-        <h4>Anleitung:</h4>
-        <textarea [(ngModel)]="toppingInstructions"></textarea>
+  <mat-card *ngIf="component == 'topping'" class="card">
+    <mat-card-header>
+      <mat-card-title>
+        <input [(ngModel)] = "toppingName">
+      </mat-card-title>
+    </mat-card-header>
 
-        <button class="submit-btn" (click)="saveEdit()">Speichern</button>
-      </mat-card-content>
-    </mat-card>
+    <mat-card-content>
+      <div class="form-group">
+        <label>Das Rezept ergibt ... Portionen</label>
+        <input type="number" [(ngModel)]="toppingQuantity">
+      </div>
+      <h4>Zutaten:</h4>
+      <textarea TextFieldModule [(ngModel)] = toppingIngredients></textarea>
 
-    
-    <mat-card *ngIf="component == 'cake'" class="card">
-      <mat-card-header>
-        <div>
-          <mat-card-title>
-            <input [(ngModel)]="cakeName" placeholder="Name des Kuchens">
-          </mat-card-title>
-        </div>
-      </mat-card-header>
-  
+      <h4>Anleitung:</h4>
+      <textarea TextFieldModule [(ngModel)]="toppingInstructions"></textarea>
+
+      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="component == 'cake'" class="card">
+    <mat-card-header>
+      <mat-card-title>
+        <input [(ngModel)]="cakeName">
+      </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
       <div *ngIf="cakeUseComponents === 'yes'">
         <label>Teig(e):</label>
         <div class="options-list">
@@ -93,7 +90,7 @@
             <label for="dough-{{dough._id}}">{{ dough.name }}</label>
           </div>
         </div>
-  
+
         <label>Füllung(en):</label>
         <div class="options-list">
           <div *ngFor="let filling of fillings" class="checkbox-item">
@@ -107,7 +104,7 @@
             <label for="filling-{{filling._id}}">{{ filling.name }}</label>
           </div>
         </div>
-  
+
         <label>Topping(s):</label>
         <div class="options-list">
           <div *ngFor="let topping of toppings" class="checkbox-item">
@@ -121,34 +118,26 @@
             <label for="topping-{{topping._id}}">{{ topping.name }}</label>
           </div>
         </div>
-      </div>
-  
 
-      <h4>Ausgewählte Komponenten in der Reihenfolge der Auswahl:</h4>
-      <ol>
-        <li *ngFor="let component of selectedComponents; let i = index">
-          {{ getComponentName(component.type, component.id) }}
-          <button (click)="moveUp(i)" [disabled]="i === 0">Up</button>
-          <button (click)="moveDown(i)" [disabled]="i === selectedComponents.length - 1">Down</button>
-        </li>
-      </ol>
-    
+        <h4>Ausgewählte Komponenten in der Reihenfolge der Auswahl:</h4>
+        <ol>
+          <li *ngFor="let component of selectedComponents; let i = index">
+            {{ getComponentName(component.type, component.id) }}
+            <input type="number" [(ngModel)]="component.quantity" min="1">
+            <button (click)="moveUp(i)" [disabled]="i === 0">Up</button>
+            <button (click)="moveDown(i)" [disabled]="i === selectedComponents.length - 1">Down</button>
+          </li>
+        </ol>
+      </div>
+
       <div *ngIf="cakeUseComponents === 'no'">
         <label>Zutaten:</label>
-        <textarea
-          placeholder="Zutaten einfügen"
-          [(ngModel)]="cakeIngredients"
-        ></textarea>
-  
+        <textarea cdkTextareaAutosize [(ngModel)]="cakeIngredients"></textarea>
+
         <label>Anleitung:</label>
-        <textarea
-          placeholder="Anleitung einfügen"
-          [(ngModel)]="cakeInstructions"
-        ></textarea>
+        <textarea cdkTextareaAutosize [(ngModel)]="cakeInstructions"></textarea>
       </div>
-  
-      <mat-card-content>
-        <button class="submit-btn" (click)="saveEdit()">Speichern</button>
-      </mat-card-content>
-    </mat-card>
+      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
+    </mat-card-content>
+  </mat-card>
 </div>

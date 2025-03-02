@@ -2,19 +2,19 @@
     <h2>Füllungsrezept hinzufügen</h2>
     <div class="form-group">
       <label>Füllungsname: </label>
-      <input id="FüllungsName" placeholder="Füllungsname eintragen" [(ngModel)]="fillingName">
+      <input id="FüllungsName" placeholder="Füllungsname eintragen" [(ngModel)]="fillingName" required>
     </div>
     <div class="form-group">
       <label>Das Rezept ergibt ... Portionen</label>
-      <input placeholder="1" [(ngModel)]="fillingQuantity">
+      <input type="number" min = "1" [(ngModel)]="fillingQuantity">
     </div>
     <div class="form-group">
       <label>Zutaten:</label>
-      <textarea placeholder="Zutaten einfügen" [(ngModel)]="fillingIngredients"></textarea>
+      <textarea cdkTextareaAutosize placeholder="Zutaten einfügen" [(ngModel)]="fillingIngredients" required></textarea>
     </div>
     <div class="form-group">
       <label>Anleitung:</label>
-      <textarea placeholder="Anleitung einfügen" [(ngModel)]="fillingInstructions"></textarea>
+      <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="fillingInstructions" required></textarea>
     </div>
     <div class="form-group">
       <button class="submit-btn" (click)="addFilling()">Rezept hinzufügen</button>

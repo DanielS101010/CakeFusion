@@ -1,18 +1,16 @@
 import { Controller, Post, Get, Body, Param, Patch, Delete} from "@nestjs/common";
 import { DoughService } from "./dough.service";
+import { CreateDoughDTO } from "./create-dough.dto";
+import { UpdateDoughDTO } from "./update-dough.dto";
 
 @Controller("/dough")
 export class DoughController{
     constructor(private readonly doughService: DoughService) {}
 
     @Post()
-    async addDough(
-        @Body("Name") doughName: string, 
-        @Body("Ingredients") doughIngredients: string, 
-        @Body("Instructions") doughInstructions: string,
-        @Body("Quantity") doughQuantity: number,
-    ){
-        const result = await this.doughService.addDough(doughName, doughIngredients, doughInstructions, doughQuantity)
+    async addDough(@Body() createDoughDTO: CreateDoughDTO){
+        const { name, ingredients, instructions, quantity } = createDoughDTO;
+        const result = await this.doughService.addDough(name, ingredients, instructions, quantity)
         return {data: result };
     }
 
@@ -31,15 +29,11 @@ export class DoughController{
     }
 
     @Patch()
-    async updateDough(
-        @Body('Id') id: string, 
-        @Body("Name") doughName: string, 
-        @Body("Ingredients") doughIngredients: string, 
-        @Body("Instructions") doughInstructions: string,
-        @Body("Quantity") doughQuantity: number,
-    ){
-        const res = await this.doughService.updateDough(id, doughName, doughIngredients, doughInstructions, doughQuantity)
-        return res
+    async updateDough(@Body() updateDoughDTO: UpdateDoughDTO) {
+        const { id, name, ingredients, instructions, quantity } = updateDoughDTO;
+        console.log(quantity)
+        const res = await this.doughService.updateDough(id, name, ingredients, instructions, quantity);
+        return res;
     }
     
     @Delete(':id')

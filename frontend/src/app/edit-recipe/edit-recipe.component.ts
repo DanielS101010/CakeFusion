@@ -9,11 +9,12 @@ import { MatCardModule } from '@angular/material/card';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SharedDataService } from '../shared-data.service';
+import {TextFieldModule} from '@angular/cdk/text-field';
 
 @Component({
   selector: 'app-edit-recipe',
   standalone: true,
-  imports: [MatCardModule, NgFor, NgIf, FormsModule],
+  imports: [MatCardModule, NgFor, NgIf, FormsModule, TextFieldModule],
   templateUrl: './edit-recipe.component.html',
   styleUrls: ['./edit-recipe.component.css']  
 })
@@ -41,7 +42,7 @@ export class EditRecipeComponent {
 
 
   cakeName = "";
-  selectedComponents: Array<{ type: string; id: string }> = [];
+  selectedComponents: Array<{ type: string; id: string; quantity: number}> = [];
   cakeUseComponents = "";
   cakeIngredients = "";
   cakeInstructions = "";
@@ -71,7 +72,7 @@ export class EditRecipeComponent {
         this.doughIngredients = data.ingredients
           .map(ing => `${ing.quantity} ${ing.description}`)
           .join('\n');
-        this.doughInstructions = data.instruction;
+        this.doughInstructions = data.instructions;
         this.doughQuantity = data.quantity;
       });
     } else if (this.component === "filling") {
@@ -81,7 +82,7 @@ export class EditRecipeComponent {
         this.fillingIngredients = data.ingredients
           .map((ing: any) => `${ing.quantity} ${ing.description}`)
           .join('\n');
-        this.fillingInstructions = data.instruction;
+        this.fillingInstructions = data.instructions;
         this.fillingQuantity = data.quantity
       });
     } else if (this.component === "topping") {
@@ -91,7 +92,7 @@ export class EditRecipeComponent {
         this.toppingIngredients = Array.isArray(data.ingredients)
           ? data.ingredients.map((ing: any) => `${ing.quantity} ${ing.description}`).join('\n')
           : data.ingredients;
-        this.toppingInstructions = data.instruction;
+        this.toppingInstructions = data.instructions;
         this.toppingQuantity = data.quantity
       });
     } else if (this.component === "cake") {
@@ -205,12 +206,11 @@ export class EditRecipeComponent {
   
   onComponentChange(type: string, id: string, event: any): void {
     if (event.target.checked) {
-      this.selectedComponents.push({ type, id });
+      this.selectedComponents.push({ type, id, quantity:1});
     } else {
       this.selectedComponents = this.selectedComponents.filter(c => !(c.type === type && c.id === id));
     }
-    this.cakeUseComponents = this.selectedComponents.length === 0 ? "no" : "yes";
-  }
+    }
 
   getComponentName(type: string, id: string): string {
     switch (type) {

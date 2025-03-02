@@ -6,7 +6,7 @@ export const ToppingSchema = new mongoose.Schema({
         quantity: { type: Number, required: true },
         description: { type: String, required: true }
       }],
-    instruction: {type: String, required: true},
+    instructions: {type: String, required: true},
     quantity: {type: Number, required: true}
 });
 

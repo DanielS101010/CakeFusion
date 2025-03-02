@@ -1,18 +1,17 @@
 import { Controller, Post, Get, Body, Param, Delete, Patch} from "@nestjs/common";
 import { ToppingService } from "./topping.service";
+import { CreateToppingsDTO } from "./create-toppings.dto";
+import { UpdateToppingsDTO } from "./update-toppings.dto";
 
 @Controller("/topping")
 export class ToppingController{
-    constructor(private readonly toppingService: ToppingService) {    }
+    constructor(private readonly toppingService: ToppingService){}
 
     @Post()
-    async addTopping(
-        @Body("Name") toppingName: string,
-        @Body("Ingredients") toppingIngredients: string,
-        @Body("Instructions") toppingInstructions: string,
-        @Body("Quantity") toppingQuantity: number)
-        {
-        const result = await this.toppingService.addTopping(toppingName, toppingIngredients, toppingInstructions, toppingQuantity)
+    async addTopping(@Body() createToppingsDTO: CreateToppingsDTO){
+        const {name, ingredients, instructions, quantity } = createToppingsDTO;
+
+        const result = await this.toppingService.addTopping(name, ingredients, instructions, quantity)
         return {data: result };
     }
 
@@ -30,14 +29,10 @@ export class ToppingController{
     }
 
     @Patch()
-    async updateFilling(
-        @Body('id') id: string,
-        @Body("Name") fillingName: string,
-        @Body("Ingredients") fillingIngredients: string,
-        @Body("Instructions") fillingInstructions: string,
-        @Body("Quantity") quantity: number,
-    ){
-        const res = await this.toppingService.updateTopping(id, fillingName, fillingIngredients, fillingInstructions, quantity)
+    async updateFilling(@Body() updateToppingsDTO: UpdateToppingsDTO){
+        const {id, name, ingredients, instructions, quantity } = updateToppingsDTO;
+
+        const res = await this.toppingService.updateTopping(id, name, ingredients, instructions, quantity)
         return res
     }
     

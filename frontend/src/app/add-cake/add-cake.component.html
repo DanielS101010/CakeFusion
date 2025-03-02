@@ -48,19 +48,19 @@
         <ol>
           <li *ngFor="let component of selectedComponents; let i = index">
             {{ getComponentName(component.type, component.id) }}
-            <input type="number" [(ngModel)]="component.quantity" placeholder="1">
-            <button (click)="moveUp(i)" [disabled]="i === 0">Up</button>
-            <button (click)="moveDown(i)" [disabled]="i === selectedComponents.length - 1">Down</button>
+            <input type="number" [(ngModel)]="component.quantity" min="1">
+            <button class="moveButton" (click)="moveUp(i)" [disabled]="i === 0">Up</button>
+            <button class="moveButton" (click)="moveDown(i)" [disabled]="i === selectedComponents.length - 1">Down</button>
           </li>
         </ol>
       </div>
   
       <div *ngIf="useComponents === 'no'">
         <label> Zutaten:</label>
-        <textarea placeholder="Zutaten einfügen" [(ngModel)]="ingredients"></textarea>
+        <textarea cdkTextareaAutosize placeholder="Zutaten einfügen" [(ngModel)]="ingredients"></textarea>
   
         <label> Anleitung:</label>
-        <textarea placeholder="Anleitung einfügen" [(ngModel)]="instructions"></textarea>
+        <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="instructions"></textarea>
       </div>
   
       <button class="submit-btn" (click)="addCake()">Rezept hinzufügen</button>
