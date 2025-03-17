@@ -1,8 +1,12 @@
-.header{
-    display: flex;
-    flex-direction: column;
+.header {
+  display: flex;
+  flex-direction: column;
 }
 
-.button{
-    margin-top: 0.6em;
+.button {
+  margin-top: 0.6em;
+}
+
+mat-card-title {
+  font-size: x-large;
 }

@@ -36,10 +36,10 @@
       </div>
 
       <h4>Zutaten:</h4>
-      <textarea TextFieldModule [(ngModel)] = fillingIngredients></textarea>
+      <textarea cdkTextareaAutosize [(ngModel)] = fillingIngredients></textarea>
 
       <h4>Anleitung:</h4>
-      <textarea TextFieldModule [(ngModel)]="fillingInstructions"></textarea>
+      <textarea cdkTextareaAutosize [(ngModel)]="fillingInstructions"></textarea>
 
       <button class="submit-btn" (click)="saveEdit()">Speichern</button>
     </mat-card-content>
@@ -59,10 +59,10 @@
         <input type="number" [(ngModel)]="toppingQuantity">
       </div>
       <h4>Zutaten:</h4>
-      <textarea TextFieldModule [(ngModel)] = toppingIngredients></textarea>
+      <textarea cdkTextareaAutosize [(ngModel)] = toppingIngredients></textarea>
 
       <h4>Anleitung:</h4>
-      <textarea TextFieldModule [(ngModel)]="toppingInstructions"></textarea>
+      <textarea cdkTextareaAutosize [(ngModel)]="toppingInstructions"></textarea>
 
       <button class="submit-btn" (click)="saveEdit()">Speichern</button>
     </mat-card-content>
