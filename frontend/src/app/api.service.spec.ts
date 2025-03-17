@@ -30,30 +30,30 @@ describe('ApiService', () => {
   describe('Dough methods', () => {
     it('should fetch all doughs', () => {
       const dummyDoughs: Dough[] = [
-        { _id: '1', name: 'Dough 1', ingredients: [{ quantity: 1, description: 'flour' }], instructions: 'mix', quantity: 10 },
-        { _id: '2', name: 'Dough 2', ingredients: [{ quantity: 2, description: 'water' }], instructions: 'bake', quantity: 5 }
+        { _id: '1', name: 'Dough 1', ingredients: [{ quantity: 100, description: 'g flour' }], instructions: 'mix', quantity: 10 },
+        { _id: '2', name: 'Dough 2', ingredients: [{ quantity: 20, description: 'ml water' }], instructions: 'bake', quantity: 5 }
       ];
       service.allDoughs().subscribe(doughs => {
         expect(doughs).toEqual(dummyDoughs);
       });
       const req = httpMock.expectOne(`${baseUrl}/dough`);
       expect(req.request.method).toBe('GET');
-      req.flush(dummyDoughs);
+      req.flush({data: dummyDoughs});
     });
 
     it('should fetch a single dough', () => {
-      const dummyDough: Dough = { _id: '1', name: 'Dough 1', ingredients: [{ quantity: 1, description: 'flour' }], instructions: 'mix', quantity: 10 };
+      const dummyDough: Dough = { _id: '1', name: 'Dough 1', ingredients: [{ quantity: 100, description: 'g flour' }], instructions: 'mix', quantity: 10 };
       service.singleDough('1').subscribe(dough => {
         expect(dough).toEqual(dummyDough);
       });
       const req = httpMock.expectOne(`${baseUrl}/dough/1`);
       expect(req.request.method).toBe('GET');
-      req.flush(dummyDough);
+      req.flush({data: dummyDough});
     });
 
     it('should add a dough', () => {
       const doughName = 'New Dough';
-      const doughIngredients = 'flour, water';
+      const doughIngredients = '100g flour, 20ml water';
       const doughInstructions = 'mix well';
       const doughQuantity = 5;
       const response = { success: true };
@@ -70,7 +70,7 @@ describe('ApiService', () => {
         instructions: doughInstructions,
         quantity: doughQuantity
       });
-      req.flush(response);
+      req.flush({data: response});
     });
 
     it('should update a dough', () => {
@@ -94,7 +94,7 @@ describe('ApiService', () => {
         instructions: doughInstructions,
         quantity: doughQuantity
       });
-      req.flush(response);
+      req.flush({data: response});
     });
 
     it('should delete a dough', () => {
@@ -107,7 +107,7 @@ describe('ApiService', () => {
 
       const req = httpMock.expectOne(`${baseUrl}/dough/1`);
       expect(req.request.method).toBe('DELETE');
-      req.flush(response);
+      req.flush({data: response});
     });
   });
 
@@ -123,7 +123,7 @@ describe('ApiService', () => {
       });
       const req = httpMock.expectOne(`${baseUrl}/filling`);
       expect(req.request.method).toBe('GET');
-      req.flush(dummyFillings);
+      req.flush({data: dummyFillings});
     });
 
     it('should fetch a single filling', () => {
@@ -133,7 +133,7 @@ describe('ApiService', () => {
       });
       const req = httpMock.expectOne(`${baseUrl}/filling/1`);
       expect(req.request.method).toBe('GET');
-      req.flush(dummyFilling);
+      req.flush({data: dummyFilling});
     });
 
     it('should add a filling', () => {
@@ -155,7 +155,7 @@ describe('ApiService', () => {
         instructions: fillingInstructions,
         quantity: fillingQuantity
       });
-      req.flush(response);
+      req.flush({data: response});
     });
 
     it('should update a filling', () => {
@@ -179,7 +179,7 @@ describe('ApiService', () => {
         instructions: fillingInstructions,
         quantity: fillingQuantity
       });
-      req.flush(response);
+      req.flush({data: response});
     });
 
     it('should delete a filling', () => {
@@ -192,7 +192,7 @@ describe('ApiService', () => {
 
       const req = httpMock.expectOne(`${baseUrl}/filling/1`);
       expect(req.request.method).toBe('DELETE');
-      req.flush(response);
+      req.flush({data: response});
     });
   });
 
@@ -208,7 +208,7 @@ describe('ApiService', () => {
       });
       const req = httpMock.expectOne(`${baseUrl}/topping`);
       expect(req.request.method).toBe('GET');
-      req.flush(dummyToppings);
+      req.flush({data: dummyToppings});
     });
 
     it('should fetch a single topping', () => {
@@ -218,7 +218,7 @@ describe('ApiService', () => {
       });
       const req = httpMock.expectOne(`${baseUrl}/topping/1`);
       expect(req.request.method).toBe('GET');
-      req.flush(dummyTopping);
+      req.flush({data: dummyTopping});
     });
 
     it('should add a topping', () => {
@@ -240,7 +240,7 @@ describe('ApiService', () => {
         instructions: toppingInstructions,
         quantity: toppingQuantity
       });
-      req.flush(response);
+      req.flush({data: response});
     });
 
     it('should update a topping', () => {
@@ -264,7 +264,7 @@ describe('ApiService', () => {
         instructions: toppingInstructions,
         quantity: toppingQuantity
       });
-      req.flush(response);
+      req.flush({data: response});
     });
 
     it('should delete a topping', () => {
@@ -277,7 +277,7 @@ describe('ApiService', () => {
 
       const req = httpMock.expectOne(`${baseUrl}/topping/1`);
       expect(req.request.method).toBe('DELETE');
-      req.flush(response);
+      req.flush({data: response});
     });
   });
 
@@ -296,7 +296,7 @@ describe('ApiService', () => {
       });
       const req = httpMock.expectOne(`${baseUrl}/cake/1`);
       expect(req.request.method).toBe('GET');
-      req.flush(dummyCake);
+      req.flush({data: dummyCake});
     });
 
     it('should add a cake', () => {
@@ -331,7 +331,7 @@ describe('ApiService', () => {
         instructions,
         components: selectedComponents
       });
-      req.flush(response);
+      req.flush({data: response});
     });
 
     it('should update a cake', () => {
@@ -367,7 +367,7 @@ describe('ApiService', () => {
         instructions,
         components: selectedComponents
       });
-      req.flush(response);
+      req.flush({data: response});
     });
 
     it('should delete a cake', () => {
@@ -380,7 +380,7 @@ describe('ApiService', () => {
 
       const req = httpMock.expectOne(`${baseUrl}/cake/1`);
       expect(req.request.method).toBe('DELETE');
-      req.flush(response);
+      req.flush({data: response});
     });
   });
 });

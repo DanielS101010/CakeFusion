@@ -1,11 +1,7 @@
-import { Transform, Type } from 'class-transformer';
-import { IsString, IsNotEmpty, IsNumber, Min, isNotEmpty } from 'class-validator';
+import { Transform } from 'class-transformer';
+import { IsString, IsNotEmpty, IsNumber, Min } from 'class-validator';
 
-export class UpdateToppingsDTO {
-  @IsString()
-  @IsNotEmpty()
-  id: string;
-
+export class CreateToppingDTO {
   @IsString()
   @IsNotEmpty()
   name: string;
@@ -22,7 +18,6 @@ export class UpdateToppingsDTO {
     const normalized = value.toString().replace(',', '.');
     return parseFloat(normalized);
   })
-  @Type(() => Number)
   @IsNumber()
   @Min(1)
   quantity: number;

@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Dough } from './add-dough/dough.model';
 import { Filling } from './add-filling/filling.model';
 import { Topping } from './add-topping/topping.model';
 import { Cake } from './add-cake/cake.model';
-
 
 @Injectable({
   providedIn: 'root'
@@ -14,89 +14,143 @@ import { Cake } from './add-cake/cake.model';
 export class ApiService {
 
   constructor(private http: HttpClient) {}
-  
-  baseUrl = '/api'
 
-  allDoughs(): Observable<Dough[]>{
-    return this.http.get<Dough[]>(this.baseUrl + '/dough')
+  baseUrl = '/api';
+
+  allDoughs(): Observable<Dough[]> {
+    return this.http.get<{ data: Dough[] }>(this.baseUrl + '/dough')
+      .pipe(map(response => response.data));
   }
 
-  singleDough(id:string): Observable<Dough>{
-    return this.http.get<Dough>(this.baseUrl + '/dough/' + id)
-  } 
-
-  addDough(doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number):Observable<any>{
-    return this.http.post(this.baseUrl + '/dough', {name: doughName, ingredients: doughIngredients, instructions:  doughInstructions, quantity: doughQuantity})
-    
+  singleDough(id: string): Observable<Dough> {
+    return this.http.get<{ data: Dough }>(this.baseUrl + '/dough/' + id)
+      .pipe(map(response => response.data));
   }
 
-  updateDough(id: string, doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number){
-    return this.http.patch(this.baseUrl + '/dough', {id: id, name: doughName, ingredients: doughIngredients, instructions: doughInstructions, quantity: doughQuantity})
+  addDough(doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number): Observable<any> {
+    return this.http.post<{ data: any }>(this.baseUrl + '/dough', {
+      name: doughName,
+      ingredients: doughIngredients,
+      instructions: doughInstructions,
+      quantity: doughQuantity
+    }).pipe(map(response => response.data));
   }
 
-  deleteDough(id:string):Observable<any>{
-    return this.http.delete(this.baseUrl + '/dough/' + id)
+  updateDough(id: string, doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number) {
+    return this.http.patch<{ data: any }>(this.baseUrl + '/dough', {
+      id: id,
+      name: doughName,
+      ingredients: doughIngredients,
+      instructions: doughInstructions,
+      quantity: doughQuantity
+    }).pipe(map(response => response.data));
   }
 
-  allFillings(): Observable<Filling[]>{
-    return this.http.get<Filling[]>(this.baseUrl + '/filling')
+  deleteDough(id: string): Observable<any> {
+    return this.http.delete<{ data: any }>(this.baseUrl + '/dough/' + id)
+      .pipe(map(response => response.data));
   }
 
-  singleFilling(id:string): Observable<Filling>{
-    return this.http.get<Filling>(this.baseUrl + '/filling/' + id)
-  } 
-
-  addFilling(fillingName: string, fillingIngredients: string, fillingInstructions: string, fillingQuantity: number):Observable<any>{
-    return this.http.post(this.baseUrl + '/filling', {name: fillingName, ingredients: fillingIngredients, instructions:  fillingInstructions, quantity: fillingQuantity})
+  allFillings(): Observable<Filling[]> {
+    return this.http.get<{ data: Filling[] }>(this.baseUrl + '/filling')
+      .pipe(map(response => response.data));
   }
 
-  updateFilling(id: string, fillingName: string, fillingIngredients: string, fillingInstructions: string, fillingQuantity: number){
-    return this.http.patch(this.baseUrl + '/filling', {id: id, name: fillingName, ingredients: fillingIngredients, instructions: fillingInstructions, quantity: fillingQuantity})
-
+  singleFilling(id: string): Observable<Filling> {
+    return this.http.get<{ data: Filling }>(this.baseUrl + '/filling/' + id)
+      .pipe(map(response => response.data));
   }
 
-  deleteFilling(id:string):Observable<any>{
-    return this.http.delete(this.baseUrl + '/filling/' + id)
+  addFilling(fillingName: string, fillingIngredients: string, fillingInstructions: string, fillingQuantity: number): Observable<any> {
+    return this.http.post<{ data: any }>(this.baseUrl + '/filling', {
+      name: fillingName,
+      ingredients: fillingIngredients,
+      instructions: fillingInstructions,
+      quantity: fillingQuantity
+    }).pipe(map(response => response.data));
   }
 
-  allToppings(): Observable<Topping[]>{
-    return this.http.get<Topping[]>(this.baseUrl + '/topping')
+  updateFilling(id: string, fillingName: string, fillingIngredients: string, fillingInstructions: string, fillingQuantity: number) {
+    return this.http.patch<{ data: any }>(this.baseUrl + '/filling', {
+      id: id,
+      name: fillingName,
+      ingredients: fillingIngredients,
+      instructions: fillingInstructions,
+      quantity: fillingQuantity
+    }).pipe(map(response => response.data));
   }
 
-  singleTopping(id:string): Observable<Topping>{
-    return this.http.get<Topping>(this.baseUrl + '/topping/' + id)
-  } 
-
-  addTopping(toppingName: string, toppingIngredients: string, toppingInstructions: string, toppingQuantity: number):Observable<any>{
-    return this.http.post(this.baseUrl + '/topping', {name: toppingName, ingredients: toppingIngredients, instructions:  toppingInstructions, quantity: toppingQuantity})
+  deleteFilling(id: string): Observable<any> {
+    return this.http.delete<{ data: any }>(this.baseUrl + '/filling/' + id)
+      .pipe(map(response => response.data));
   }
 
-  updateTopping(id: string, toppingName: any, toppingIngredients: any, toppingInstructions: string, toppingQuantity: number){
-    return this.http.patch(this.baseUrl + '/topping', {id: id, name: toppingName, ingredients: toppingIngredients, instructions: toppingInstructions, quantity: toppingQuantity})
-
+  allToppings(): Observable<Topping[]> {
+    return this.http.get<{ data: Topping[] }>(this.baseUrl + '/topping')
+      .pipe(map(response => response.data));
   }
 
-  deleteTopping(id:string):Observable<any>{
-    return this.http.delete(this.baseUrl + '/topping/' + id)
+  singleTopping(id: string): Observable<Topping> {
+    return this.http.get<{ data: Topping }>(this.baseUrl + '/topping/' + id)
+      .pipe(map(response => response.data));
   }
 
-  allCakes(): Observable<Cake[]>{
-    return this.http.get<Cake[]>(this.baseUrl + '/cake')
+  addTopping(toppingName: string, toppingIngredients: string, toppingInstructions: string, toppingQuantity: number): Observable<any> {
+    return this.http.post<{ data: any }>(this.baseUrl + '/topping', {
+      name: toppingName,
+      ingredients: toppingIngredients,
+      instructions: toppingInstructions,
+      quantity: toppingQuantity
+    }).pipe(map(response => response.data));
   }
 
-  singleCake(id:string): Observable<Cake>{
-    return this.http.get<Cake>(this.baseUrl + '/cake/' + id)
-  } 
-
-  addCake(cakeName: string, ingredients: string, instructions: string, selectedComponents: { type: string; id: string; }[]):Observable<any>{
-    console.log(cakeName, selectedComponents, ingredients, instructions)
-    return this.http.post(this.baseUrl + '/cake', {name: cakeName, components: selectedComponents, ingredients: ingredients, instructions: instructions})
+  updateTopping(id: string, toppingName: any, toppingIngredients: any, toppingInstructions: string, toppingQuantity: number) {
+    return this.http.patch<{ data: any }>(this.baseUrl + '/topping', {
+      id: id,
+      name: toppingName,
+      ingredients: toppingIngredients,
+      instructions: toppingInstructions,
+      quantity: toppingQuantity
+    }).pipe(map(response => response.data));
   }
 
-  updateCake(id: string, cakeName: string,  ingredients: string, instructions: string, selectedComponents: { type: string; id: string; }[]){
-    return this.http.patch(this.baseUrl + '/cake', {id: id, name: cakeName, components: selectedComponents, ingredients: ingredients, instructions: instructions})
+  deleteTopping(id: string): Observable<any> {
+    return this.http.delete<{ data: any }>(this.baseUrl + '/topping/' + id)
+      .pipe(map(response => response.data));
   }
-  deleteCake(id:string):Observable<any>{
-    return this.http.delete(this.baseUrl + '/cake/' + id)
+
+  allCakes(): Observable<Cake[]> {
+    return this.http.get<{ data: Cake[] }>(this.baseUrl + '/cake')
+      .pipe(map(response => response.data));
+  }
+
+  singleCake(id: string): Observable<Cake> {
+    return this.http.get<{ data: Cake }>(this.baseUrl + '/cake/' + id)
+      .pipe(map(response => response.data));
+  }
+
+  addCake(cakeName: string, ingredients: string, instructions: string, selectedComponents: { type: string; id: string; }[]): Observable<any> {
+    console.log(cakeName, selectedComponents, ingredients, instructions);
+    return this.http.post<{ data: any }>(this.baseUrl + '/cake', {
+      name: cakeName,
+      components: selectedComponents,
+      ingredients: ingredients,
+      instructions: instructions
+    }).pipe(map(response => response.data));
+  }
+
+  updateCake(id: string, cakeName: string, ingredients: string, instructions: string, selectedComponents: { type: string; id: string; }[]) {
+    return this.http.patch<{ data: any }>(this.baseUrl + '/cake', {
+      id: id,
+      name: cakeName,
+      components: selectedComponents,
+      ingredients: ingredients,
+      instructions: instructions
+    }).pipe(map(response => response.data));
+  }
+
+  deleteCake(id: string): Observable<any> {
+    return this.http.delete<{ data: any }>(this.baseUrl + '/cake/' + id)
+      .pipe(map(response => response.data));
   }
 }

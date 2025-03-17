@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
 import { Cake } from "./cake.model";
-import { parseIngredients } from "src/shared-service/shared-service.service";
+import { parseIngredients } from "../shared-service/shared-service.service";
 
 @Injectable()
 export class CakeService {
@@ -60,13 +60,13 @@ export class CakeService {
       ingredientList = parseIngredients(ingredients)
     }
 
-    const res = await this.cakeModel.findByIdAndUpdate(id, {
+    const result = await this.cakeModel.findByIdAndUpdate(id, {
       name,
       components,
       ingredients: ingredientList,
       instructions: instruction,
     });
-    return res;
+    return result;
   }
 
   async deleteCake(

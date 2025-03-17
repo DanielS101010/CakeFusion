@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
 import { Topping } from "./topping.model";
-import { parseIngredients } from "src/shared-service/shared-service.service";
+import { parseIngredients } from '../shared-service/shared-service.service';
 
 
 @Injectable()
@@ -49,8 +49,8 @@ export class ToppingService{
     ){
         const ingredientList = parseIngredients(ingredients)
 
-        const res = await this.toppingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity:quantity})
-        return res
+        const result = await this.toppingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity:quantity})
+        return result
     }
 
     async deleteTopping(
