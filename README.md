@@ -49,7 +49,7 @@ Create the file
 sudo nano /etc/systemd/system/mongodb.service
 ```
 Then add and edit the following (replace <your_username> with your actual username)
-
+```
 [Unit]
 Description=MongoDB Database Server
 After=network.target
@@ -62,7 +62,7 @@ Type=forking
 
 [Install]
 WantedBy=multi-user.target
-
+```
 4. Restart systemd and start the MongoDB service:
 ```bash
 sudo systemctl daemon-reload
