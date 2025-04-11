@@ -38,9 +38,7 @@ export class ApiService {
     }).pipe(map(response => response.data));
   }
 
-  //add doughTag like in addDough above, whenin edit-recipe implemented
   updateDough(id: string, doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number, doughTags: string[]) {
-    console.log(doughTags)
     return this.http.patch<{ data: any }>(this.baseUrl + '/dough', {
       id: id,
       name: doughName,

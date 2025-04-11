@@ -26,6 +26,11 @@ export class AddToppingComponent {
 
   constructor(private apiServie: ApiService, private sharedDataService: SharedDataService, private router: Router, private tagsService: TagsService){}
 
+  /**
+   * adds a topping with name, ingredients, instructions, quantity and tagIds. 
+   * Refresh toppings and navigate to the mainpage after successfull saving.
+   * If name, ingredients or instructions are empty, it shows a error message and doesnt save the topping.
+   */
   addTopping(){
     if (this.toppingName == "" || this.toppingIngredients == "" || this.toppingInstructions == ""){
       alert("Fülle alle benötigten Felder aus.")
@@ -41,6 +46,9 @@ export class AddToppingComponent {
       });
   }
 
+  /**
+   * adds a tag to toppingTags with calling the Function addTagToComponent when the variable newTagName is not empty.
+   */
   addTagToTopping(): void {
      if (this.newTagName !== "") {
       this.tagsService.addTagToComponent(this.newTagName, this.toppingTags)
@@ -50,6 +58,10 @@ export class AddToppingComponent {
     }
   }
 
+  /**
+   * deletes a tag from the doughTags with calling the function deleteTagFromComponent.
+   * @param id id of the tag to delete.
+   */
   deleteTagFromTopping(id: string): void {
     this.toppingTags = this.tagsService.deleteTagFromComponent(id, this.toppingTags)
   }

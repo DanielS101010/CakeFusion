@@ -54,6 +54,10 @@ export class MainpageComponent {
     });
   }
 
+  /**
+   * delete a dough from the database
+   * @param id id of the dough to delete
+   */
   deleteDough(id: string){
     this.apiService.deleteDough(id).subscribe({
       next: () => {
@@ -63,6 +67,10 @@ export class MainpageComponent {
     })
   }
 
+  /**
+   * delete a filling from the database
+   * @param id id of the filling to delete
+   */
   deleteFilling(id: string){
     this.apiService.deleteFilling(id).subscribe({
       next: () => {
@@ -72,6 +80,10 @@ export class MainpageComponent {
     })
   }
 
+  /**
+   * delete a topping from the database
+   * @param id id of the topping to delete
+   */
   deleteTopping(id: string){
     this.apiService.deleteTopping(id).subscribe({
       next: () => {
@@ -81,6 +93,10 @@ export class MainpageComponent {
     })
   }
 
+  /**
+   * delete a cake from the database
+   * @param id id of the cake to delete
+   */
   deleteCake(id: string){
     this.apiService.deleteCake(id).subscribe({
       next: () => {
@@ -90,6 +106,10 @@ export class MainpageComponent {
     })
   }
 
+  /**
+   * if filters are changed, apply it to the components
+   * @param tags tags which are selected
+   */
   onFilterChanged(tags: string[]) {
     this.selectedTags = tags;
     if(this.selectedTags.length > 0){
@@ -102,6 +122,9 @@ export class MainpageComponent {
     }
   }
 
+  /**
+   * filters the components which includes every selected tag
+   */
   applyFilters() {
     this.filteredDoughs = this.doughs.filter(dough => this.selectedTags.every(tag => dough.tags.includes(tag)));
     this.filteredFillings = this.fillings.filter(filling => this.selectedTags.every(tag => filling.tags.includes(tag)));

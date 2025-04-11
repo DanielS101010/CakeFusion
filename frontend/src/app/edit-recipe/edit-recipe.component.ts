@@ -148,6 +148,11 @@ export class EditRecipeComponent {
     }
   }
 
+  /**
+   * converts the ingredientsstring into seperated values in quantity and description
+   * @param ingredientsStr a string with the ingredients
+   * @returns returns the values quantity and description
+   */
   private convertIngredients(ingredientsStr: string) {
     return ingredientsStr.split('\n').map(line => {
       const trimmedLine = line.trim();
@@ -160,8 +165,10 @@ export class EditRecipeComponent {
     });
   }
 
+  /**
+   * saves the edited component. 
+   */
   saveEdit() {
-    
     if (this.component === "dough") {
       const ingredientList = this.convertIngredients(this.doughIngredients);
       const ingredientString = ingredientList.map(ing => `${ing.quantity} ${ing.description}`).join('\n');
@@ -245,10 +252,22 @@ export class EditRecipeComponent {
     }
   }
 
+  /**
+   * 
+   * @param type type of component
+   * @param id id of the component
+   * @returns boolean, if selected then true, if not selected, untrue
+   */
   isComponentSelected(type: string, id: string): boolean {
     return this.selectedComponents.some(component => component.type === type && component.id === id);
   }
   
+  /**
+   * adds or delete a component from the selected components
+   * @param type type of component
+   * @param id id of the component
+   * @param event clickevent on a checkbox
+   */
   onComponentChange(type: string, id: string, event: any): void {
     if (event.target.checked) {
       this.selectedComponents.push({ type, id, quantity:1});
@@ -257,6 +276,12 @@ export class EditRecipeComponent {
     }
     }
 
+  /**
+   * this function returns the name of the component.
+   * @param type type of the component. should be dough, filling or topping
+   * @param id id of the component
+   * @returns returns the component name, if existing
+   */
   getComponentName(type: string, id: string): string {
     switch (type) {
       case 'dough':
@@ -273,19 +298,30 @@ export class EditRecipeComponent {
     }
   }
 
+  /**
+   * move component one position up in selectedComponents
+   * @param index position number
+   */
   moveUp(index: number) {
     if (index === 0) return;
     [this.selectedComponents[index - 1], this.selectedComponents[index]] =
       [this.selectedComponents[index], this.selectedComponents[index - 1]];
   }
   
+  /**
+   * move component one position down in selectedComponents
+   * @param index position number
+   */
   moveDown(index: number) {
     if (index === this.selectedComponents.length - 1) return;
     [this.selectedComponents[index], this.selectedComponents[index + 1]] =
       [this.selectedComponents[index + 1], this.selectedComponents[index]];
   }
 
-
+  /**
+   * adds a tag to the componentTags with calling the Function addTagToComponent when the variable newTagName is not empty.
+   * @param component cpmponent type
+   */
   addTag(component: string): void {
     if (this.newTagName !== "") {
       if(component==="dough"){
@@ -312,6 +348,11 @@ export class EditRecipeComponent {
     }
   }
 
+  /**
+   * deletes a tag from the componentTags with calling the function deleteTagFromComponent.
+   * @param id id of the tag
+   * @param component cimponent type
+   */
   deleteTag(id: string, component: string): void {
     if(component==="dough"){
       this.doughTags = this.tagsService.deleteTagFromComponent(id, this.doughTags)

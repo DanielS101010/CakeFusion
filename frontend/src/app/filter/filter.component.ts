@@ -22,6 +22,11 @@ export class FilterComponent {
       this.tags = tags;
     });
   }
+  /**
+   * delete tag if unchecked, else adding it to selectedTags
+   * @param $event clickevent on checkbox
+   * @param id id of the tag
+   */
   onChange($event: any, id: string){
     if($event.target.checked){
       this.selectedTags.push(id)

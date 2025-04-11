@@ -52,6 +52,12 @@ export class CakeComponent {
     });
   }
 
+  /**
+   * adds or delete a component from the selected components
+   * @param event clickevent on a checkbox
+   * @param type componenttype
+   * @param quantity quantity of the component
+   */
   onComponentChange(event: any, type: string, quantity: number) {
     const compId = event.target.value;
     if (event.target.checked) {
@@ -63,10 +69,20 @@ export class CakeComponent {
     }
   }
 
+  /**
+   * return true if is checked and false if unchecked
+   * @param type component type (dough, filling or topping)
+   * @param id id of the component
+   * @returns returns a boolean if
+   */
   isComponentSelected(type: string, id: string): boolean {
     return this.selectedComponents.some((comp) => comp.type === type && comp.id === id);
   }
 
+  /**
+   * add cake to database
+   * @returns 
+   */
   addCake() {
     if (this.cakeName == "" || this.selectedComponents.length == 0 && (this.ingredients == "" || this.instructions =="" )){
       alert("Fülle alle benötigten Felder aus.")
@@ -83,6 +99,9 @@ export class CakeComponent {
       });
   }
 
+  /**
+   * adds a tag to cakeTags with calling the Function addTagToComponent when the variable newTagName is not empty.
+   */
   addTagToCake(): void {
      if (this.newTagName !== "") {
       this.tagsService.addTagToComponent(this.newTagName, this.cakeTags)
@@ -92,11 +111,21 @@ export class CakeComponent {
     }
   }
 
+  /**
+   * deletes a tag from the cakeTags with calling the function deleteTagFromComponent.
+   * @param id id of the tag to delete.
+   */
   deleteTagFromCake(id: string): void {
     this.cakeTags = this.tagsService.deleteTagFromComponent(id, this.cakeTags)
   }
 
 
+  /**
+   * this function returns the name of the component.
+   * @param type type of the component. should be dough, filling or topping
+   * @param id id of the component
+   * @returns returns the component name, if existing
+   */
   getComponentName(type: string, id: string): string {
     switch(type){
       case 'dough':
@@ -112,12 +141,20 @@ export class CakeComponent {
         return 'Unbekannte Komponente';
     }
   }
+  /**
+   * move component one position up in selectedComponents
+   * @param index position number
+   */
   moveUp(index: number) {
     if (index === 0) return;
     [this.selectedComponents[index - 1], this.selectedComponents[index]] = 
     [this.selectedComponents[index], this.selectedComponents[index - 1]];
   }
   
+  /**
+   * move component one position down in selectedComponents
+   * @param index position number
+   */
   moveDown(index: number) {
     if (index === this.selectedComponents.length - 1) return;
     [this.selectedComponents[index], this.selectedComponents[index + 1]] =

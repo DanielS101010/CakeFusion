@@ -27,6 +27,11 @@ export class AddFillingComponent {
 
   constructor(private apiServie: ApiService, private sharedDataService: SharedDataService, private router: Router, private tagsService: TagsService){}
   
+   /**
+   * adds a filling with name, ingredients, instructions, quantity and tagIds. 
+   * Refresh fillings and navigate to the mainpage after successfull saving.
+   * If name, ingredients or instructions are empty, it shows a error message and doesnt save the filling.
+   */
   addFilling(){
     if (this.fillingName == "" || this.fillingIngredients == "" || this.fillingInstructions == ""){
       alert("Fülle alle benötigten Felder aus.")
@@ -43,6 +48,10 @@ export class AddFillingComponent {
       error: (err) => console.log(err)
     });
   }
+
+  /**
+   * adds a tag to fillingTags with calling the Function addTagToComponent when the variable newTagName is not empty.
+   */
   addTagToFilling(): void {
     if (this.newTagName !== "") {
     this.tagsService.addTagToComponent(this.newTagName, this.fillingTags)
@@ -52,6 +61,10 @@ export class AddFillingComponent {
     }
   }
 
+  /**
+   * deletes a tag from the fillingTags with calling the function deleteTagFromComponent.
+   * @param id id of the tag to delete.
+   */
   deleteTagFromFilling(id: string): void {
     this.fillingTags = this.tagsService.deleteTagFromComponent(id, this.fillingTags)
   }
