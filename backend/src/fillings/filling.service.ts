@@ -16,10 +16,11 @@ export class FillingService{
         ingredients: string,
         instructions: string,
         quantity: number,
+        tags: string[],
     ){
         const ingredientList = parseIngredients(ingredients)
         
-        const newFilling = new this.fillingModel({name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity})
+        const newFilling = new this.fillingModel({name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity, tags: tags})
         const result = await newFilling.save();
         return result._id;
     }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../service/api.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Dough } from '../add-dough/dough.model';
 import { NgFor, NgIf } from '@angular/common';

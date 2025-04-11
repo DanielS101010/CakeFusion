@@ -51,6 +51,7 @@ describe('addTopping', () => {
       { quantity: 1, description: 'sugar' },
       { quantity: 2, description: 'flour' },
     ];
+    const tags = [];
 
     (parseIngredients as jest.Mock).mockReturnValue(parsedIngredients);
 
@@ -59,7 +60,7 @@ describe('addTopping', () => {
       save: jest.fn().mockResolvedValue({ _id: '123' }),
     })) as any;
 
-    const result = await service.addTopping(name, ingredients, instruction, quantity);
+    const result = await service.addTopping(name, ingredients, instruction, quantity, tags);
 
     expect(parseIngredients).toHaveBeenCalledWith(ingredients);
     expect(result).toBe('123');
@@ -110,12 +111,13 @@ describe('addTopping', () => {
         { quantity: 2, description: 'sugar' },
         { quantity: 3, description: 'flour' },
       ];
+      const tags = [];
       (parseIngredients as jest.Mock).mockReturnValue(parsedIngredients);
 
       const updatedTopping = { id, name: name, ingredients: parsedIngredients, instructions: instruction, quantity: quantity };
       (toppingModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedTopping);
 
-      const result = await service.updateTopping(id, name, ingredients, instruction, quantity);
+      const result = await service.updateTopping(id, name, ingredients, instruction, quantity, tags);
 
       expect(parseIngredients).toHaveBeenCalledWith(ingredients);
       expect(toppingModel.findByIdAndUpdate).toHaveBeenCalledWith(id, {
@@ -123,6 +125,7 @@ describe('addTopping', () => {
         ingredients: parsedIngredients,
         instructions: instruction,
         quantity: quantity,
+        tags: tags
       });
       expect(result).toEqual(updatedTopping);
     });

@@ -59,7 +59,7 @@ describe('addDough', () => {
       save: jest.fn().mockResolvedValue({ _id: '123' }),
     })) as any;
 
-    const result = await service.addDough(name, ingredients, instruction, quantity);
+    const result = await service.addDough(name, ingredients, instruction, quantity, []);
 
     expect(parseIngredients).toHaveBeenCalledWith(ingredients);
     expect(result).toBe('123');
@@ -110,12 +110,13 @@ describe('addDough', () => {
         { quantity: 2, description: 'sugar' },
         { quantity: 3, description: 'flour' },
       ];
+      const tags = [];
       (parseIngredients as jest.Mock).mockReturnValue(parsedIngredients);
 
-      const updatedDough = { id, name: name, ingredients: parsedIngredients, instructions: instruction, quantity: quantity };
+      const updatedDough = { id, name: name, ingredients: parsedIngredients, instructions: instruction, quantity: quantity, tags: tags };
       (doughModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedDough);
 
-      const result = await service.updateDough(id, name, ingredients, instruction, quantity);
+      const result = await service.updateDough(id, name, ingredients, instruction, quantity, []);
 
       expect(parseIngredients).toHaveBeenCalledWith(ingredients);
       expect(doughModel.findByIdAndUpdate).toHaveBeenCalledWith(id, {
@@ -123,6 +124,7 @@ describe('addDough', () => {
         ingredients: parsedIngredients,
         instructions: instruction,
         quantity: quantity,
+        tags: [],
       });
       expect(result).toEqual(updatedDough);
     });

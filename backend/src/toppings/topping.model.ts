@@ -7,7 +7,8 @@ export const ToppingSchema = new mongoose.Schema({
         description: { type: String, required: true }
       }],
     instructions: {type: String, required: true},
-    quantity: {type: Number, required: true}
+    quantity: {type: Number, required: true},
+    tags: {type: Array<string>, required: false},
 });
 
 export interface Topping{
@@ -16,4 +17,5 @@ export interface Topping{
     ingredients: { quantity: number; description: string }[];
     instruction: string;
     quantity: number;
+    tags: string[];
 }

@@ -15,11 +15,12 @@ export class DoughService{
         name: string,
         ingredients: string,
         instructions: string,
-        quantity: number
+        quantity: number,
+        tags: string[],
     ){
         const ingredientList = parseIngredients(ingredients)
  
-        const newDough = new this.doughModel({name: name, ingredients: ingredientList, instructions: instructions, quantity:quantity})
+        const newDough = new this.doughModel({name: name, ingredients: ingredientList, instructions: instructions, quantity:quantity, tags:tags})
         
         const result = await newDough.save();
         return result._id;
@@ -44,10 +45,11 @@ export class DoughService{
         ingredients: string, 
         instructions: string,
         quantity: number,
+        tags: string[],
     ){
         const ingredientList = parseIngredients(ingredients)
 
-        const result = await this.doughModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity})
+        const result = await this.doughModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity, tags:tags})
         return result
     }
 

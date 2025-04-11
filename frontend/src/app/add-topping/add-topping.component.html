@@ -1,22 +1,37 @@
 <div class="add-container">
-    <h2>Toppingrezept hinzufügen</h2>
-    <div class="form-group">
-      <label>Toppingname: </label>
-      <input id="ToppingName" placeholder="Toppingname eintragen" [(ngModel)]="toppingName">
-    </div>
-    <div class="form-group">
-      <label>Das Rezept ergibt ... Portionen</label>
-      <input type="number" min = "1" [(ngModel)]="toppingQuantity">
-    </div>
-    <div class="form-group">
-      <label>Zutaten:</label>
-      <textarea cdkTextareaAutosize placeholder="Zutaten einfügen" [(ngModel)]="toppingIngredients"></textarea>
-    </div>
-    <div class="form-group">
-      <label>Anleitung:</label>
-      <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="toppingInstructions"></textarea>
-    </div>
-    <div class="form-group">
-      <button class="submit-btn" (click)="addTopping()">Rezept hinzufügen</button>
+  <h2>Toppingrezept hinzufügen</h2>
+  <div class="form-group">
+    <label>Toppingname: </label>
+    <input id="ToppingName" placeholder="Toppingname eintragen" [(ngModel)]="toppingName">
+  </div>
+  <div class="form-group">
+    <label>Das Rezept ergibt ... Portionen</label>
+    <input type="number" min = "1" [(ngModel)]="toppingQuantity">
+  </div>
+  <div class="form-group">
+    <label>Zutaten:</label>
+    <textarea cdkTextareaAutosize placeholder="Zutaten einfügen" [(ngModel)]="toppingIngredients"></textarea>
+  </div>
+  <div class="form-group">
+    <label>Anleitung:</label>
+    <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="toppingInstructions"></textarea>
+  </div>
+  <div>
+    <label for="newTag">Tag hinzufügen:</label>
+    <br>
+    <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
+    <button type="button" (click)="addTagToTopping()">Tag hinzufügen</button>
+  </div>
+  
+  <div>
+    <label>Ausgewählte Tags:</label>
+    <div *ngFor="let tag of toppingTags">
+      {{tag.name}}
+      <button (click)="deleteTagFromTopping(tag._id)">Tag entfernen</button>
     </div>
   </div>
+
+  <div class="form-group">
+    <button class="submit-btn" (click)="addTopping()">Rezept hinzufügen</button>
+  </div>
+</div>

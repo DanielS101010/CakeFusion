@@ -9,8 +9,8 @@ export class CakeController {
 
   @Post()
   async addCake(@Body() createCakeDTO: CreateCakeDTO){
-    const {name, components, ingredients, instructions } = createCakeDTO;
-    const result = await this.cakeService.addCake(name, components, ingredients,instructions);
+    const {name, components, ingredients, instructions, tags } = createCakeDTO;
+    const result = await this.cakeService.addCake(name, components, ingredients,instructions, tags);
     return { data: result };
   }
 
@@ -28,8 +28,8 @@ export class CakeController {
 
   @Patch()
   async updateCake(@Body() updateCakeDTO: UpdateCakeDTO) {
-    const {id, name, components, ingredients, instructions } = updateCakeDTO;
-    const result = await this.cakeService.updateCake(id, name, components, ingredients, instructions );
+    const {id, name, components, ingredients, instructions, tags } = updateCakeDTO;
+    const result = await this.cakeService.updateCake(id, name, components, ingredients, instructions, tags );
     return { data: result };
   }
 

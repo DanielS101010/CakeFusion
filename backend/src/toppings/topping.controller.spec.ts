@@ -37,7 +37,8 @@ describe('ToppingController', () => {
         name: 'Chocolate Topping',
         ingredients: '100 g sugar\n250 g flour\n100 g chocolate',
         instructions: 'Bake at 180°C for 30 minutes',
-        quantity: 1
+        quantity: 1,
+        tags: [],
       };
       const toppingId = '123';
       mockToppingService.addTopping.mockResolvedValue(toppingId);
@@ -49,6 +50,7 @@ describe('ToppingController', () => {
         dto.ingredients,
         dto.instructions,
         dto.quantity,
+        dto.tags,
       );
       expect(result).toEqual({ data: toppingId });
     });
@@ -57,8 +59,8 @@ describe('ToppingController', () => {
   describe('getAllTopping', () => {
     it('should return an array of toppings', async () => {
       const toppings = [
-        { id: '1', name: 'Topping 1', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1 },
-        { id: '2', name: 'Topping 2', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1 },
+        { id: '1', name: 'Topping 1', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [] },
+        { id: '2', name: 'Topping 2', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [] },
       ];
       mockToppingService.getAllToppings.mockResolvedValue(toppings);
 
@@ -95,6 +97,7 @@ describe('updateTopping', () => {
         ingredients: '100 g sugar\n300 g flour\n150 g chocolate, 50 ml Milk',
         instructions: 'Updated instructions',
         quantity: 2,
+        tags: [],
       };
       const updatedTopping = {
         id: '1',
@@ -102,6 +105,7 @@ describe('updateTopping', () => {
         ingredients: [],
         instructions: dto.instructions,
         quantity: 2,
+        tags: [],
       };
       mockToppingService.updateTopping.mockResolvedValue(updatedTopping);
 
@@ -112,7 +116,8 @@ describe('updateTopping', () => {
         dto.name,
         dto.ingredients,
         dto.instructions,
-        dto.quantity
+        dto.quantity,
+        dto.tags,
       );
       expect(result).toEqual({ data: updatedTopping });
     });

@@ -51,6 +51,7 @@ describe('addFilling', () => {
       { quantity: 1, description: 'sugar' },
       { quantity: 2, description: 'flour' },
     ];
+    const tags: string[] = [];
 
     (parseIngredients as jest.Mock).mockReturnValue(parsedIngredients);
 
@@ -59,7 +60,7 @@ describe('addFilling', () => {
       save: jest.fn().mockResolvedValue({ _id: '123' }),
     })) as any;
 
-    const result = await service.addFilling(name, ingredients, instruction, quantity);
+    const result = await service.addFilling(name, ingredients, instruction, quantity, tags);
 
     expect(parseIngredients).toHaveBeenCalledWith(ingredients);
     expect(result).toBe('123');

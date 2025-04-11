@@ -50,7 +50,9 @@ describe('addCake', () => {
     const parsedIngredients = [
       { quantity: 1, description: 'sugar' },
       { quantity: 2, description: 'flour' },
+
     ];
+    const tags: string[] = [];
 
     (parseIngredients as jest.Mock).mockReturnValue(parsedIngredients);
 
@@ -59,7 +61,7 @@ describe('addCake', () => {
       save: jest.fn().mockResolvedValue({ _id: '123' }),
     })) as any;
 
-    const result = await service.addCake(name, components, ingredients, instruction);
+    const result = await service.addCake(name, components, ingredients, instruction, tags);
 
     expect(parseIngredients).toHaveBeenCalledWith(ingredients);
     expect(result).toBe('123');
@@ -110,12 +112,14 @@ describe('addCake', () => {
         { quantity: 2, description: 'sugar' },
         { quantity: 3, description: 'flour' },
       ];
+      const tags: string[] = [];
+
       (parseIngredients as jest.Mock).mockReturnValue(parsedIngredients);
 
       const updatedCake = { id, name, components, ingredients: parsedIngredients, instructions: instruction };
       (cakeModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedCake);
 
-      const result = await service.updateCake(id, name, components, ingredients, instruction);
+      const result = await service.updateCake(id, name, components, ingredients, instruction, tags);
 
       expect(parseIngredients).toHaveBeenCalledWith(ingredients);
       expect(cakeModel.findByIdAndUpdate).toHaveBeenCalledWith(id, {
@@ -123,6 +127,7 @@ describe('addCake', () => {
         components,
         ingredients: parsedIngredients,
         instructions: instruction,
+        tags: tags
       });
       expect(result).toEqual(updatedCake);
     });

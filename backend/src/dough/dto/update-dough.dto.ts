@@ -1,5 +1,5 @@
 import { Transform, Type } from 'class-transformer';
-import { IsString, IsNotEmpty, IsNumber, Min } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, Min, IsArray } from 'class-validator';
 
 export class UpdateDoughDTO {
   @IsString()
@@ -26,4 +26,7 @@ export class UpdateDoughDTO {
   @IsNumber()
   @Min(1)
   quantity: number;
+
+  @IsArray()
+  tags: string[];
 }

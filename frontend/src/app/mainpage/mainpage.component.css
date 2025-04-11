@@ -1,4 +1,8 @@
+.main-container{
+    display: flex;
+}
 .recipe-container {
+    flex: 1;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -51,7 +55,7 @@ h2 {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    transition: background-color 0.1s, transform 0.2s;
     flex-shrink: 0;
 }
 .delete-button:hover {

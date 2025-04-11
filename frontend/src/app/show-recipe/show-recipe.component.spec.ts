@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { of } from 'rxjs';
 import { ShowRecipeComponent } from './show-recipe.component';
-import { ApiService } from '../api.service';
+import { ApiService } from '../service/api.service';
 import { Dough } from '../add-dough/dough.model';
 import { Filling } from '../add-filling/filling.model';
 import { Topping } from '../add-topping/topping.model';
@@ -15,13 +15,16 @@ describe('ShowRecipeComponent', () => {
 
   // Define fake data objects for each type.
   const fakeDoughData: Dough = {
-    _id: 'd1', name: 'Test Dough', ingredients: [{ quantity: 10, description: "Flour" }], instructions: 'Mix well', quantity: 10,
+    _id: 'd1', name: 'Test Dough', ingredients: [{ quantity: 10, description: "Flour" }], 
+    instructions: 'Mix well', quantity: 10, tags: []
   };
   const fakeFillingData: Filling = {
-    _id: 'f1', name: 'Test Filling', ingredients: [{ quantity: 10, description: "Flour" }], instructions: "Mix well", quantity: 5
+    _id: 'f1', name: 'Test Filling', ingredients: [{ quantity: 10, description: "Flour" }],
+    instructions: "Mix well", quantity: 5, tags: []
   };
   const fakeToppingData: Topping = {
-    _id: 't1', name: 'Test Topping', ingredients: [{ quantity: 10, description: "Flour" }], instructions: "Mix well", quantity: 2
+    _id: 't1', name: 'Test Topping', ingredients: [{ quantity: 10, description: "Flour" }],
+    instructions: "Mix well", quantity: 2, tags: []
   };
   const fakeCakeData: Cake = {
     _id: 'c1',
@@ -33,7 +36,8 @@ describe('ShowRecipeComponent', () => {
     ],
     ingredients: [],
     instructions: '',
-    name: ''
+    name: '',
+    tags: []
   };
 
   // Helper function to create a fake ActivatedRoute.

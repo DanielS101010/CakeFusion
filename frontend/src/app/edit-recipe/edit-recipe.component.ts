@@ -4,12 +4,14 @@ import { Cake } from '../add-cake/cake.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Dough } from '../add-dough/dough.model';
 import { Topping } from '../add-topping/topping.model';
-import { ApiService } from '../api.service';
+import { ApiService } from '../service/api.service';
 import { MatCardModule } from '@angular/material/card';
 import { NgFor, NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { SharedDataService } from '../shared-data.service';
+import { SharedDataService } from '../service/shared-data.service';
 import {TextFieldModule} from '@angular/cdk/text-field';
+import { Tags } from '../service/tags.model';
+import { TagsService } from '../service/tags.service';
 
 @Component({
   selector: 'app-edit-recipe',
@@ -23,29 +25,38 @@ export class EditRecipeComponent {
   filling!: Filling;
   topping!: Topping;
   cake!: Cake;
+
+  tags: Tags[] = [];
+  newTagName = "";
  
   doughName = "";
   doughIngredients = "";
   doughInstructions = "";
   doughQuantity!: number;
-
+  doughTags: Tags[] = [];
+  doughTagsIds: string[] = [];
+  
   fillingName = "";
   fillingIngredients = "";
   fillingInstructions = "";
   fillingQuantity!: number;
-
+  fillingTags: Tags[] = [];
+  fillingTagsIds: string[] = [];
 
   toppingName = "";
   toppingIngredients = "";
   toppingInstructions = "";
   toppingQuantity!: number;
-
+  toppingTags: Tags[] = [];
+  toppingTagsIds: string[] = [];
 
   cakeName = "";
   selectedComponents: Array<{ type: string; id: string; quantity: number}> = [];
   cakeUseComponents = "";
   cakeIngredients = "";
   cakeInstructions = "";
+  cakeTags: Tags[] = [];
+  cakeTagsIds: string[] = [];
 
   doughs: Dough[] = [];
   fillings: Filling[] = [];
@@ -58,7 +69,8 @@ export class EditRecipeComponent {
     private apiService: ApiService,
     private route: ActivatedRoute,
     private sharedDataService: SharedDataService,
-    private router: Router
+    private router: Router,
+    private tagsService: TagsService
   ) {}
 
   ngOnInit() {
@@ -74,6 +86,11 @@ export class EditRecipeComponent {
           .join('\n');
         this.doughInstructions = data.instructions;
         this.doughQuantity = data.quantity;
+        this.doughTagsIds = data.tags;
+
+        this.sharedDataService.tags$.subscribe((allTags: Tags[]) => {
+          this.doughTags = allTags.filter(tag => this.doughTagsIds.includes(tag._id));
+        });
       });
     } else if (this.component === "filling") {
       this.apiService.singleFilling(this.id).subscribe((data: Filling) => {
@@ -84,6 +101,11 @@ export class EditRecipeComponent {
           .join('\n');
         this.fillingInstructions = data.instructions;
         this.fillingQuantity = data.quantity
+        this.fillingTagsIds = data.tags;
+
+        this.sharedDataService.tags$.subscribe((allTags: Tags[]) => {
+          this.fillingTags = allTags.filter(tag => this.fillingTagsIds.includes(tag._id));
+        });
       });
     } else if (this.component === "topping") {
       this.apiService.singleTopping(this.id).subscribe((data: Topping) => {
@@ -94,6 +116,12 @@ export class EditRecipeComponent {
           : data.ingredients;
         this.toppingInstructions = data.instructions;
         this.toppingQuantity = data.quantity
+        this.toppingTagsIds = data.tags;
+
+        this.sharedDataService.tags$.subscribe((allTags: Tags[]) => {
+          this.toppingTags = allTags.filter(tag => this.toppingTagsIds.includes(tag._id));
+        });
+
       });
     } else if (this.component === "cake") {
       this.apiService.singleCake(this.id).subscribe((data: Cake) => {
@@ -111,6 +139,11 @@ export class EditRecipeComponent {
 
         this.selectedComponents = data.components || [];
         this.cakeUseComponents = this.selectedComponents.length > 0 ? "yes" : "no";
+        this.cakeTagsIds = data.tags;
+
+        this.sharedDataService.tags$.subscribe((allTags: Tags[]) => {
+          this.cakeTags = allTags.filter(tag => this.cakeTagsIds.includes(tag._id));
+        });
       });
     }
   }
@@ -133,12 +166,15 @@ export class EditRecipeComponent {
       const ingredientList = this.convertIngredients(this.doughIngredients);
       const ingredientString = ingredientList.map(ing => `${ing.quantity} ${ing.description}`).join('\n');
 
+      const tagIds = this.doughTags.map(tag => tag._id);
+
       this.apiService.updateDough(
         this.id,
         this.doughName,
         ingredientString,
         this.doughInstructions,
-        this.doughQuantity
+        this.doughQuantity,
+        tagIds,
       ).subscribe({
         next: () => {
           this.sharedDataService.refreshDoughs();
@@ -149,13 +185,16 @@ export class EditRecipeComponent {
     } else if (this.component === "filling") {
       const ingredientList = this.convertIngredients(this.fillingIngredients);
       const ingredientString = ingredientList.map(ing => `${ing.quantity} ${ing.description}`).join('\n');
+    
+      const tagIds = this.fillingTags.map(tag => tag._id);
 
       this.apiService.updateFilling(
         this.id,
         this.fillingName,
         ingredientString,
         this.fillingInstructions,
-        this.fillingQuantity
+        this.fillingQuantity,
+        tagIds,
       ).subscribe({
         next: () => {
           this.sharedDataService.refreshFillings();
@@ -167,12 +206,15 @@ export class EditRecipeComponent {
       const ingredientList = this.convertIngredients(this.toppingIngredients);
       const ingredientString = ingredientList.map(ing => `${ing.quantity} ${ing.description}`).join('\n');
 
+      const tagIds = this.toppingTags.map(tag => tag._id);
+
       this.apiService.updateTopping(
         this.id,
         this.toppingName,
         ingredientString,
         this.toppingInstructions,
         this.toppingQuantity,
+        tagIds,
       ).subscribe({
         next: () => {
           this.sharedDataService.refreshToppings();
@@ -183,13 +225,16 @@ export class EditRecipeComponent {
     } else if (this.component === "cake") {
       const ingredientList = this.convertIngredients(this.cakeIngredients);
       const ingredientString = ingredientList.map(ing => `${ing.quantity} ${ing.description}`).join('\n');
+      
+      const tagIds = this.cakeTags.map(tag => tag._id);
 
       this.apiService.updateCake(
         this.id,
         this.cakeName,
         ingredientString,
         this.cakeInstructions,
-        this.selectedComponents
+        this.selectedComponents,
+        tagIds,
       ).subscribe({
         next: () => {
           this.sharedDataService.refreshCakes();
@@ -238,5 +283,44 @@ export class EditRecipeComponent {
     if (index === this.selectedComponents.length - 1) return;
     [this.selectedComponents[index], this.selectedComponents[index + 1]] =
       [this.selectedComponents[index + 1], this.selectedComponents[index]];
+  }
+
+
+  addTag(component: string): void {
+    if (this.newTagName !== "") {
+      if(component==="dough"){
+        this.tagsService.addTagToComponent(this.newTagName, this.doughTags)
+        .subscribe(updatedTags => {
+          this.doughTags = updatedTags;
+        });
+      }else if( component==="filling"){
+        this.tagsService.addTagToComponent(this.newTagName, this.fillingTags)
+        .subscribe(updatedTags => {
+          this.fillingTags = updatedTags;
+        });
+      }else if(component==="topping"){
+        this.tagsService.addTagToComponent(this.newTagName, this.toppingTags)
+        .subscribe(updatedTags => {
+          this.toppingTags = updatedTags;
+        });
+      }else if(component==="cake"){
+        this.tagsService.addTagToComponent(this.newTagName, this.cakeTags)
+        .subscribe(updatedTags => {
+          this.cakeTags = updatedTags;
+        });
+      }
+    }
+  }
+
+  deleteTag(id: string, component: string): void {
+    if(component==="dough"){
+      this.doughTags = this.tagsService.deleteTagFromComponent(id, this.doughTags)
+    }else if( component==="filling"){
+      this.fillingTags = this.tagsService.deleteTagFromComponent(id, this.fillingTags)
+    }else if(component==="topping"){
+      this.toppingTags = this.tagsService.deleteTagFromComponent(id, this.toppingTags)
+    }else if(component==="cake"){
+      this.cakeTags = this.tagsService.deleteTagFromComponent(id, this.cakeTags)
+    }
   }
 }

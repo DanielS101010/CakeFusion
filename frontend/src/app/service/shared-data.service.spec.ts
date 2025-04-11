@@ -2,10 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { SharedDataService } from './shared-data.service';
 import { ApiService } from './api.service';
-import { Dough } from './add-dough/dough.model';
-import { Filling } from './add-filling/filling.model';
-import { Topping } from './add-topping/topping.model';
-import { Cake } from './add-cake/cake.model';
+import { Dough } from '../add-dough/dough.model';
+import { Filling } from '../add-filling/filling.model';
+import { Topping } from '../add-topping/topping.model';
+import { Cake } from '../add-cake/cake.model';
+import { Tags } from './tags.model';
 
 describe('SharedDataService', () => {
   let service: SharedDataService;
@@ -16,7 +17,8 @@ describe('SharedDataService', () => {
     name: 'Test Dough',
     ingredients: [{ quantity: 1, description: 'Flour' }],
     instructions: 'Mix thoroughly',
-    quantity: 10
+    quantity: 10,
+    tags: ["1", "2"],
   }];
 
   const testFillings: Filling[] = [{
@@ -24,7 +26,8 @@ describe('SharedDataService', () => {
     name: 'Test Filling',
     ingredients: [{ quantity: 1, description: 'Chocolate' }],
     instructions: 'Blend well',
-    quantity: 5
+    quantity: 5,
+    tags: [],
   }];
 
   const testToppings: Topping[] = [{
@@ -32,7 +35,8 @@ describe('SharedDataService', () => {
     name: 'Test Topping',
     ingredients: [{ quantity: 1, description: 'Sprinkles' }],
     instructions: 'Sprinkle on top',
-    quantity: 15
+    quantity: 15,
+    tags: [],
   }];
 
   const testCakes: Cake[] = [{
@@ -40,21 +44,29 @@ describe('SharedDataService', () => {
     name: 'Test Cake',
     ingredients: [{ quantity: 1, description: 'Test Ingredients' }],
     instructions: 'Bake at 350°F for 30 minutes',
-    components: [{ type: 'dough', id: '1', quantity: 1 }]
+    components: [{ type: 'dough', id: '1', quantity: 1 }],
+    tags: []
   }];
+
+  const testTags: Tags[] = [{
+    _id: '1',
+    name: "Tag1"
+  }]
 
   beforeEach(() => {
     const spy = jasmine.createSpyObj('ApiService', [
       'allDoughs',
       'allFillings',
       'allToppings',
-      'allCakes'
+      'allCakes',
+      'allTags',
     ]);
 
     spy.allDoughs.and.returnValue(of(testDoughs));
     spy.allFillings.and.returnValue(of(testFillings));
     spy.allToppings.and.returnValue(of(testToppings));
     spy.allCakes.and.returnValue(of(testCakes));
+    spy.allTags.and.returnValue(of(testTags))
 
     TestBed.configureTestingModule({
       providers: [
@@ -84,7 +96,8 @@ describe('SharedDataService', () => {
       name: 'New Dough',
       ingredients: [{ quantity: 2, description: 'Sugar' }],
       instructions: 'Stir well',
-      quantity: 20
+      quantity: 20,
+      tags: ["1", "2"]
     }];
     apiServiceSpy.allDoughs.and.returnValue(of(newDoughs));
     service.refreshDoughs();
@@ -108,7 +121,8 @@ describe('SharedDataService', () => {
       name: 'New Filling',
       ingredients: [{ quantity: 3, description: 'Strawberry' }],
       instructions: 'Mix well',
-      quantity: 8
+      quantity: 8,
+      tags: [],
     }];
     apiServiceSpy.allFillings.and.returnValue(of(newFillings));
     service.refreshFillings();
@@ -132,7 +146,8 @@ describe('SharedDataService', () => {
       name: 'New Topping',
       ingredients: [{ quantity: 2, description: 'Nuts' }],
       instructions: 'Garnish on top',
-      quantity: 12
+      quantity: 12,
+      tags: []
     }];
     apiServiceSpy.allToppings.and.returnValue(of(newToppings));
     service.refreshToppings();
@@ -156,13 +171,57 @@ describe('SharedDataService', () => {
       name: 'New Cake',
       ingredients: [{ quantity: 1, description: 'New Ingredients' }],
       instructions: 'Bake for 40 minutes',
-      components: []
+      components: [],
+      tags: []
     }];
     apiServiceSpy.allCakes.and.returnValue(of(newCakes));
     service.refreshCakes();
 
     service.cakes$.subscribe(cakes => {
       expect(cakes).toEqual(newCakes);
+      done();
+    });
+  });
+
+  it('should load tags on initialization', (done: DoneFn) => {
+    service.tags$.subscribe(tags => {
+      expect(tags).toEqual(testTags);
+      done();
+    });
+  });
+
+  it('should refresh tags', (done: DoneFn) => {
+    const newTags: Tags[] = [{
+      _id: '2',
+      name: 'Tag 2',
+    }];
+    apiServiceSpy.allTags.and.returnValue(of(newTags));
+    service.refreshTags();
+
+    service.tags$.subscribe(tags => {
+      expect(tags).toEqual(newTags);
+      done();
+    });
+  });
+
+  it('should load tags on initialization', (done: DoneFn) => {
+    service.tags$.subscribe(tags => {
+      expect(tags).toEqual(testTags);
+      done();
+    });
+  });
+
+  it('should refresh tags', (done: DoneFn) => {
+    const newTags: Tags[] = [{
+      _id: '2',
+      name: 'New Tag',
+      
+    }];
+    apiServiceSpy.allTags.and.returnValue(of(newTags));
+    service.refreshTags();
+
+    service.tags$.subscribe(tags => {
+      expect(tags).toEqual(newTags);
       done();
     });
   });

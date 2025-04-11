@@ -10,11 +10,7 @@ export class CakeService {
   constructor(@InjectModel("Cake") private cakeModel: Model<Cake>) {}
 
   async addCake(
-    name: string,
-    components: Array<{ type: string; id: string, quantity: number }>,
-    ingredients: string,
-    instruction: string
-  ) {
+name: string, components: Array<{ type: string; id: string; quantity: number; }>, ingredients: string, instruction: string, tags: string[]  ) {
     let ingredientList: { quantity: number; description: string; }[]
     if (ingredients != ""){
       ingredientList = parseIngredients(ingredients)
@@ -25,6 +21,7 @@ export class CakeService {
       components,
       ingredients: ingredientList,
       instructions: instruction,
+      tags: tags
     });
 
     const result = await newCake.save();
@@ -48,12 +45,7 @@ export class CakeService {
   }
 
   async updateCake(
-    id: string,
-    name: string,
-    components: Array<{ type: string; id: string; quantity: number; }>,
-    ingredients: string,
-    instruction: string
-  ) {
+id: string, name: string, components: Array<{ type: string; id: string; quantity: number; }>, ingredients: string, instruction: string, tags: string[]  ) {
 
     let ingredientList: { quantity: number; description: string; }[]
     if (ingredients != ""){
@@ -65,6 +57,7 @@ export class CakeService {
       components,
       ingredients: ingredientList,
       instructions: instruction,
+      tags: tags,
     });
     return result;
   }

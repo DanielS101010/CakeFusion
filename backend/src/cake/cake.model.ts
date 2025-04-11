@@ -17,6 +17,7 @@ export const CakeSchema = new mongoose.Schema({
     description: { type: String, required: true }
   }],  
   instructions: { type: String, required: false },
+  tags: { type: Array<string>, required: false}
 });
 
 export interface Cake {
@@ -32,4 +33,5 @@ export interface Cake {
     description: string;
   }>;
   instructions: string;
+  tags: string[];
 }

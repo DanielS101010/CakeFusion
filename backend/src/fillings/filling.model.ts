@@ -8,6 +8,7 @@ export const FillingSchema = new mongoose.Schema({
       }],
     instructions: {type: String, required: true},
     quantity:{type: Number, required:true},
+    tags: {type: Array<string>, required: false}
 });
 
 export interface Filling{
@@ -16,4 +17,5 @@ export interface Filling{
     ingredients: { quantity: number; description: string }[];
     instructions: string;
     quantity: number;
+    tags: string[];
 }

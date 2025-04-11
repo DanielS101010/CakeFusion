@@ -16,6 +16,22 @@
     <label>Anleitung:</label>
     <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="doughInstructions" required></textarea>
   </div>
+
+  <div>
+    <label for="newTag">Tag hinzufügen:</label>
+    <br>
+    <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
+    <button type="button" (click)="addTagToDough()">Tag hinzufügen</button>
+  </div>
+  
+  <div>
+    <label>Ausgewählte Tags:</label>
+    <div *ngFor="let tag of doughTags">
+      {{tag.name}}
+      <button (click)="deleteTagFromDough(tag._id)">Tag entfernen</button>
+    </div>
+  </div>
+
   <div class="form-group">
     <button class="submit-btn" (click)="addDough()">Rezept hinzufügen</button>
   </div>

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsArray, ValidateNested, IsOptional, IsIn, IsNumber, isString} from 'class-validator';
+import { IsString, IsNotEmpty, IsArray, ValidateNested, IsOptional, IsIn, IsNumber} from 'class-validator';
 import { Type } from 'class-transformer';
 
 class ComponentDTO {
@@ -32,4 +32,7 @@ export class CreateCakeDTO {
   @IsString()
   @IsOptional()
   instructions?: string;
+
+  @IsArray()
+  tags: string[]; 
 }

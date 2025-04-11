@@ -1,0 +1,4 @@
+<div *ngFor="let tag of tags">
+    <input type="checkbox" (change)="onChange($event, tag._id)">
+    {{tag.name}}
+</div>

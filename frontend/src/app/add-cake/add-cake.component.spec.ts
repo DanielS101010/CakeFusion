@@ -2,9 +2,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CakeComponent } from './add-cake.component';
 import { FormsModule } from '@angular/forms';
 import { of } from 'rxjs';
-import { ApiService } from '../api.service';
-import { SharedDataService } from '../shared-data.service';
+import { ApiService } from '../service/api.service'; 
+import { SharedDataService } from '../service/shared-data.service';
 import { Router } from '@angular/router';
+import { TagsService } from '../service/tags.service';
 
 describe('CakeComponent', () => {
   let component: CakeComponent;
@@ -12,6 +13,8 @@ describe('CakeComponent', () => {
   let mockApiService: jasmine.SpyObj<ApiService>;
   let mockSharedDataService: jasmine.SpyObj<SharedDataService>;
   let mockRouter: jasmine.SpyObj<Router>;
+  let tagsServiceMock: jasmine.SpyObj<TagsService>;
+
 
   beforeEach(async () => {
     mockApiService = jasmine.createSpyObj('ApiService', ['addCake']);
@@ -21,17 +24,20 @@ describe('CakeComponent', () => {
       {
         doughs$: of([]),
         fillings$: of([]),
-        toppings$: of([])
+        toppings$: of([]),
+        tags$: of([],)
       }
     );
     mockRouter = jasmine.createSpyObj('Router', ['navigate']);
+    tagsServiceMock = jasmine.createSpyObj('TagsService', ['addTagToComponent', 'deleteTagFromComponent']);
 
     await TestBed.configureTestingModule({
       imports: [FormsModule, CakeComponent],
       providers: [
         { provide: ApiService, useValue: mockApiService },
         { provide: SharedDataService, useValue: mockSharedDataService },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: TagsService, useValue: tagsServiceMock },
       ]
     }).compileComponents();
 
@@ -108,11 +114,13 @@ describe('CakeComponent', () => {
       component.selectedComponents = [{ type: 'dough', id: '1', quantity: 1 }];
       mockApiService.addCake.and.returnValue(of({}));
       component.addCake();
+
       expect(mockApiService.addCake).toHaveBeenCalledWith(
         'Test Cake',
         '',
         '',
-        component.selectedComponents
+        component.selectedComponents,
+        [],
       );
       expect(mockSharedDataService.refreshCakes).toHaveBeenCalled();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
@@ -129,7 +137,8 @@ describe('CakeComponent', () => {
         'Test Cake',
         '100g Flour, 50g Sugar',
         'Mix well',
-        []
+        [],
+        [],
       );
       expect(mockSharedDataService.refreshCakes).toHaveBeenCalled();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
@@ -139,10 +148,12 @@ describe('CakeComponent', () => {
   describe('getComponentName', () => {
     it('should return the dough name if found', () => {
       component.doughs = [{
-        _id: '1', name: 'vanilladough',
+        _id: '1', 
+        name: 'vanilladough',
         ingredients: [],
         instructions: '',
-        quantity: 0
+        quantity: 0,
+        tags: [],
       }];
       expect(component.getComponentName('dough', '1')).toEqual('vanilladough');
     });
@@ -152,7 +163,8 @@ describe('CakeComponent', () => {
         _id: '2', name: 'chocolat filling',
         ingredients: [],
         instructions: '',
-        quantity: 0
+        quantity: 0,
+        tags: []
       }];
       expect(component.getComponentName('filling', '2')).toEqual('chocolat filling');
     });
@@ -162,7 +174,8 @@ describe('CakeComponent', () => {
         _id: '3', name: 'Strawberry topping',
         ingredients: [],
         instructions: '',
-        quantity: 0
+        quantity: 0,
+        tags: []
       }];
       expect(component.getComponentName('topping', '3')).toEqual('Strawberry topping');
     });

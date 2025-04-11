@@ -4,4 +4,5 @@ export interface Dough{
     ingredients: { quantity: number; description: string }[];
     instructions: string;
     quantity: number;
+    tags: string[];
 }

@@ -36,4 +36,7 @@ export class UpdateCakeDTO {
   @IsString()
   @IsOptional()
   instructions?: string;
+
+  @IsArray()
+  tags: string[]; 
 }

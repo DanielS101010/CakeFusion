@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsString, IsNotEmpty, IsNumber, Min } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, Min, IsArray } from 'class-validator';
 
 export class CreateFillingDTO {
   @IsString()
@@ -21,4 +21,7 @@ export class CreateFillingDTO {
   @IsNumber()
   @Min(1)
   quantity: number;
+
+  @IsArray()
+  tags: string[];
 }

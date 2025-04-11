@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { ApiService } from '../api.service';
+import { ApiService } from '../service/api.service';
 import { FormsModule } from '@angular/forms';
-import { SharedDataService } from '../shared-data.service';
+import { SharedDataService } from '../service/shared-data.service';
 import { Dough } from '../add-dough/dough.model';
 import { Filling } from '../add-filling/filling.model';
 import { Topping } from '../add-topping/topping.model';
@@ -9,6 +9,8 @@ import { Topping } from '../add-topping/topping.model';
 import { NgFor, NgIf } from '@angular/common';
 import { Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
+import { Tags } from '../service/tags.model';
+import { TagsService } from '../service/tags.service';
 
 @Component({
   selector: 'app-cake',
@@ -29,7 +31,12 @@ export class CakeComponent {
   ingredients = "";
   instructions = "";
 
-  constructor(private apiService: ApiService, private sharedDataService: SharedDataService, private router: Router) {}
+  cakeTags: Tags[] = [];
+  tags: Tags[] = [];
+  newTagName = "";
+
+  constructor(private apiService: ApiService, private sharedDataService: SharedDataService, private router: Router,
+    private tagsService: TagsService) {}
 
   ngOnInit() {
     this.sharedDataService.doughs$.subscribe(doughs => {
@@ -44,7 +51,6 @@ export class CakeComponent {
       this.toppings = toppings;
     });
   }
-
 
   onComponentChange(event: any, type: string, quantity: number) {
     const compId = event.target.value;
@@ -66,13 +72,30 @@ export class CakeComponent {
       alert("Fülle alle benötigten Felder aus.")
       return;
     }
-    this.apiService.addCake(this.cakeName, this.ingredients, this.instructions, this.selectedComponents).subscribe({next: () => {
+
+    const tagIds = this.cakeTags.map(tag => tag._id);
+
+    this.apiService.addCake(this.cakeName, this.ingredients, this.instructions, this.selectedComponents, tagIds).subscribe({next: () => {
           this.sharedDataService.refreshCakes();
           this.router.navigate(['/']);
         },
         error: (err) => console.log(err),
       });
   }
+
+  addTagToCake(): void {
+     if (this.newTagName !== "") {
+      this.tagsService.addTagToComponent(this.newTagName, this.cakeTags)
+        .subscribe(updatedTags => {
+          this.cakeTags = updatedTags;
+      });
+    }
+  }
+
+  deleteTagFromCake(id: string): void {
+    this.cakeTags = this.tagsService.deleteTagFromComponent(id, this.cakeTags)
+  }
+
 
   getComponentName(type: string, id: string): string {
     switch(type){

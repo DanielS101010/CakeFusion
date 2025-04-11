@@ -16,7 +16,24 @@
       <label>Anleitung:</label>
       <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="fillingInstructions" required></textarea>
     </div>
-    <div class="form-group">
-      <button class="submit-btn" (click)="addFilling()">Rezept hinzufügen</button>
+
+
+  <div>
+    <label for="newTag">Tag hinzufügen:</label>
+    <br>
+    <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
+    <button type="button" (click)="addTagToFilling()">Tag hinzufügen</button>
+  </div>
+  
+  <div>
+    <label>Ausgewählte Tags:</label>
+    <div *ngFor="let tag of fillingTags">
+      {{tag.name}}
+      <button (click)="deleteTagFromFilling(tag._id)">Tag entfernen</button>
     </div>
   </div>
+
+  <div class="form-group">
+    <button class="submit-btn" (click)="addFilling()">Rezept hinzufügen</button>
+  </div>
+</div>

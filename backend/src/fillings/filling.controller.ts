@@ -9,8 +9,8 @@ export class FillingController{
 
     @Post()
     async addFilling(@Body() createFillingDTO: CreateFillingDTO){
-        const {name, ingredients, instructions, quantity } = createFillingDTO;
-        const result = await this.fillingService.addFilling(name, ingredients, instructions, quantity);
+        const {name, ingredients, instructions, quantity, tags } = createFillingDTO;
+        const result = await this.fillingService.addFilling(name, ingredients, instructions, quantity, tags);
         return {data: result };
     }
 
