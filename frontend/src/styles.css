@@ -43,20 +43,16 @@ textarea {
   border: 1px solid #ddd;
   border-radius: 6px;
   width: 100%;
-  box-sizing: border-box;
   margin-bottom: 1.2em;
   transition: border-color 0.3s;
+  resize: none;
+  overflow: hidden;
 }
 
 input:focus,
 textarea:focus {
   border-color: #4caf50;
   outline: none;
-}
-
-textarea {
-  resize: none;
-  overflow: hidden;
 }
 
 .options-list {
@@ -118,7 +114,6 @@ input[type="checkbox"] {
 .container {
   justify-content: center;
   align-items: center;
-
   max-width: 60%;
   margin: 2em auto;
   padding: 2em;
