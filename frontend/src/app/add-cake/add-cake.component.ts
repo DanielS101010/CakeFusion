@@ -13,11 +13,10 @@ import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
 
 @Component({
-  selector: 'app-cake',
-  standalone: true,
-  imports: [NgFor, NgIf, FormsModule, TextFieldModule],
-  templateUrl: './add-cake.component.html',
-  styleUrl: './add-cake.component.css'
+    selector: 'app-cake',
+    imports: [NgFor, NgIf, FormsModule, TextFieldModule],
+    templateUrl: './add-cake.component.html',
+    styleUrl: './add-cake.component.css'
 })
 export class CakeComponent {
   doughs: Dough[] = [];

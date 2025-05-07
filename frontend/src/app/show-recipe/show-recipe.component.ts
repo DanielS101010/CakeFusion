@@ -12,11 +12,10 @@ import { FormsModule } from '@angular/forms';
 import { Ingredient } from '../add-cake/cake.model';
 
 @Component({
-  selector: 'app-show-recipe',
-  standalone: true,
-  imports: [NgIf, NgFor, MatCardModule, RouterLink, FormsModule],
-  templateUrl: './show-recipe.component.html',
-  styleUrl: './show-recipe.component.css'
+    selector: 'app-show-recipe',
+    imports: [NgIf, NgFor, MatCardModule, RouterLink, FormsModule],
+    templateUrl: './show-recipe.component.html',
+    styleUrl: './show-recipe.component.css'
 })
 export class ShowRecipeComponent {
   dough!: Dough;

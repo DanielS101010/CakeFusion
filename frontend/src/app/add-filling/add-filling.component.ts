@@ -9,11 +9,10 @@ import { Tags } from '../service/tags.model';
 import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-add-filling',
-  standalone: true,
-  imports: [FormsModule, TextFieldModule, NgFor],
-  templateUrl: './add-filling.component.html',
-  styleUrl: './add-filling.component.css'
+    selector: 'app-add-filling',
+    imports: [FormsModule, TextFieldModule, NgFor],
+    templateUrl: './add-filling.component.html',
+    styleUrl: './add-filling.component.css'
 })
 
 export class AddFillingComponent {

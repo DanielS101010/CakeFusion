@@ -14,11 +14,10 @@ import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
 
 @Component({
-  selector: 'app-edit-recipe',
-  standalone: true,
-  imports: [MatCardModule, NgFor, NgIf, FormsModule, TextFieldModule],
-  templateUrl: './edit-recipe.component.html',
-  styleUrls: ['./edit-recipe.component.css']  
+    selector: 'app-edit-recipe',
+    imports: [MatCardModule, NgFor, NgIf, FormsModule, TextFieldModule],
+    templateUrl: './edit-recipe.component.html',
+    styleUrls: ['./edit-recipe.component.css']
 })
 export class EditRecipeComponent {
   dough!: Dough;

@@ -4,11 +4,10 @@ import { SharedDataService } from '../service/shared-data.service';
 import { Tags } from '../service/tags.model';
 
 @Component({
-  selector: 'app-filter',
-  standalone: true,
-  imports: [NgFor],
-  templateUrl: './filter.component.html',
-  styleUrl: './filter.component.css'
+    selector: 'app-filter',
+    imports: [NgFor],
+    templateUrl: './filter.component.html',
+    styleUrl: './filter.component.css'
 })
 export class FilterComponent {
 @Output() filterChanged = new EventEmitter<string[]>;

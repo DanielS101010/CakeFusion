@@ -10,11 +10,10 @@ import { ApiService } from '../service/api.service';
 import { FilterComponent } from '../filter/filter.component';
 
 @Component({
-  selector: 'app-mainpage',
-  standalone: true,
-  imports: [NgFor, RouterLink, FilterComponent],
-  templateUrl: './mainpage.component.html',
-  styleUrl: './mainpage.component.css'
+    selector: 'app-mainpage',
+    imports: [NgFor, RouterLink, FilterComponent],
+    templateUrl: './mainpage.component.html',
+    styleUrl: './mainpage.component.css'
 })
 export class MainpageComponent {
   @Input() selectedTags: string[] = [];

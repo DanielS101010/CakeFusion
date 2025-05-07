@@ -9,11 +9,10 @@ import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
 
 @Component({
-  selector: 'app-add-dough',
-  standalone: true,
-  imports: [FormsModule, TextFieldModule, NgFor],
-  templateUrl: './add-dough.component.html',
-  styleUrl: './add-dough.component.css',
+    selector: 'app-add-dough',
+    imports: [FormsModule, TextFieldModule, NgFor],
+    templateUrl: './add-dough.component.html',
+    styleUrl: './add-dough.component.css'
 })
 
 export class AddDoughComponent {

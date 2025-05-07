@@ -9,11 +9,10 @@ import { TagsService } from '../service/tags.service';
 import { NgFor } from '@angular/common';
 
 @Component({
-  selector: 'app-add-topping',
-  standalone: true,
-  imports: [FormsModule, TextFieldModule, NgFor],
-  templateUrl: './add-topping.component.html',
-  styleUrl: './add-topping.component.css'
+    selector: 'app-add-topping',
+    imports: [FormsModule, TextFieldModule, NgFor],
+    templateUrl: './add-topping.component.html',
+    styleUrl: './add-topping.component.css'
 })
 export class AddToppingComponent {
   toppingName = "";
