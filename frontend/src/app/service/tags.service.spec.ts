@@ -5,6 +5,7 @@ import { TagsService } from './tags.service';
 import { ApiService } from './api.service';
 import { SharedDataService } from './shared-data.service';
 import { Tags } from './tags.model';
+import { signal } from '@angular/core';
 
 describe('TagsService', () => {
   let service: TagsService;
@@ -35,7 +36,7 @@ describe('TagsService', () => {
 
   describe('addTag', () => {
     it('should call apiService.addTag and refresh tags if tagName is non-empty', () => {
-      service.tagName = 'chocolate';
+      service.tagName = signal('chocolate');
       apiServiceSpy.addTag.and.returnValue(of('1'));
 
       service.addTag();
@@ -45,7 +46,7 @@ describe('TagsService', () => {
     });
 
     it('should not call apiService.addTag if tagName is empty', () => {
-      service.tagName = '';
+      service.tagName = signal('');
       service.addTag();
 
       expect(apiServiceSpy.addTag).not.toHaveBeenCalled();
@@ -56,7 +57,7 @@ describe('TagsService', () => {
   describe('addTagToComponent', () => {
     it('should add an existing tag to componentTags if not already present', (done) => {
       const existingTag: Tags = { _id: '1', name: 'chocolate' };
-      service.tags = [existingTag];
+      service.tags = signal([existingTag]);
       let componentTags: Tags[] = [];
 
       service.addTagToComponent('chocolate', componentTags).subscribe(resultTags => {
@@ -68,7 +69,7 @@ describe('TagsService', () => {
 
     it('should not add a duplicate if tag already exists in componentTags', (done) => {
       const existingTag: Tags = { _id: '1', name: 'chocolate' };
-      service.tags = [existingTag];
+      service.tags = signal([existingTag]);
       let componentTags: Tags[] = [existingTag];
 
       service.addTagToComponent('chocolate', componentTags).subscribe(resultTags => {
@@ -78,7 +79,7 @@ describe('TagsService', () => {
     });
 
     it('should create and add a new tag if not already existing in service.tags', (done) => {
-      service.tags = [];
+      service.tags = signal([]);
       let componentTags: Tags[] = [];
       const newTagName = 'NewTag';
       const newTagId = '2';
@@ -89,8 +90,8 @@ describe('TagsService', () => {
         expect(apiServiceSpy.addTag).toHaveBeenCalledWith(newTagName);
         expect(resultTags.length).toBe(1);
         expect(resultTags[0]).toEqual({ _id: newTagId, name: newTagName });
-        expect(service.tags.length).toBe(1);
-        expect(service.tags[0]).toEqual({ _id: newTagId, name: newTagName });
+        expect(service.tags().length).toBe(1);
+        expect(service.tags()[0]).toEqual({ _id: newTagId, name: newTagName });
         done();
       });
     });

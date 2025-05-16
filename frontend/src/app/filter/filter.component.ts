@@ -1,5 +1,5 @@
 import { NgFor } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { SharedDataService } from '../service/shared-data.service';
 import { Tags } from '../service/tags.model';
 
@@ -13,12 +13,12 @@ export class FilterComponent {
 @Output() filterChanged = new EventEmitter<string[]>;
 
 
-  tags!: Tags[];
-  selectedTags: string[] = []
+  tags = signal<Tags[]>([]);
+  selectedTags = signal<string[]>([]);
 
   constructor(private sharedDataService: SharedDataService){
     this.sharedDataService.tags$.subscribe(tags => {
-      this.tags = tags;
+      this.tags.set(tags);
     });
   }
   /**
@@ -28,11 +28,11 @@ export class FilterComponent {
    */
   onChange($event: any, id: string){
     if($event.target.checked){
-      this.selectedTags.push(id)
+      this.selectedTags.update(tags => {return [...tags, id]})
     }else{
-      this.selectedTags = this.selectedTags.filter(tag => tag !== id);
+      this.selectedTags.set(this.selectedTags().filter(tag => tag !== id));
     }
     
-    this.filterChanged.emit(this.selectedTags)
+    this.filterChanged.emit(this.selectedTags())
   }
 }

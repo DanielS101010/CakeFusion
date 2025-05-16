@@ -6,6 +6,7 @@ import { ApiService } from '../service/api.service';
 import { SharedDataService } from '../service/shared-data.service';
 import { Router } from '@angular/router';
 import { TagsService } from '../service/tags.service';
+import { signal } from '@angular/core';
 
 describe('CakeComponent', () => {
   let component: CakeComponent;
@@ -48,16 +49,16 @@ describe('CakeComponent', () => {
 
   it('should create the component and subscribe to shared data', () => {
     expect(component).toBeTruthy();
-    expect(component.doughs).toEqual([]);
-    expect(component.fillings).toEqual([]);
-    expect(component.toppings).toEqual([]);
+    expect(component.doughs()).toEqual([]);
+    expect(component.fillings()).toEqual([]);
+    expect(component.toppings()).toEqual([]);
   });
 
   describe('onComponentChange', () => {
     it('should add a component when checkbox is checked', () => {
       const event = { target: { value: '1', checked: true } };
       component.onComponentChange(event, 'dough', 1);
-      expect(component.selectedComponents).toContain(
+      expect(component.selectedComponents()).toContain(
         jasmine.objectContaining({ type: 'dough', id: '1', quantity: 1 })
       );
     });
@@ -65,10 +66,10 @@ describe('CakeComponent', () => {
     it('should remove a component when checkbox is unchecked', () => {
       const event = { target: { value: '1', checked: true } };
       component.onComponentChange(event, 'dough', 1);
-      expect(component.selectedComponents.length).toBe(1);
+      expect(component.selectedComponents().length).toBe(1);
       const eventUncheck = { target: { value: '1', checked: false } };
       component.onComponentChange(eventUncheck, 'dough', 1);
-      expect(component.selectedComponents).not.toContain(
+      expect(component.selectedComponents()).not.toContain(
         jasmine.objectContaining({ type: 'dough', id: '1', quantity: 1 })
       );
     });
@@ -76,12 +77,12 @@ describe('CakeComponent', () => {
 
   describe('isComponentSelected', () => {
     it('should return true if a component is selected', () => {
-      component.selectedComponents = [{ type: 'dough', id: '1', quantity: 1 }];
+      component.selectedComponents = signal([{ type: 'dough', id: '1', quantity: 1 }]);
       expect(component.isComponentSelected('dough', '1')).toBeTrue();
     });
 
     it('should return false if a component is not selected', () => {
-      component.selectedComponents = [];
+      component.selectedComponents = signal([]);
       expect(component.isComponentSelected('dough', '1')).toBeFalse();
     });
   });
@@ -92,26 +93,26 @@ describe('CakeComponent', () => {
     });
 
     it('should alert and not call apiService.addCake if cakeName is empty', () => {
-      component.cakeName = '';
-      component.selectedComponents = [{ type: 'dough', id: '1', quantity: 1 }];
+      component.cakeName = signal('');
+      component.selectedComponents = signal([{ type: 'dough', id: '1', quantity: 1 }]);
       component.addCake();
       expect(window.alert).toHaveBeenCalledWith('Fülle alle benötigten Felder aus.');
       expect(mockApiService.addCake).not.toHaveBeenCalled();
     });
 
     it('should alert and not call apiService.addCake if no component is selected and ingredients/instructions are empty', () => {
-      component.cakeName = 'Test Cake';
-      component.selectedComponents = [];
-      component.ingredients = '';
-      component.instructions = '';
+      component.cakeName = signal('Test Cake');
+      component.selectedComponents = signal([]);
+      component.ingredients = signal('');
+      component.instructions = signal('');
       component.addCake();
       expect(window.alert).toHaveBeenCalledWith('Fülle alle benötigten Felder aus.');
       expect(mockApiService.addCake).not.toHaveBeenCalled();
     });
 
     it('should call apiService.addCake when form is valid with components', () => {
-      component.cakeName = 'Test Cake';
-      component.selectedComponents = [{ type: 'dough', id: '1', quantity: 1 }];
+      component.cakeName = signal('Test Cake');
+      component.selectedComponents = signal([{ type: 'dough', id: '1', quantity: 1 }]);
       mockApiService.addCake.and.returnValue(of({}));
       component.addCake();
 
@@ -119,7 +120,7 @@ describe('CakeComponent', () => {
         'Test Cake',
         '',
         '',
-        component.selectedComponents,
+        component.selectedComponents(),
         [],
       );
       expect(mockSharedDataService.refreshCakes).toHaveBeenCalled();
@@ -127,10 +128,10 @@ describe('CakeComponent', () => {
     });
 
     it('should call apiService.addCake when form is valid without components', () => {
-      component.cakeName = 'Test Cake';
-      component.selectedComponents = [];
-      component.ingredients = '100g Flour, 50g Sugar';
-      component.instructions = 'Mix well';
+      component.cakeName = signal('Test Cake');
+      component.selectedComponents = signal([]);
+      component.ingredients = signal('100g Flour, 50g Sugar');
+      component.instructions = signal('Mix well');
       mockApiService.addCake.and.returnValue(of({}));
       component.addCake();
       expect(mockApiService.addCake).toHaveBeenCalledWith(
@@ -147,36 +148,36 @@ describe('CakeComponent', () => {
 
   describe('getComponentName', () => {
     it('should return the dough name if found', () => {
-      component.doughs = [{
+      component.doughs = signal([{
         _id: '1', 
         name: 'vanilladough',
         ingredients: [],
         instructions: '',
         quantity: 0,
         tags: [],
-      }];
+      }]);
       expect(component.getComponentName('dough', '1')).toEqual('vanilladough');
     });
 
     it('should return the filling name if found', () => {
-      component.fillings = [{
+      component.fillings = signal([{
         _id: '2', name: 'chocolat filling',
         ingredients: [],
         instructions: '',
         quantity: 0,
         tags: []
-      }];
+      }]);
       expect(component.getComponentName('filling', '2')).toEqual('chocolat filling');
     });
 
     it('should return the topping name if found', () => {
-      component.toppings = [{
+      component.toppings = signal([{
         _id: '3', name: 'Strawberry topping',
         ingredients: [],
         instructions: '',
         quantity: 0,
         tags: []
-      }];
+      }]);
       expect(component.getComponentName('topping', '3')).toEqual('Strawberry topping');
     });
 
@@ -187,33 +188,33 @@ describe('CakeComponent', () => {
 
   describe('moveUp and moveDown', () => {
     beforeEach(() => {
-      component.selectedComponents = [
+      component.selectedComponents = signal([
         { type: 'dough', id: '1', quantity: 1 },
         { type: 'filling', id: '2', quantity: 1 },
         { type: 'topping', id: '3', quantity: 1 }
-      ];
+      ]);
     });
 
     it('should move a component up in the list', () => {
       component.moveUp(1);
-      expect(component.selectedComponents[0]).toEqual({ type: 'filling', id: '2', quantity: 1 });
-      expect(component.selectedComponents[1]).toEqual({ type: 'dough', id: '1', quantity: 1 });
+      expect([...component.selectedComponents()][0]).toEqual({ type: 'filling', id: '2', quantity: 1 });
+      expect([...component.selectedComponents()][1]).toEqual({ type: 'dough', id: '1', quantity: 1 });
     });
 
     it('should not move the first component up', () => {
       component.moveUp(0);
-      expect(component.selectedComponents[0]).toEqual({ type: 'dough', id: '1', quantity: 1 });
+      expect([...component.selectedComponents()][0]).toEqual({ type: 'dough', id: '1', quantity: 1 });
     });
 
     it('should move a component down in the list', () => {
       component.moveDown(1);
-      expect(component.selectedComponents[1]).toEqual({ type: 'topping', id: '3', quantity: 1 });
-      expect(component.selectedComponents[2]).toEqual({ type: 'filling', id: '2', quantity: 1 });
+      expect([...component.selectedComponents()][1]).toEqual({ type: 'topping', id: '3', quantity: 1 });
+      expect([...component.selectedComponents()][2]).toEqual({ type: 'filling', id: '2', quantity: 1 });
     });
 
     it('should not move the last component down', () => {
       component.moveDown(2);
-      expect(component.selectedComponents[2]).toEqual({ type: 'topping', id: '3', quantity: 1 });
+      expect([...component.selectedComponents()][2]).toEqual({ type: 'topping', id: '3', quantity: 1 });
     });
   });
 });

@@ -3,7 +3,7 @@ import { of, throwError } from 'rxjs';
 import { MainpageComponent } from './mainpage.component';
 import { ApiService } from '../service/api.service';
 import { SharedDataService } from '../service/shared-data.service';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -63,10 +63,10 @@ describe('MainpageComponent', () => {
   });
 
   it('should subscribe to sharedDataService observables on init', () => {
-    expect(component.doughs).toEqual([]);
-    expect(component.fillings).toEqual([]);
-    expect(component.toppings).toEqual([]);
-    expect(component.cakes).toEqual([]);
+    expect(component.doughs()).toEqual([]);
+    expect(component.fillings()).toEqual([]);
+    expect(component.toppings()).toEqual([]);
+    expect(component.cakes()).toEqual([]);
   });
 
   describe('delete methods', () => {
@@ -109,7 +109,7 @@ describe('MainpageComponent', () => {
 
   describe('filter functions', () => {
     beforeEach(() => {
-      component.doughs = [
+      component.doughs = signal([
         {
           _id: 'd1', name: 'Dough 1', tags: ['1'],
           ingredients: [],
@@ -130,13 +130,13 @@ describe('MainpageComponent', () => {
           instructions: '',
           quantity: 0
         }
-      ];
+      ]);
     });
 
     it('should filter doughs correctly', () => {
-      component.selectedTags = ['1'];
+      component.selectedTags = signal(['1']);
       component.applyFilters();
-      expect(component.filteredDoughs).toEqual([
+      expect(component.filteredDoughs()).toEqual([
         { _id: 'd1',
           name: 'Dough 1', 
           tags: ['1'],
@@ -156,9 +156,9 @@ describe('MainpageComponent', () => {
     });
 
     it('should filter doughs correctly', () => {
-      component.selectedTags = ['1', '3'];
+      component.selectedTags = signal(['1', '3']);
       component.applyFilters();
-      expect(component.filteredDoughs).toEqual([
+      expect(component.filteredDoughs()).toEqual([
         { _id: 'd3', 
           name: 'Dough 3', 
           tags: ['1', '3'],
@@ -169,7 +169,7 @@ describe('MainpageComponent', () => {
     });
 
     it('should reset filtered arrays when no tags are selected', () => {
-      component.doughs = [
+      component.doughs = signal([
         {
           _id: 'd1',
           name: 'Dough 1',
@@ -178,8 +178,8 @@ describe('MainpageComponent', () => {
           quantity: 0,
           tags: ['1'],
         }
-      ];
-      component.fillings = [
+      ]);
+      component.fillings = signal([
         {
           _id: 'f1',
           name: 'Filling 1',
@@ -188,8 +188,8 @@ describe('MainpageComponent', () => {
           quantity: 0,
           tags: []
         }
-      ];
-      component.toppings = [
+      ]);
+      component.toppings = signal([
         {
           _id: 't1',
           name: 'Topping 1',
@@ -198,8 +198,8 @@ describe('MainpageComponent', () => {
           quantity: 0,
           tags: [],
         }
-      ];
-      component.cakes = [
+      ]);
+      component.cakes = signal([
         {
           _id: 'c1', name: 'Cake 1',
           components: [],
@@ -207,19 +207,19 @@ describe('MainpageComponent', () => {
           instructions: '',
           tags: []
         }
-      ];
+      ]);
 
       component.onFilterChanged([]);
-      expect(component.filteredDoughs).toEqual(component.doughs);
-      expect(component.filteredFillings).toEqual(component.fillings);
-      expect(component.filteredToppings).toEqual(component.toppings);
-      expect(component.filteredCakes).toEqual(component.cakes);
+      expect(component.filteredDoughs()).toEqual(component.doughs());
+      expect(component.filteredFillings()).toEqual(component.fillings());
+      expect(component.filteredToppings()).toEqual(component.toppings());
+      expect(component.filteredCakes()).toEqual(component.cakes());
     });
 
     it('should update selectedTags and call applyFilters when onFilterChanged is called with non-empty array', () => {
       spyOn(component, 'applyFilters');
       component.onFilterChanged(['1']);
-      expect(component.selectedTags).toEqual(['1']);
+      expect(component.selectedTags()).toEqual(['1']);
       expect(component.applyFilters).toHaveBeenCalled();
     });
   });

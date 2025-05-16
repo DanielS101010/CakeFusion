@@ -7,6 +7,7 @@ import { ApiService } from '../service/api.service';
 import { SharedDataService } from '../service/shared-data.service';
 import { TagsService } from '../service/tags.service';
 import { Tags } from '../service/tags.model';
+import { signal } from '@angular/core';
 
 describe('AddDoughComponent with mocks', () => {
   let component: AddDoughComponent;
@@ -45,10 +46,10 @@ describe('AddDoughComponent with mocks', () => {
 
   it('should alert if required fields are missing and not call addDough', () => {
     spyOn(window, 'alert');
-    component.doughName = ''; 
-    component.doughIngredients = '200g Flour, 50ml Water';
-    component.doughInstructions = 'Mix well';
-    component.doughTags = [];
+    component.doughName = signal(''); 
+    component.doughIngredients = signal('200g Flour, 50ml Water');
+    component.doughInstructions = signal('Mix well');
+    component.doughTags = signal([]);
 
     component.addDough();
 
@@ -57,11 +58,11 @@ describe('AddDoughComponent with mocks', () => {
   });
 
   it('should call apiService.addDough and navigate on success', () => {
-    component.doughName = 'Test Dough';
-    component.doughIngredients = '200g Flour, 50ml Water';
-    component.doughInstructions = 'Mix well';
-    component.doughQuantity = 2;
-    component.doughTags = [];
+    component.doughName = signal('Test Dough');
+    component.doughIngredients = signal('200g Flour, 50ml Water');
+    component.doughInstructions = signal('Mix well');
+    component.doughQuantity = signal(2);
+    component.doughTags = signal([]);
 
     apiServiceMock.addDough.and.returnValue(of({}));
 
@@ -79,11 +80,11 @@ describe('AddDoughComponent with mocks', () => {
   });
 
   it('should log error on API failure', () => {
-    component.doughName = 'Test Dough';
-    component.doughIngredients = '200g Flour, 50ml Water';
-    component.doughInstructions = 'Mix well';
-    component.doughQuantity = 1;
-    component.doughTags = [];
+    component.doughName = signal('Test Dough');
+    component.doughIngredients = signal('200g Flour, 50ml Water');
+    component.doughInstructions = signal('Mix well');
+    component.doughQuantity = signal(1)
+    component.doughTags = signal([]);
 
     apiServiceMock.addDough.and.returnValue(throwError(() => new Error('API error')));
     const consoleSpy = spyOn(console, 'log');
@@ -95,19 +96,19 @@ describe('AddDoughComponent with mocks', () => {
 
   it('should call tagsService.addTagToComponent and update doughTags when newTagName is not empty', () => {
     const newTag: Tags = { _id: '1', name: 'New Tag' };
-    component.newTagName = 'New Tag';
+    component.newTagName = signal('New Tag');
     
     tagsServiceMock.addTagToComponent.and.returnValue(of([newTag]));
 
     component.addTagToDough();
 
     expect(tagsServiceMock.addTagToComponent).toHaveBeenCalledWith('New Tag', []);
-    expect(component.doughTags).toEqual([newTag]);
+    expect(component.doughTags()).toEqual([newTag]);
   });
 
 
   it('should not call tagsService.addTagToComponent if newTagName is empty', () => {
-    component.newTagName = '';
+    component.newTagName = signal('');
 
     component.addTagToDough();
 
@@ -116,10 +117,10 @@ describe('AddDoughComponent with mocks', () => {
 
 
   it('should update doughTags when deleteTagFromDough is called', () => {
-    component.doughTags = [
+    component.doughTags = signal([
       { _id: '1', name: 'Tag1' },
       { _id: '2', name: 'Tag2' }
-    ];
+    ]);
 
     tagsServiceMock.deleteTagFromComponent.and.callFake((id: string, tags: Tags[]) => 
       tags.filter(tag => tag._id !== id)
@@ -131,6 +132,6 @@ describe('AddDoughComponent with mocks', () => {
       { _id: '1', name: 'Tag1' },
       { _id: '2', name: 'Tag2' }
     ]);
-    expect(component.doughTags).toEqual([{ _id: '2', name: 'Tag2' }]);
+    expect(component.doughTags()).toEqual([{ _id: '2', name: 'Tag2' }]);
   });
 });

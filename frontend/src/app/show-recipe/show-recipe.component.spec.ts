@@ -7,6 +7,7 @@ import { Dough } from '../add-dough/dough.model';
 import { Filling } from '../add-filling/filling.model';
 import { Topping } from '../add-topping/topping.model';
 import { Cake, Ingredient } from '../add-cake/cake.model';
+import { signal } from '@angular/core';
 
 describe('ShowRecipeComponent', () => {
   let component: ShowRecipeComponent;
@@ -26,7 +27,7 @@ describe('ShowRecipeComponent', () => {
     _id: 't1', name: 'Test Topping', ingredients: [{ quantity: 10, description: "Flour" }],
     instructions: "Mix well", quantity: 2, tags: []
   };
-  const fakeCakeData: Cake = {
+  const fakeCakeData: Cake ={
     _id: 'c1',
     // Cake components define which subcomponent is used and the quantity needed.
     components: [
@@ -95,8 +96,8 @@ describe('ShowRecipeComponent', () => {
     fixture.detectChanges();
 
     expect(fakeApiService.singleDough).toHaveBeenCalledWith('d1');
-    expect(component.dough).toEqual(fakeDoughData);
-    expect(component.doughQuantity).toEqual(fakeDoughData.quantity);
+    expect(component.dough()).toEqual(fakeDoughData);
+    expect(component.doughQuantity()).toEqual(fakeDoughData.quantity);
   });
 
   it('should load filling details when route component is "filling"', () => {
@@ -107,8 +108,8 @@ describe('ShowRecipeComponent', () => {
     fixture.detectChanges();
 
     expect(fakeApiService.singleFilling).toHaveBeenCalledWith('f1');
-    expect(component.filling).toEqual(fakeFillingData);
-    expect(component.fillingQuantity).toEqual(fakeFillingData.quantity);
+    expect(component.filling()).toEqual(fakeFillingData);
+    expect(component.fillingQuantity()).toEqual(fakeFillingData.quantity);
   });
 
   it('should load topping details when route component is "topping"', () => {
@@ -119,8 +120,8 @@ describe('ShowRecipeComponent', () => {
     fixture.detectChanges();
 
     expect(fakeApiService.singleTopping).toHaveBeenCalledWith('t1');
-    expect(component.topping).toEqual(fakeToppingData);
-    expect(component.toppingQuantity).toEqual(fakeToppingData.quantity);
+    expect(component.topping()).toEqual(fakeToppingData);
+    expect(component.toppingQuantity()).toEqual(fakeToppingData.quantity);
   });
 
   it('should load cake details and its components when route component is "cake"', () => {
@@ -132,7 +133,7 @@ describe('ShowRecipeComponent', () => {
 
     // Verify cake data is fetched.
     expect(fakeApiService.singleCake).toHaveBeenCalledWith('c1');
-    expect(component.cake).toEqual(fakeCakeData);
+    expect(component.cake()).toEqual(fakeCakeData);
 
     // Verify that for each component in the cake, the appropriate API call is made.
     expect(fakeApiService.singleDough).toHaveBeenCalledWith('d1');
@@ -140,15 +141,15 @@ describe('ShowRecipeComponent', () => {
     expect(fakeApiService.singleTopping).toHaveBeenCalledWith('t1');
 
     // Check that componentsToDisplay is populated with the expected items.
-    expect(component.componentsToDisplay.length).toBe(3);
+    expect(component.componentsToDisplay().length).toBe(3);
 
-    const doughComponent = component.componentsToDisplay.find(item => item.type === 'dough');
+    const doughComponent = component.componentsToDisplay().find(item => item.type === 'dough');
     expect(doughComponent).toBeTruthy();
     expect(doughComponent.quantity).toBe(3);
     expect(doughComponent.baseQuantity).toBe(fakeDoughData.quantity);
 
     // Verify that ingredients and instructions were set from the cake data.
-    expect(component.instructions).toBe(fakeCakeData.instructions);
-    expect(component.ingredients).toEqual(fakeCakeData.ingredients);
+    expect(component.instructions()).toBe(fakeCakeData.instructions);
+    expect(component.ingredients()).toEqual(fakeCakeData.ingredients);
   });
 });

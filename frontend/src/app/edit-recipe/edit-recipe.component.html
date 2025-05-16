@@ -1,5 +1,5 @@
 <div class="container">
-  <mat-card *ngIf= "component == 'dough'" class="card">
+  <mat-card *ngIf= "component() == 'dough'" class="card">
     <mat-card-header>
       <mat-card-title>
         <input [(ngModel)] = "doughName">
@@ -21,21 +21,21 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTag(component='dough')">Tag hinzufügen</button>
+        <button type="button" (click)="addTag('dough')">Tag hinzufügen</button>
       </div>
       
       <div>
         <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of doughTags">
+        <div *ngFor="let tag of doughTags()">
           {{tag.name}}
-          <button (click)="deleteTag(tag._id, component='dough')">Tag entfernen</button>
+          <button (click)="deleteTag(tag._id, 'dough')">Tag entfernen</button>
         </div>
       </div>
       <button class="submit-btn" (click)="saveEdit()">Speichern</button>
     </mat-card-content>
   </mat-card>
     
-  <mat-card *ngIf="component == 'filling'" class="card">
+  <mat-card *ngIf="component() == 'filling'" class="card">
     <mat-card-header>
       <mat-card-title>
         <input [(ngModel)] = "fillingName">
@@ -57,14 +57,14 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTag(component='filling')">Tag hinzufügen</button>
+        <button type="button" (click)="addTag('filling')">Tag hinzufügen</button>
       </div>
       
       <div>
         <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of fillingTags">
+        <div *ngFor="let tag of fillingTags()">
           {{tag.name}}
-          <button (click)="deleteTag(tag._id, component='filling')">Tag entfernen</button>
+          <button (click)="deleteTag(tag._id, 'filling')">Tag entfernen</button>
         </div>
       </div>
       <button class="submit-btn" (click)="saveEdit()">Speichern</button>
@@ -72,7 +72,7 @@
   </mat-card>
 
 
-  <mat-card *ngIf="component == 'topping'" class="card">
+  <mat-card *ngIf="component() == 'topping'" class="card">
     <mat-card-header>
       <mat-card-title>
         <input [(ngModel)] = "toppingName">
@@ -94,14 +94,14 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTag(component='topping')">Tag hinzufügen</button>
+        <button type="button" (click)="addTag('topping')">Tag hinzufügen</button>
       </div>
       
       <div>
         <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of toppingTags">
+        <div *ngFor="let tag of toppingTags()">
           {{tag.name}}
-          <button (click)="deleteTag(tag._id, component='topping')">Tag entfernen</button>
+          <button (click)="deleteTag(tag._id, 'topping')">Tag entfernen</button>
         </div>
       </div>
 
@@ -109,7 +109,7 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card *ngIf="component == 'cake'" class="card">
+  <mat-card *ngIf="component() == 'cake'" class="card">
     <mat-card-header>
       <mat-card-title>
         <input [(ngModel)]="cakeName">
@@ -117,10 +117,10 @@
     </mat-card-header>
 
     <mat-card-content>
-      <div *ngIf="cakeUseComponents === 'yes'">
+      <div *ngIf="cakeUseComponents() === 'yes'">
         <label>Teig(e):</label>
         <div class="options-list">
-          <div *ngFor="let dough of doughs" class="checkbox-item">
+          <div *ngFor="let dough of doughs()" class="checkbox-item">
             <input
               type="checkbox"
               id="dough-{{dough._id}}"
@@ -134,7 +134,7 @@
 
         <label>Füllung(en):</label>
         <div class="options-list">
-          <div *ngFor="let filling of fillings" class="checkbox-item">
+          <div *ngFor="let filling of fillings()" class="checkbox-item">
             <input
               type="checkbox"
               id="filling-{{filling._id}}"
@@ -148,7 +148,7 @@
 
         <label>Topping(s):</label>
         <div class="options-list">
-          <div *ngFor="let topping of toppings" class="checkbox-item">
+          <div *ngFor="let topping of toppings()" class="checkbox-item">
             <input
               type="checkbox"
               id="topping-{{topping._id}}"
@@ -162,16 +162,16 @@
 
         <h4>Ausgewählte Komponenten in der Reihenfolge der Auswahl:</h4>
         <ol>
-          <li *ngFor="let component of selectedComponents; let i = index">
+          <li *ngFor="let component of selectedComponents(); let i = index">
             {{ getComponentName(component.type, component.id) }}
             <input type="number" [(ngModel)]="component.quantity" min="1">
             <button (click)="moveUp(i)" [disabled]="i === 0">Up</button>
-            <button (click)="moveDown(i)" [disabled]="i === selectedComponents.length - 1">Down</button>
+            <button (click)="moveDown(i)" [disabled]="i === selectedComponents().length - 1">Down</button>
           </li>
         </ol>
       </div>
 
-      <div *ngIf="cakeUseComponents === 'no'">
+      <div *ngIf="cakeUseComponents() === 'no'">
         <label>Zutaten:</label>
         <textarea cdkTextareaAutosize [(ngModel)]="cakeIngredients"></textarea>
 
@@ -183,14 +183,14 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTag(component='cake')">Tag hinzufügen</button>
+        <button type="button" (click)="addTag('cake')">Tag hinzufügen</button>
       </div>
       
       <div>
         <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of cakeTags">
+        <div *ngFor="let tag of cakeTags()">
           {{tag.name}}
-          <button (click)="deleteTag(tag._id, component='cake')">Tag entfernen</button>
+          <button (click)="deleteTag(tag._id, 'cake')">Tag entfernen</button>
         </div>
       </div>
 

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ApiService } from '../service/api.service';
 import { FormsModule } from '@angular/forms';
 import { SharedDataService } from '../service/shared-data.service';
@@ -16,13 +16,13 @@ import { TagsService } from '../service/tags.service';
 })
 
 export class AddDoughComponent {
-  doughName = "";
-  doughIngredients = "";
-  doughInstructions = "";
-  doughQuantity = 1 ;
-  doughTags: Tags[] = [];
-  tags: Tags[] = [];
-  newTagName = "";
+  doughName = signal("");
+  doughIngredients = signal("");
+  doughInstructions = signal("");
+  doughQuantity = signal(1);
+  doughTags = signal<Tags[]>([]);
+  tags = signal<Tags[]>([]);
+  newTagName = signal("");
 
   constructor(private apiService: ApiService, private sharedDataService: SharedDataService, 
     private router: Router, private tagsService: TagsService){}
@@ -33,13 +33,13 @@ export class AddDoughComponent {
    * If name, ingredients or instructions are empty, it shows a error message and doesnt save the dough.
    */
     addDough(){
-    if (this.doughName == "" || this.doughIngredients == "" || this.doughInstructions == ""){
+    if (this.doughName() == "" || this.doughIngredients() == "" || this.doughInstructions() == ""){
       alert("Fülle alle benötigten Felder aus.")
       return;
     }
 
-    const tagIds = this.doughTags.map(tag => tag._id);
-    this.apiService.addDough(this.doughName, this.doughIngredients, this.doughInstructions, this.doughQuantity, tagIds)
+    const tagIds = computed(() =>   this.doughTags().map(tag => tag._id))
+    this.apiService.addDough(this.doughName(), this.doughIngredients(), this.doughInstructions(), this.doughQuantity(), tagIds())
     .subscribe({next:() => {
         this.sharedDataService.refreshDoughs();
         this.router.navigate(['/']);
@@ -52,10 +52,10 @@ export class AddDoughComponent {
    * adds a tag to doughTags with calling the Function addTagToComponent when the variable newTagName is not empty.
    */
   addTagToDough(): void {
-     if (this.newTagName !== "") {
-      this.tagsService.addTagToComponent(this.newTagName, this.doughTags)
+     if (this.newTagName() !== "") {
+      this.tagsService.addTagToComponent(this.newTagName(), this.doughTags())
         .subscribe(updatedTags => {
-          this.doughTags = updatedTags;
+          this.doughTags.set(updatedTags);
       });
     }
   }
@@ -65,6 +65,6 @@ export class AddDoughComponent {
    * @param id id of the tag to delete.
    */
   deleteTagFromDough(id: string): void {
-    this.doughTags = this.tagsService.deleteTagFromComponent(id, this.doughTags)
+    this.doughTags.set(this.tagsService.deleteTagFromComponent(id, this.doughTags())); 
   }
 }

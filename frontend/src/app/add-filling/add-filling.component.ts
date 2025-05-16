@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ApiService } from '../service/api.service';
 import { FormsModule } from '@angular/forms';
 import { SharedDataService } from '../service/shared-data.service';
@@ -16,13 +16,13 @@ import { NgFor } from '@angular/common';
 })
 
 export class AddFillingComponent {
-  fillingName = "";
-  fillingIngredients = "";
-  fillingInstructions = "";
-  fillingQuantity = 1;
-  newTagName = "";
-  tags: Tags[] = [];
-  fillingTags: Tags[] = [];
+  fillingName = signal("");
+  fillingIngredients = signal("");
+  fillingInstructions = signal("")
+  fillingQuantity = signal(1);
+  newTagName = signal("");
+  tags = signal<Tags[]>([]);
+  fillingTags = signal<Tags[]>([]);
 
   constructor(private apiServie: ApiService, private sharedDataService: SharedDataService, private router: Router, private tagsService: TagsService){}
   
@@ -32,13 +32,13 @@ export class AddFillingComponent {
    * If name, ingredients or instructions are empty, it shows a error message and doesnt save the filling.
    */
   addFilling(){
-    if (this.fillingName == "" || this.fillingIngredients == "" || this.fillingInstructions == ""){
+    if (this.fillingName() == "" || this.fillingIngredients() == "" || this.fillingInstructions() == ""){
       alert("Fülle alle benötigten Felder aus.")
       return;
     }
-    const tagIds = this.fillingTags.map(tag => tag._id);
+    const tagIds = computed(() =>   this.fillingTags().map(tag => tag._id))
 
-    this.apiServie.addFilling(this.fillingName, this.fillingIngredients, this.fillingInstructions, this.fillingQuantity, tagIds)
+    this.apiServie.addFilling(this.fillingName(), this.fillingIngredients(), this.fillingInstructions(), this.fillingQuantity(), tagIds())
     .subscribe({next:() => {
       this.sharedDataService.refreshFillings();
       this.router.navigate(['/']);
@@ -52,10 +52,10 @@ export class AddFillingComponent {
    * adds a tag to fillingTags with calling the Function addTagToComponent when the variable newTagName is not empty.
    */
   addTagToFilling(): void {
-    if (this.newTagName !== "") {
-    this.tagsService.addTagToComponent(this.newTagName, this.fillingTags)
+    if (this.newTagName() !== "") {
+    this.tagsService.addTagToComponent(this.newTagName(), this.fillingTags())
       .subscribe((updatedTags: any) => {
-        this.fillingTags = updatedTags;
+        this.fillingTags.set(updatedTags);
       });
     }
   }
@@ -65,6 +65,6 @@ export class AddFillingComponent {
    * @param id id of the tag to delete.
    */
   deleteTagFromFilling(id: string): void {
-    this.fillingTags = this.tagsService.deleteTagFromComponent(id, this.fillingTags)
+    this.fillingTags.set(this.tagsService.deleteTagFromComponent(id, this.fillingTags()))
   }
 }

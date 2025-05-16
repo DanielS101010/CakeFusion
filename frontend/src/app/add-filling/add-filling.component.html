@@ -1,22 +1,21 @@
 <div class="add-container">
-    <h2>Füllungsrezept hinzufügen</h2>
-    <div class="form-group">
-      <label>Füllungsname: </label>
-      <input id="FüllungsName" placeholder="Füllungsname eintragen" [(ngModel)]="fillingName" required>
-    </div>
-    <div class="form-group">
-      <label>Das Rezept ergibt ... Portionen</label>
-      <input type="number" min = "1" [(ngModel)]="fillingQuantity">
-    </div>
-    <div class="form-group">
-      <label>Zutaten:</label>
-      <textarea cdkTextareaAutosize placeholder="Zutaten einfügen" [(ngModel)]="fillingIngredients" required></textarea>
-    </div>
-    <div class="form-group">
-      <label>Anleitung:</label>
-      <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="fillingInstructions" required></textarea>
-    </div>
-
+  <h2>Füllungsrezept hinzufügen</h2>
+  <div class="form-group">
+    <label>Füllungsname: </label>
+    <input id="FüllungsName" placeholder="Füllungsname eintragen" [(ngModel)]="fillingName" required>
+  </div>
+  <div class="form-group">
+    <label>Das Rezept ergibt ... Portionen</label>
+    <input type="number" min = "1" [(ngModel)]="fillingQuantity">
+  </div>
+  <div class="form-group">
+    <label>Zutaten:</label>
+    <textarea cdkTextareaAutosize placeholder="Zutaten einfügen" [(ngModel)]="fillingIngredients" required></textarea>
+  </div>
+  <div class="form-group">
+    <label>Anleitung:</label>
+    <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="fillingInstructions" required></textarea>
+  </div>
 
   <div>
     <label for="newTag">Tag hinzufügen:</label>
@@ -27,7 +26,7 @@
   
   <div>
     <label>Ausgewählte Tags:</label>
-    <div *ngFor="let tag of fillingTags">
+    <div *ngFor="let tag of fillingTags()">
       {{tag.name}}
       <button (click)="deleteTagFromFilling(tag._id)">Tag entfernen</button>
     </div>

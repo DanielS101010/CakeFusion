@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { FilterComponent } from './filter.component';
 import { SharedDataService } from '../service/shared-data.service';
+import { signal } from '@angular/core';
 
 interface Tags {
   _id: string;
@@ -46,19 +47,19 @@ describe('FilterComponent', () => {
 
     component.onChange(event, testTagId);
 
-    expect(component.selectedTags).toContain(testTagId);
+    expect(component.selectedTags()).toContain(testTagId);
     expect(component.filterChanged.emit).toHaveBeenCalledWith([testTagId]);
   });
 
   it('should remove a tag from selectedTags and emit event when checkbox is unchecked', () => {
     spyOn(component.filterChanged, 'emit');
     const testTagId = 'tag1';
-    component.selectedTags = [testTagId];
+    component.selectedTags = signal([testTagId]);
 
     const event = { target: { checked: false } };
     component.onChange(event, testTagId);
 
-    expect(component.selectedTags).not.toContain(testTagId);
+    expect(component.selectedTags()).not.toContain(testTagId);
     expect(component.filterChanged.emit).toHaveBeenCalledWith([]);
   });
 });

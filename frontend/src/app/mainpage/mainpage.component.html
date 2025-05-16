@@ -5,7 +5,7 @@
     <div class="recipe-container">
         <h2>Kuchen:</h2>
         <div class="recipe-section">
-            <div class="recipe-card" *ngFor="let cake of filteredCakes">
+            <div class="recipe-card" *ngFor="let cake of filteredCakes()">
                 <a class="button" [routerLink]="['./Rezept', cake._id, 'cake']">
                     {{ cake.name }}
                 </a>
@@ -15,7 +15,7 @@
         
         <h2>Teige:</h2>
         <div class="recipe-section">
-            <div class="recipe-card" *ngFor="let dough of filteredDoughs">
+            <div class="recipe-card" *ngFor="let dough of filteredDoughs()">
                 <a class="button" [routerLink]="['./Rezept', dough._id, 'dough']">
                     {{ dough.name }}
                 </a>
@@ -25,7 +25,7 @@
         
         <h2>Füllungen:</h2>
         <div class="recipe-section">
-            <div class="recipe-card" *ngFor="let filling of filteredFillings">
+            <div class="recipe-card" *ngFor="let filling of filteredFillings()">
                 <a class="button" [routerLink]="['./Rezept', filling._id, 'filling']">
                     {{ filling.name }}
                 </a>
@@ -35,7 +35,7 @@
         
         <h2>Topping:</h2>
         <div class="recipe-section">
-            <div class="recipe-card" *ngFor="let topping of filteredToppings">
+            <div class="recipe-card" *ngFor="let topping of filteredToppings()">
                 <a class="button" [routerLink]="['./Rezept', topping._id, 'topping']">
                     {{ topping.name }}
                 </a>

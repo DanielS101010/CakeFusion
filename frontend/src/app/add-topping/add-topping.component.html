@@ -25,7 +25,7 @@
   
   <div>
     <label>Ausgewählte Tags:</label>
-    <div *ngFor="let tag of toppingTags">
+    <div *ngFor="let tag of toppingTags()">
       {{tag.name}}
       <button (click)="deleteTagFromTopping(tag._id)">Tag entfernen</button>
     </div>
