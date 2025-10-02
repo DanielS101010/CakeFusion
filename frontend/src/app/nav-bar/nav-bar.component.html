@@ -6,4 +6,13 @@
         <a class="button" [routerLink]="'./Topping'">Topping hinzufügen</a>
         <a class="button" [routerLink]="'./Kuchen'">Kuchen hinzufügen</a>
     </nav>
+    <div class="searchWrapper">
+        <input
+            type="search"
+            class="searchBar"
+            [value]="searchString"
+            (input)="onSearchChange($event)"
+            (keydown.enter)="onSearchClick()">
+        <button class="searchButton" (click)="onSearchClick()">Suchen</button>
+    </div>
 </div>

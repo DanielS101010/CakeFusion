@@ -6,6 +6,11 @@ import { SharedDataService } from '../service/shared-data.service';
 import { Component, EventEmitter, Output, signal } from '@angular/core';
 import { NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FilterService } from '../service/filter.service';
+import { Dough } from '../add-dough/dough.model';
+import { Filling } from '../add-filling/filling.model';
+import { Topping } from '../add-topping/topping.model';
+import { Cake } from '../add-cake/cake.model';
 
 @Component({
   selector: 'app-filter',
@@ -16,11 +21,22 @@ export class FilterComponentStub {
   @Output() filterChanged = new EventEmitter<string[]>();
 }
 
+class FilterServiceStub {
+  filteredDoughs = signal<Dough[]>([]);
+  filteredFillings = signal<Filling[]>([]);
+  filteredToppings = signal<Topping[]>([]);
+  filteredCakes = signal<Cake[]>([]);
+
+  setSelectedTags = jasmine.createSpy('setSelectedTags');
+  setSearchTerm = jasmine.createSpy('setSearchTerm');
+}
+
 describe('MainpageComponent', () => {
   let component: MainpageComponent;
   let fixture: ComponentFixture<MainpageComponent>;
   let apiServiceSpy: jasmine.SpyObj<ApiService>;
   let sharedDataServiceSpy: jasmine.SpyObj<SharedDataService>;
+  let filterServiceStub: FilterServiceStub;
 
   beforeEach(async () => {
     apiServiceSpy = jasmine.createSpyObj('ApiService', [
@@ -40,11 +56,14 @@ describe('MainpageComponent', () => {
       }
     );
 
+    filterServiceStub = new FilterServiceStub();
+
     await TestBed.configureTestingModule({
       imports: [MainpageComponent, FilterComponentStub],
       providers: [
         { provide: ApiService, useValue: apiServiceSpy },
-        { provide: SharedDataService, useValue: sharedDataServiceSpy }
+        { provide: SharedDataService, useValue: sharedDataServiceSpy },
+        { provide: FilterService, useValue: filterServiceStub }
       ]
     }).overrideComponent(MainpageComponent, {
       set: {
@@ -62,11 +81,12 @@ describe('MainpageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should subscribe to sharedDataService observables on init', () => {
-    expect(component.doughs()).toEqual([]);
-    expect(component.fillings()).toEqual([]);
-    expect(component.toppings()).toEqual([]);
-    expect(component.cakes()).toEqual([]);
+  it('should expose filtered data from the filter service', () => {
+    const doughs: Dough[] = [
+      { _id: 'd1', name: 'Dough 1', ingredients: [], instructions: '', quantity: 0, tags: [] }
+    ];
+    filterServiceStub.filteredDoughs.set(doughs);
+    expect(component.filteredDoughs()).toEqual(doughs);
   });
 
   describe('delete methods', () => {
@@ -108,119 +128,14 @@ describe('MainpageComponent', () => {
   });
 
   describe('filter functions', () => {
-    beforeEach(() => {
-      component.doughs = signal([
-        {
-          _id: 'd1', name: 'Dough 1', tags: ['1'],
-          ingredients: [],
-          instructions: '',
-          quantity: 0
-        },
-        {
-          _id: 'd2', name: 'Dough 2', tags: ['2'],
-          ingredients: [],
-          instructions: '',
-          quantity: 0
-        },
-        {
-          _id: 'd3', 
-          name: 'Dough 3', 
-          tags: ['1', '3'],
-          ingredients: [],
-          instructions: '',
-          quantity: 0
-        }
-      ]);
+    it('should forward selected tags to the filter service', () => {
+      component.onFilterChanged(['a']);
+      expect(filterServiceStub.setSelectedTags).toHaveBeenCalledWith(['a']);
     });
 
-    it('should filter doughs correctly', () => {
-      component.selectedTags = signal(['1']);
-      component.applyFilters();
-      expect(component.filteredDoughs()).toEqual([
-        { _id: 'd1',
-          name: 'Dough 1', 
-          tags: ['1'],
-          ingredients: [],
-          instructions: '',
-          quantity: 0
-        },
-        {
-          _id: 'd3', 
-          name: 'Dough 3', 
-          tags: ['1', '3'],
-          ingredients: [],
-          instructions: '',
-          quantity: 0
-        }
-      ]);
-    });
-
-    it('should filter doughs correctly', () => {
-      component.selectedTags = signal(['1', '3']);
-      component.applyFilters();
-      expect(component.filteredDoughs()).toEqual([
-        { _id: 'd3', 
-          name: 'Dough 3', 
-          tags: ['1', '3'],
-          ingredients: [],
-          instructions: '',
-          quantity: 0 },
-      ]);
-    });
-
-    it('should reset filtered arrays when no tags are selected', () => {
-      component.doughs = signal([
-        {
-          _id: 'd1',
-          name: 'Dough 1',
-          ingredients: [],
-          instructions: '',
-          quantity: 0,
-          tags: ['1'],
-        }
-      ]);
-      component.fillings = signal([
-        {
-          _id: 'f1',
-          name: 'Filling 1',
-          ingredients: [],
-          instructions: '',
-          quantity: 0,
-          tags: []
-        }
-      ]);
-      component.toppings = signal([
-        {
-          _id: 't1',
-          name: 'Topping 1',
-          ingredients: [],
-          instructions: '',
-          quantity: 0,
-          tags: [],
-        }
-      ]);
-      component.cakes = signal([
-        {
-          _id: 'c1', name: 'Cake 1',
-          components: [],
-          ingredients: [],
-          instructions: '',
-          tags: []
-        }
-      ]);
-
+    it('should forward empty selections to the filter service', () => {
       component.onFilterChanged([]);
-      expect(component.filteredDoughs()).toEqual(component.doughs());
-      expect(component.filteredFillings()).toEqual(component.fillings());
-      expect(component.filteredToppings()).toEqual(component.toppings());
-      expect(component.filteredCakes()).toEqual(component.cakes());
-    });
-
-    it('should update selectedTags and call applyFilters when onFilterChanged is called with non-empty array', () => {
-      spyOn(component, 'applyFilters');
-      component.onFilterChanged(['1']);
-      expect(component.selectedTags()).toEqual(['1']);
-      expect(component.applyFilters).toHaveBeenCalled();
+      expect(filterServiceStub.setSelectedTags).toHaveBeenCalledWith([]);
     });
   });
 });
