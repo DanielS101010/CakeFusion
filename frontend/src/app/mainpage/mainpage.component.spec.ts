@@ -14,7 +14,6 @@ import { Cake } from '../add-cake/cake.model';
 
 @Component({
   selector: 'app-filter',
-  standalone: true,
   template: ''
 })
 export class FilterComponentStub {

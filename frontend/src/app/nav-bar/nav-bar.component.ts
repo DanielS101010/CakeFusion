@@ -4,7 +4,6 @@ import { FilterService } from '../service/filter.service';
 
 @Component({
   selector: 'app-navBar',
-  standalone: true,
   imports: [RouterLink],
   templateUrl: './nav-bar.component.html',
   styleUrl: './nav-bar.component.css'

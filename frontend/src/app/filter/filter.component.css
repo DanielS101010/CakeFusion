@@ -1,0 +1,120 @@
+.filter-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1.75rem;
+  border: 1px solid rgba(63, 42, 29, 0.08);
+}
+
+.filter-panel__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.filter-panel__header h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #3f2a1d;
+}
+
+.filter-panel__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-panel__count {
+  font-size: 0.95rem;
+  color: #7b5f4b;
+  background: rgba(239, 68, 68, 0.1);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.filter-panel__reset {
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  background: transparent;
+  color: #ef4444;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.filter-panel__reset:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: rgba(239, 68, 68, 0.12);
+  box-shadow: 0 12px 20px rgba(239, 68, 68, 0.18);
+}
+
+.filter-panel__reset:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.tag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.8rem;
+}
+
+.tag-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tag-chip input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+
+.tag-chip__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.6rem 1.1rem;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(63, 42, 29, 0.12);
+  border-radius: inherit;
+  width: 100%;
+}
+
+.tag-chip:hover .tag-chip__content {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px rgba(63, 42, 29, 0.12);
+}
+
+.tag-chip--checked .tag-chip__content {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+  box-shadow: 0 16px 28px rgba(239, 68, 68, 0.22);
+}
+
+.filter-panel--empty {
+  align-items: center;
+  justify-content: center;
+  min-height: 140px;
+}
+
+.filter-empty {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #7b5f4b;
+  text-align: center;
+}

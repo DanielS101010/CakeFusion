@@ -43,7 +43,7 @@ describe('FilterComponent', () => {
   it('should add a tag to selectedTags and emit event when checkbox is checked', () => {
     spyOn(component.filterChanged, 'emit');
     const testTagId = 'tag1';
-    const event = { target: { checked: true } };
+    const event = { target: { checked: true } } as unknown as Event;
 
     component.onChange(event, testTagId);
 
@@ -56,7 +56,7 @@ describe('FilterComponent', () => {
     const testTagId = 'tag1';
     component.selectedTags = signal([testTagId]);
 
-    const event = { target: { checked: false } };
+    const event = { target: { checked: false } } as unknown as Event;
     component.onChange(event, testTagId);
 
     expect(component.selectedTags()).not.toContain(testTagId);

@@ -194,7 +194,7 @@ pm2 save
 Once everything is installed, open a browser and navigate to your Raspberry Pi's IP address or (if configured) hostname.
 
 ## Planned features:
-- Search for doughs, fillings, toppings and cakes by name
+- ~~Search for doughs, fillings, toppings and cakes by name~~
 - Add a picture to a recipe
 - Export a recipe as a pdf
 - English localisation
