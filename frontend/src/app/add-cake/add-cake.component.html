@@ -49,8 +49,8 @@
           <li *ngFor="let component of selectedComponents(); let i = index">
             {{ getComponentName(component.type, component.id) }}
             <input type="number" [(ngModel)]="component.quantity" min="1">
-            <button class="moveButton" (click)="moveUp(i)" [disabled]="i === 0">Up</button>
-            <button class="moveButton" (click)="moveDown(i)" [disabled]="i === selectedComponents.length - 1">Down</button>
+            <button class="recipe-order-btn" (click)="moveUp(i)" [disabled]="i === 0">Up</button>
+            <button class="recipe-order-btn" (click)="moveDown(i)" [disabled]="i === selectedComponents().length - 1">Down</button>
           </li>
         </ol>
       </div>
@@ -67,7 +67,7 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTagToCake()">Tag hinzufügen</button>
+        <button type="button" class="tag-add-btn" (click)="addTagToCake()">Tag hinzufügen</button>
       </div>
       
       <div>

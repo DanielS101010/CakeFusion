@@ -21,7 +21,7 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTag('dough')">Tag hinzufügen</button>
+        <button type="button" class="tag-add-btn" (click)="addTag('dough')">Tag hinzufügen</button>
       </div>
       
       <div>
@@ -57,7 +57,7 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTag('filling')">Tag hinzufügen</button>
+        <button type="button" class="tag-add-btn" (click)="addTag('filling')">Tag hinzufügen</button>
       </div>
       
       <div>
@@ -94,7 +94,7 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTag('topping')">Tag hinzufügen</button>
+        <button type="button" class="tag-add-btn" (click)="addTag('topping')">Tag hinzufügen</button>
       </div>
       
       <div>
@@ -165,8 +165,8 @@
           <li *ngFor="let component of selectedComponents(); let i = index">
             {{ getComponentName(component.type, component.id) }}
             <input type="number" [(ngModel)]="component.quantity" min="1">
-            <button (click)="moveUp(i)" [disabled]="i === 0">Up</button>
-            <button (click)="moveDown(i)" [disabled]="i === selectedComponents().length - 1">Down</button>
+            <button class="recipe-order-btn recipe-order-btn--up" (click)="moveUp(i)" [disabled]="i === 0">Up</button>
+            <button class="recipe-order-btn recipe-order-btn--down" (click)="moveDown(i)" [disabled]="i === selectedComponents().length - 1">Down</button>
           </li>
         </ol>
       </div>
@@ -183,7 +183,7 @@
         <label for="newTag">Tag hinzufügen:</label>
         <br>
         <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" (click)="addTag('cake')">Tag hinzufügen</button>
+        <button type="button" class="tag-add-btn" (click)="addTag('cake')">Tag hinzufügen</button>
       </div>
       
       <div>
