@@ -5,4 +5,5 @@ export interface Topping{
     instructions: string;
     quantity: number;
     tags: string[];
+    image?: string;
 }

@@ -155,6 +155,7 @@ describe('CakeComponent', () => {
         instructions: '',
         quantity: 0,
         tags: [],
+        image:""
       }]);
       expect(component.getComponentName('dough', '1')).toEqual('vanilladough');
     });
@@ -165,7 +166,8 @@ describe('CakeComponent', () => {
         ingredients: [],
         instructions: '',
         quantity: 0,
-        tags: []
+        tags: [],
+        image:""
       }]);
       expect(component.getComponentName('filling', '2')).toEqual('chocolat filling');
     });

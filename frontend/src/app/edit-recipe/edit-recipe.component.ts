@@ -12,6 +12,7 @@ import { SharedDataService } from '../service/shared-data.service';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
+import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-edit-recipe',
@@ -20,8 +21,11 @@ import { TagsService } from '../service/tags.service';
     styleUrls: ['./edit-recipe.component.css']
 })
 export class EditRecipeComponent {
-  dough = signal<Dough>({_id: '', name: '', ingredients: [], instructions: '', quantity: 0, tags: []});
-  filling = signal<Filling>({_id: '', name: '', ingredients: [], instructions: '', quantity: 0, tags: []});
+  dough = signal<Dough>({_id: '', name: '', ingredients: [], instructions: '', quantity: 0, tags: [], image: ''});
+  filling = signal<Filling>({
+    _id: '', name: '', ingredients: [], instructions: '', quantity: 0, tags: [],
+    image: ''
+  });
   topping = signal<Topping>({_id: '', name: '', ingredients: [], instructions: '', quantity: 0, tags: []});
   cake = signal<Cake>({_id: '', name: '', components: [], ingredients: [], instructions: '', tags: []});
 
@@ -61,6 +65,18 @@ export class EditRecipeComponent {
   doughs =  signal<Dough[]>([]);
   fillings =  signal<Filling[]>([]);
   toppings = signal<Topping[]>([]);
+  doughImagePreview = signal("");
+  doughBase64Output = signal("");
+  doughImage: File | undefined;
+  fillingImagePreview = signal("");
+  fillingBase64Output = signal("");
+  fillingImage: File | undefined;
+  toppingImagePreview = signal("");
+  toppingBase64Output = signal("");
+  toppingImage: File | undefined;
+  cakeImagePreview = signal("");
+  cakeBase64Output = signal("");
+  cakeImage: File | undefined;
   
   id = signal("");
   component = signal("");
@@ -70,7 +86,8 @@ export class EditRecipeComponent {
     private route: ActivatedRoute,
     private sharedDataService: SharedDataService,
     private router: Router,
-    private tagsService: TagsService
+    private tagsService: TagsService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit() {
@@ -86,6 +103,8 @@ export class EditRecipeComponent {
         this.doughInstructions.set(data.instructions);
         this.doughQuantity.set(data.quantity);
         this.doughTagsIds.set(data.tags);
+        this.doughBase64Output.set(data.image ?? "");
+        this.doughImagePreview.set(this.imageService.toDataUrl(data.image ?? ''));
 
         this.sharedDataService.tags$.subscribe((allTags: Tags[]) => {
           this.doughTags.set(allTags.filter(tag => this.doughTagsIds().includes(tag._id)));
@@ -101,6 +120,8 @@ export class EditRecipeComponent {
         this.fillingInstructions.set(data.instructions);
         this.fillingQuantity.set(data.quantity);
         this.fillingTagsIds.set(data.tags);
+        this.fillingBase64Output.set(data.image ?? "");
+        this.fillingImagePreview.set(this.imageService.toDataUrl(data.image ?? ''));
 
         this.sharedDataService.tags$.subscribe((allTags: Tags[]) => {
           this.fillingTags.set(allTags.filter(tag => this.fillingTagsIds().includes(tag._id)));
@@ -116,6 +137,8 @@ export class EditRecipeComponent {
         this.toppingInstructions.set(data.instructions);
         this.toppingQuantity.set(data.quantity);
         this.toppingTagsIds.set(data.tags);
+        this.toppingBase64Output.set(data.image ?? "");
+        this.toppingImagePreview.set(this.imageService.toDataUrl(data.image ?? ''));
 
         this.sharedDataService.tags$.subscribe((allTags: Tags[]) => {
           this.toppingTags.set(allTags.filter(tag => this.toppingTagsIds().includes(tag._id)));
@@ -126,6 +149,8 @@ export class EditRecipeComponent {
       this.apiService.singleCake(this.id()).subscribe((data: Cake) => {
         this.cake.set(data);
         this.cakeName.set(data.name);
+        this.cakeBase64Output.set(data.image ?? "");
+        this.cakeImagePreview.set(this.imageService.toDataUrl(data.image ?? ''));
 
         this.cakeIngredients.set(Array.isArray(data.ingredients)
           ? data.ingredients.map((ing: any) => `${ing.quantity} ${ing.description}`).join('\n')
@@ -181,6 +206,7 @@ export class EditRecipeComponent {
         this.doughInstructions(),
         this.doughQuantity(),
         tagIds,
+        this.doughBase64Output()
       ).subscribe({
         next: () => {
           this.sharedDataService.refreshDoughs();
@@ -201,6 +227,7 @@ export class EditRecipeComponent {
         this.fillingInstructions(),
         this.fillingQuantity(),
         tagIds,
+        this.fillingBase64Output()
       ).subscribe({
         next: () => {
           this.sharedDataService.refreshFillings();
@@ -221,6 +248,7 @@ export class EditRecipeComponent {
         this.toppingInstructions(),
         this.toppingQuantity(),
         tagIds,
+        this.toppingBase64Output()
       ).subscribe({
         next: () => {
           this.sharedDataService.refreshToppings();
@@ -241,6 +269,7 @@ export class EditRecipeComponent {
         this.cakeInstructions(),
         this.selectedComponents(),
         tagIds,
+        this.cakeBase64Output()
       ).subscribe({
         next: () => {
           this.sharedDataService.refreshCakes();
@@ -345,6 +374,106 @@ export class EditRecipeComponent {
         });
       }
     }
+  }
+
+  onDoughFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    this.doughImage = file ?? undefined;
+
+    if (!file) {
+      this.clearDoughImage(input ?? undefined);
+      return;
+    }
+
+    this.imageService.readFileAsDataUrl(file)
+      .then(dataUrl => {
+        this.doughImagePreview.set(dataUrl);
+        this.doughBase64Output.set(this.imageService.extractBase64Payload(dataUrl));
+      })
+      .catch(error => console.error('File conversion failed', error));
+  }
+
+  onFillingFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    this.fillingImage = file ?? undefined;
+
+    if (!file) {
+      this.clearFillingImage(input ?? undefined);
+      return;
+    }
+
+    this.imageService.readFileAsDataUrl(file)
+      .then(dataUrl => {
+        this.fillingImagePreview.set(dataUrl);
+        this.fillingBase64Output.set(this.imageService.extractBase64Payload(dataUrl));
+      })
+      .catch(error => console.error('File conversion failed', error));
+  }
+
+  onToppingFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    this.toppingImage = file ?? undefined;
+
+    if (!file) {
+      this.clearToppingImage(input ?? undefined);
+      return;
+    }
+
+    this.imageService.readFileAsDataUrl(file)
+      .then(dataUrl => {
+        this.toppingImagePreview.set(dataUrl);
+        this.toppingBase64Output.set(this.imageService.extractBase64Payload(dataUrl));
+      })
+      .catch(error => console.error('File conversion failed', error));
+  }
+
+  onCakeFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    this.cakeImage = file ?? undefined;
+
+    if (!file) {
+      this.clearCakeImage(input ?? undefined);
+      return;
+    }
+
+    this.imageService.readFileAsDataUrl(file)
+      .then(dataUrl => {
+        this.cakeImagePreview.set(dataUrl);
+        this.cakeBase64Output.set(this.imageService.extractBase64Payload(dataUrl));
+      })
+      .catch(error => console.error('File conversion failed', error));
+  }
+
+  clearDoughImage(fileInput?: HTMLInputElement): void {
+    this.doughImage = undefined;
+    this.doughImagePreview.set("");
+    this.doughBase64Output.set("");
+    this.imageService.resetFileInput(fileInput);
+  }
+
+  clearFillingImage(fileInput?: HTMLInputElement): void {
+    this.fillingImage = undefined;
+    this.fillingImagePreview.set("");
+    this.fillingBase64Output.set("");
+    this.imageService.resetFileInput(fileInput);
+  }
+
+  clearToppingImage(fileInput?: HTMLInputElement): void {
+    this.toppingImage = undefined;
+    this.toppingImagePreview.set("");
+    this.toppingBase64Output.set("");
+    this.imageService.resetFileInput(fileInput);
+  }
+
+  clearCakeImage(fileInput?: HTMLInputElement): void {
+    this.cakeImage = undefined;
+    this.cakeImagePreview.set("");
+    this.cakeBase64Output.set("");
+    this.imageService.resetFileInput(fileInput);
   }
 
   /**

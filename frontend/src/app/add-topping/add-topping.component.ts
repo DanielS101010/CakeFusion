@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
+import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-add-topping',
-    imports: [FormsModule, TextFieldModule, NgFor],
+    imports: [FormsModule, TextFieldModule, NgFor, NgIf],
     templateUrl: './add-topping.component.html',
     styleUrl: './add-topping.component.css'
 })
@@ -22,8 +23,11 @@ export class AddToppingComponent {
   newTagName = signal("");
   tags = signal<Tags[]>([]);
   toppingTags = signal<Tags[]>([]);
+  base64Output = "";
+  previewSrc = "";
+  image: File | undefined;
 
-  constructor(private apiServie: ApiService, private sharedDataService: SharedDataService, private router: Router, private tagsService: TagsService){}
+  constructor(private apiServie: ApiService, private sharedDataService: SharedDataService, private router: Router, private tagsService: TagsService, private imageService: ImageService){}
 
   /**
    * adds a topping with name, ingredients, instructions, quantity and tagIds. 
@@ -63,5 +67,30 @@ export class AddToppingComponent {
    */
   deleteTagFromTopping(id: string): void {
     this.toppingTags.set(this.tagsService.deleteTagFromComponent(id, this.toppingTags()))
+  }
+
+    onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    this.image = file;
+    
+    if (!file) {
+      this.clearImage(input ?? undefined);
+      return;
+    }
+
+    this.imageService.readFileAsDataUrl(file)
+      .then(dataUrl => {
+        this.previewSrc = dataUrl;
+        this.base64Output = this.imageService.extractBase64Payload(dataUrl);
+      })
+      .catch(error => console.error('File conversion failed', error));
+  }
+
+  clearImage(fileInput?: HTMLInputElement): void {
+    this.image = undefined;
+    this.previewSrc = "";
+    this.base64Output = "";
+    this.imageService.resetFileInput(fileInput);
   }
 }

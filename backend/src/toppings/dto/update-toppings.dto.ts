@@ -29,4 +29,7 @@ export class UpdateToppingDTO {
 
   @IsArray()
   tags: string[];
+
+  @IsString()
+  image: string;
 }

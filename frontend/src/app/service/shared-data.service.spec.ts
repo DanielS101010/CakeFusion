@@ -19,6 +19,7 @@ describe('SharedDataService', () => {
     instructions: 'Mix thoroughly',
     quantity: 10,
     tags: ["1", "2"],
+    image: ''
   }];
 
   const testFillings: Filling[] = [{
@@ -28,6 +29,7 @@ describe('SharedDataService', () => {
     instructions: 'Blend well',
     quantity: 5,
     tags: [],
+    image: ''
   }];
 
   const testToppings: Topping[] = [{
@@ -97,7 +99,8 @@ describe('SharedDataService', () => {
       ingredients: [{ quantity: 2, description: 'Sugar' }],
       instructions: 'Stir well',
       quantity: 20,
-      tags: ["1", "2"]
+      tags: ["1", "2"],
+      image: ''
     }];
     apiServiceSpy.allDoughs.and.returnValue(of(newDoughs));
     service.refreshDoughs();
@@ -123,6 +126,7 @@ describe('SharedDataService', () => {
       instructions: 'Mix well',
       quantity: 8,
       tags: [],
+      image: ''
     }];
     apiServiceSpy.allFillings.and.returnValue(of(newFillings));
     service.refreshFillings();

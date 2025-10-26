@@ -9,8 +9,8 @@ export class DoughController {
 
     @Post()
     async addDough(@Body() createDoughDTO: CreateDoughDTO) {
-        const { name, ingredients, instructions, quantity, tags } = createDoughDTO;
-        const result = await this.doughService.addDough(name, ingredients, instructions, quantity, tags);
+        const { name, ingredients, instructions, quantity, tags, image } = createDoughDTO;
+        const result = await this.doughService.addDough(name, ingredients, instructions, quantity, tags, image);
         return { data: result };
     }
 
@@ -28,8 +28,8 @@ export class DoughController {
 
     @Patch()
     async updateDough(@Body() updateDoughDTO: UpdateDoughDTO) {
-        const { id, name, ingredients, instructions, quantity, tags } = updateDoughDTO;
-        const result = await this.doughService.updateDough(id, name, ingredients, instructions, quantity, tags);
+        const { id, name, ingredients, instructions, quantity, tags, image } = updateDoughDTO;
+        const result = await this.doughService.updateDough(id, name, ingredients, instructions, quantity, tags, image);
         return { data: result };
     }
     

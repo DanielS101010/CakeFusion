@@ -73,6 +73,7 @@ describe('AddFillingComponent with mocks', () => {
       'Mix well',
       1,
       [],
+      
     );
     expect(sharedDataServiceMock.refreshFillings).toHaveBeenCalled();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/']);

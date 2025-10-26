@@ -9,6 +9,7 @@ export const ToppingSchema = new mongoose.Schema({
     instructions: {type: String, required: true},
     quantity: {type: Number, required: true},
     tags: {type: Array<string>, required: false},
+    image: {type: String, required:false}
 });
 
 export interface Topping{
@@ -18,4 +19,5 @@ export interface Topping{
     instruction: string;
     quantity: number;
     tags: string[];
+    image: string;
 }

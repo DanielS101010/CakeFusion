@@ -39,6 +39,7 @@ describe('FillingController', () => {
         instructions: 'Bake at 180°C for 30 minutes',
         quantity: 1,
         tags: [],
+        image: ''
       };
       const fillingId = '123';
       mockFillingService.addFilling.mockResolvedValue(fillingId);
@@ -51,6 +52,7 @@ describe('FillingController', () => {
         dto.instructions,
         dto.quantity,
         dto.tags,
+        dto.image,
       );
       expect(result).toEqual({ data: fillingId });
     });
@@ -98,6 +100,7 @@ describe('updateFilling', () => {
         instructions: 'Updated instructions',
         quantity: 2,
         tags: [],
+        image: ""
       };
       const updatedFilling = {
         id: '1',
@@ -105,7 +108,8 @@ describe('updateFilling', () => {
         ingredients: [],
         instructions: dto.instructions,
         quantity: 2,
-        tags: []
+        tags: [],
+        image: ""
       };
       mockFillingService.updateFilling.mockResolvedValue(updatedFilling);
 
@@ -116,7 +120,9 @@ describe('updateFilling', () => {
         dto.name,
         dto.ingredients,
         dto.instructions,
-        dto.quantity
+        dto.quantity,
+        dto.tags,
+        dto.image,
       );
       expect(result).toEqual({ data: updatedFilling });
     });

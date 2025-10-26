@@ -59,7 +59,7 @@ describe('addDough', () => {
       save: jest.fn().mockResolvedValue({ _id: '123' }),
     })) as any;
 
-    const result = await service.addDough(name, ingredients, instruction, quantity, []);
+    const result = await service.addDough(name, ingredients, instruction, quantity, [], "");
 
     expect(parseIngredients).toHaveBeenCalledWith(ingredients);
     expect(result).toBe('123');
@@ -83,7 +83,7 @@ describe('addDough', () => {
 
   describe('getSingleDough', () => {
     it('should return a dough if found', async () => {
-      const dough = { id: '1', name: 'Dough 1', ingredients: [], instructions: 'Test', quantity: 1 };
+      const dough = { id: '1', name: 'Dough 1', ingredients: [], instructions: 'Test', quantity: 1, image: "" };
       (doughModel.findById as jest.Mock).mockResolvedValue(dough);
 
       const result = await service.getSingleDough('1');
@@ -113,10 +113,10 @@ describe('addDough', () => {
       const tags = [];
       (parseIngredients as jest.Mock).mockReturnValue(parsedIngredients);
 
-      const updatedDough = { id, name: name, ingredients: parsedIngredients, instructions: instruction, quantity: quantity, tags: tags };
+      const updatedDough = { id, name: name, ingredients: parsedIngredients, instructions: instruction, quantity: quantity, tags: tags, image: "" };
       (doughModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedDough);
 
-      const result = await service.updateDough(id, name, ingredients, instruction, quantity, []);
+      const result = await service.updateDough(id, name, ingredients, instruction, quantity, [], "");
 
       expect(parseIngredients).toHaveBeenCalledWith(ingredients);
       expect(doughModel.findByIdAndUpdate).toHaveBeenCalledWith(id, {
@@ -125,6 +125,7 @@ describe('addDough', () => {
         instructions: instruction,
         quantity: quantity,
         tags: [],
+        image: ""
       });
       expect(result).toEqual(updatedDough);
     });

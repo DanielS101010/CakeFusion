@@ -5,4 +5,5 @@ export interface Dough{
     instructions: string;
     quantity: number;
     tags: string[];
+    image: string;
 }

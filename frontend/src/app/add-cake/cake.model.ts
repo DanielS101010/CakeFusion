@@ -14,4 +14,5 @@ export interface Cake {
     ingredients: Ingredient[];
     instructions: string;
     tags: string[];
+    image?: string;
   }

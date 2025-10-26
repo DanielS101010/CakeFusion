@@ -7,18 +7,24 @@
     padding-top: 1em;
 }
 
-.button{
-    background-color: lightgray;
+.nav-button{
+    padding: 0.8em;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s, box-shadow 0.3s;
     align-items: center;
     width: 5em;
     height: 1em;
     margin-top: 1em;
     text-decoration: none;
     color:black;
+    background-color: lightgray;
 }
 
-.button:active,
-.button:hover{
+.nav-button:active,
+.nav-button:hover{
     background-color: rgb(230,230,230);
 }
 
@@ -58,14 +64,14 @@
         flex-wrap: wrap;
     }
 
-    .button{
+    .nav-button{
         background-color: lightgray;
         display: inline-block;
         width:5em;
     }
 
-    .button:active,
-    .button:hover{
+    .nav-button:active,
+    .nav-button:hover{
         background-color: rgb(230,230,230);
     }
 }

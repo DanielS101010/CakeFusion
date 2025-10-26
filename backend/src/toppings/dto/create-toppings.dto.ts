@@ -24,4 +24,7 @@ export class CreateToppingDTO {
 
   @IsArray()
   tags: string[];
+
+  @IsString()
+  image: string;
 }

@@ -29,4 +29,7 @@ export class UpdateFillingDTO {
 
   @IsArray()
   tags: string[];
+  
+  @IsString()
+  image: string;
 }

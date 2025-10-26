@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
+import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-cake',
@@ -34,8 +35,12 @@ export class CakeComponent {
   tags = signal<Tags[]>([]);
   newTagName = signal("");
 
+  base64Output = "";
+  previewSrc = "";
+  image: File | undefined;
+
   constructor(private apiService: ApiService, private sharedDataService: SharedDataService, private router: Router,
-    private tagsService: TagsService) {}
+    private tagsService: TagsService, private imageService: ImageService) {}
 
   ngOnInit() {
     this.sharedDataService.doughs$.subscribe(doughs => {
@@ -165,5 +170,29 @@ export class CakeComponent {
     [comps[index], comps[index + 1]] = [comps[index + 1], comps[index]];
     this.selectedComponents.set(comps);
   }
-  
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    this.image = file;
+    
+    if (!file) {
+      this.clearImage(input ?? undefined);
+      return;
+    }
+
+    this.imageService.readFileAsDataUrl(file)
+      .then(dataUrl => {
+        this.previewSrc = dataUrl;
+        this.base64Output = this.imageService.extractBase64Payload(dataUrl);
+      })
+      .catch(error => console.error('File conversion failed', error));
+  }
+
+  clearImage(fileInput?: HTMLInputElement): void {
+    this.image = undefined;
+    this.previewSrc = "";
+    this.base64Output = "";
+    this.imageService.resetFileInput(fileInput);
+  }
+
 }

@@ -12,15 +12,11 @@ export class ToppingService{
     constructor(@InjectModel("Topping") private toppingModel: Model<Topping>){}
 
     async addTopping(
-        name: string,
-        ingredients: string,
-        instructions: string,
-        quantity: number,
-        tags: string[],
+name: string, ingredients: string, instructions: string, quantity: number, tags: string[], image: string,
     ){
         const ingredientList = parseIngredients(ingredients)
 
-        const newTopping = new this.toppingModel({name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity, tags:tags})
+        const newTopping = new this.toppingModel({name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity, tags:tags, image:image})
         const result = await newTopping.save();
         return result._id;
     }
@@ -42,16 +38,11 @@ export class ToppingService{
     }
 
     async updateTopping(
-        id: string,
-        name: string,
-        ingredients: string,
-        instructions: string,
-        quantity: number,
-        tags: string[],
+id: string, name: string, ingredients: string, instructions: string, quantity: number, tags: string[], image: string,
     ){
         const ingredientList = parseIngredients(ingredients)
 
-        const result = await this.toppingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity:quantity, tags:tags})
+        const result = await this.toppingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity:quantity, tags:tags, image:image})
         return result
     }
 

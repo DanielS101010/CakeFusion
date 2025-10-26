@@ -73,7 +73,8 @@ describe('AddDoughComponent with mocks', () => {
       '200g Flour, 50ml Water',
       'Mix well',
       2,
-      []  
+      [],
+      ""
     );
     expect(sharedDataServiceMock.refreshDoughs).toHaveBeenCalled();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/']);

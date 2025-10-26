@@ -9,8 +9,8 @@ export class FillingController{
 
     @Post()
     async addFilling(@Body() createFillingDTO: CreateFillingDTO){
-        const {name, ingredients, instructions, quantity, tags } = createFillingDTO;
-        const result = await this.fillingService.addFilling(name, ingredients, instructions, quantity, tags);
+        const {name, ingredients, instructions, quantity, tags, image } = createFillingDTO;
+        const result = await this.fillingService.addFilling(name, ingredients, instructions, quantity, tags, image);
         return {data: result };
     }
 
@@ -28,8 +28,8 @@ export class FillingController{
 
     @Patch()
     async updateFilling(@Body() updateFillingDTO: UpdateFillingDTO){
-        const { id, name, ingredients, instructions, quantity } = updateFillingDTO;
-        const result = await this.fillingService.updateFilling(id, name, ingredients, instructions, quantity);
+        const { id, name, ingredients, instructions, quantity, tags, image } = updateFillingDTO;
+        const result = await this.fillingService.updateFilling(id, name, ingredients, instructions, quantity, tags, image);
         return { data: result };
     }
     

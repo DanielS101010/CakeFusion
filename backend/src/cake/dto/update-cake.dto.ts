@@ -38,5 +38,8 @@ export class UpdateCakeDTO {
   instructions?: string;
 
   @IsArray()
-  tags: string[]; 
+  tags: string[];
+
+  @IsString()
+  image: string;
 }

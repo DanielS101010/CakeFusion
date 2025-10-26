@@ -1,12 +1,27 @@
 .header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+
+.header mat-card-title {
+  flex: 1;
 }
 
 .button {
-  margin-top: 0.6em;
+  padding: 0.8em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 mat-card-title {
   font-size: x-large;
+}
+
+.recipe-image {
+  max-height: 320px;
 }

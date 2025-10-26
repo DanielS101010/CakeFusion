@@ -30,7 +30,9 @@ h2 {
     padding: 10px; 
 }
 
-.button {
+.recipe-button {
+    width: 6em;
+    cursor: pointer;
     flex: 1; 
     padding: 15px 10px;
     text-align: center;
@@ -43,7 +45,7 @@ h2 {
     border-radius: 4px; 
 }
 
-.button:hover {
+.recipe-button:hover {
     background-color: #e0e0e0;
     transform: scale(1.02);
 }

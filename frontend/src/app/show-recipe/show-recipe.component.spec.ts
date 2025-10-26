@@ -17,15 +17,15 @@ describe('ShowRecipeComponent', () => {
   // Define fake data objects for each type.
   const fakeDoughData: Dough = {
     _id: 'd1', name: 'Test Dough', ingredients: [{ quantity: 10, description: "Flour" }], 
-    instructions: 'Mix well', quantity: 10, tags: []
+    instructions: 'Mix well', quantity: 10, tags: [], image:""
   };
   const fakeFillingData: Filling = {
     _id: 'f1', name: 'Test Filling', ingredients: [{ quantity: 10, description: "Flour" }],
-    instructions: "Mix well", quantity: 5, tags: []
+    instructions: "Mix well", quantity: 5, tags: [], image:""
   };
   const fakeToppingData: Topping = {
     _id: 't1', name: 'Test Topping', ingredients: [{ quantity: 10, description: "Flour" }],
-    instructions: "Mix well", quantity: 2, tags: []
+    instructions: "Mix well", quantity: 2, tags: [], image:""
   };
   const fakeCakeData: Cake ={
     _id: 'c1',

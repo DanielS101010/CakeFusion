@@ -24,4 +24,7 @@ export class CreateFillingDTO {
 
   @IsArray()
   tags: string[];
+
+  @IsString()
+  image: string;
 }

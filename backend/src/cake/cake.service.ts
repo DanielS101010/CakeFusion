@@ -10,7 +10,7 @@ export class CakeService {
   constructor(@InjectModel("Cake") private cakeModel: Model<Cake>) {}
 
   async addCake(
-name: string, components: Array<{ type: string; id: string; quantity: number; }>, ingredients: string, instruction: string, tags: string[]  ) {
+name: string, components: Array<{ type: string; id: string; quantity: number; }>, ingredients: string, instruction: string, tags: string[], image: string) {
     let ingredientList: { quantity: number; description: string; }[]
     if (ingredients != ""){
       ingredientList = parseIngredients(ingredients)
@@ -21,7 +21,8 @@ name: string, components: Array<{ type: string; id: string; quantity: number; }>
       components,
       ingredients: ingredientList,
       instructions: instruction,
-      tags: tags
+      tags: tags,
+      image: image,
     });
 
     const result = await newCake.save();
@@ -45,7 +46,7 @@ name: string, components: Array<{ type: string; id: string; quantity: number; }>
   }
 
   async updateCake(
-id: string, name: string, components: Array<{ type: string; id: string; quantity: number; }>, ingredients: string, instruction: string, tags: string[]  ) {
+id: string, name: string, components: Array<{ type: string; id: string; quantity: number; }>, ingredients: string, instruction: string, tags: string[], image: string) {
 
     let ingredientList: { quantity: number; description: string; }[]
     if (ingredients != ""){
@@ -58,6 +59,7 @@ id: string, name: string, components: Array<{ type: string; id: string; quantity
       ingredients: ingredientList,
       instructions: instruction,
       tags: tags,
+      image: image,
     });
     return result;
   }

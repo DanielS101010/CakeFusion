@@ -82,7 +82,7 @@ describe('MainpageComponent', () => {
 
   it('should expose filtered data from the filter service', () => {
     const doughs: Dough[] = [
-      { _id: 'd1', name: 'Dough 1', ingredients: [], instructions: '', quantity: 0, tags: [] }
+      { _id: 'd1', name: 'Dough 1', ingredients: [], instructions: '', quantity: 0, tags: [], image:"" }
     ];
     filterServiceStub.filteredDoughs.set(doughs);
     expect(component.filteredDoughs()).toEqual(doughs);

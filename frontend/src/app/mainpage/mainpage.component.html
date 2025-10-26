@@ -6,7 +6,7 @@
         <h2>Kuchen:</h2>
         <div class="recipe-section">
             <div class="recipe-card" *ngFor="let cake of filteredCakes()">
-                <a class="button" [routerLink]="['./Rezept', cake._id, 'cake']">
+                <a class="recipe-button" [routerLink]="['./Rezept', cake._id, 'cake']">
                     {{ cake.name }}
                 </a>
                 <button class="delete-button" (click)="deleteCake(cake._id)">Delete</button>
@@ -16,7 +16,7 @@
         <h2>Teige:</h2>
         <div class="recipe-section">
             <div class="recipe-card" *ngFor="let dough of filteredDoughs()">
-                <a class="button" [routerLink]="['./Rezept', dough._id, 'dough']">
+                <a class="recipe-button" [routerLink]="['./Rezept', dough._id, 'dough']">
                     {{ dough.name }}
                 </a>
                 <button class="delete-button" (click)="deleteDough(dough._id)">Delete</button>
@@ -26,7 +26,7 @@
         <h2>Füllungen:</h2>
         <div class="recipe-section">
             <div class="recipe-card" *ngFor="let filling of filteredFillings()">
-                <a class="button" [routerLink]="['./Rezept', filling._id, 'filling']">
+                <a class="recipe-button" [routerLink]="['./Rezept', filling._id, 'filling']">
                     {{ filling.name }}
                 </a>
                 <button class="delete-button" (click)="deleteFilling(filling._id)">Delete</button>
@@ -36,7 +36,7 @@
         <h2>Topping:</h2>
         <div class="recipe-section">
             <div class="recipe-card" *ngFor="let topping of filteredToppings()">
-                <a class="button" [routerLink]="['./Rezept', topping._id, 'topping']">
+                <a class="recipe-button" [routerLink]="['./Rezept', topping._id, 'topping']">
                     {{ topping.name }}
                 </a>
                 <button class="delete-button" (click)="deleteTopping(topping._id)">Delete</button>

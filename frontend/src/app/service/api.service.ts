@@ -28,24 +28,26 @@ export class ApiService {
       .pipe(map(response => response.data));
   }
 
-  addDough(doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number, doughTags: string[]): Observable<any> {
+  addDough(doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number, doughTags: string[], image: string): Observable<any> {
     return this.http.post<{ data: any }>(this.baseUrl + '/dough', {
       name: doughName,
       ingredients: doughIngredients,
       instructions: doughInstructions,
       quantity: doughQuantity,
       tags: doughTags,
+      image: image,
     }).pipe(map(response => response.data));
   }
 
-  updateDough(id: string, doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number, doughTags: string[]) {
+  updateDough(id: string, doughName: string, doughIngredients: string, doughInstructions: string, doughQuantity: number, doughTags: string[], image: string) {
     return this.http.patch<{ data: any }>(this.baseUrl + '/dough', {
       id: id,
       name: doughName,
       ingredients: doughIngredients,
       instructions: doughInstructions,
       quantity: doughQuantity,
-      tags: doughTags
+      tags: doughTags,
+      image: image,
     }).pipe(map(response => response.data));
   }
 
@@ -74,7 +76,7 @@ export class ApiService {
     }).pipe(map(response => response.data));
   }
 
-  updateFilling(id: string, fillingName: string, fillingIngredients: string, fillingInstructions: string, fillingQuantity: number, tagIds: string[]) {
+  updateFilling(id: string, fillingName: string, fillingIngredients: string, fillingInstructions: string, fillingQuantity: number, tagIds: string[], image: string) {
     return this.http.patch<{ data: any }>(this.baseUrl + '/filling', {
       id: id,
       name: fillingName,
@@ -82,6 +84,7 @@ export class ApiService {
       instructions: fillingInstructions,
       quantity: fillingQuantity,
       tags: tagIds,
+      image: image,
     }).pipe(map(response => response.data));
   }
 
@@ -110,7 +113,7 @@ export class ApiService {
     }).pipe(map(response => response.data));
   }
 
-  updateTopping(id: string, toppingName: any, toppingIngredients: any, toppingInstructions: string, toppingQuantity: number, tagIds: string[]) {
+  updateTopping(id: string, toppingName: any, toppingIngredients: any, toppingInstructions: string, toppingQuantity: number, tagIds: string[], image: string) {
     return this.http.patch<{ data: any }>(this.baseUrl + '/topping', {
       id: id,
       name: toppingName,
@@ -118,6 +121,7 @@ export class ApiService {
       instructions: toppingInstructions,
       quantity: toppingQuantity,
       tags: tagIds,
+      image: image,
     }).pipe(map(response => response.data));
   }
 
@@ -146,7 +150,7 @@ export class ApiService {
     }).pipe(map(response => response.data));
   }
 
-  updateCake(id: string, cakeName: string, ingredients: string, instructions: string, selectedComponents: { type: string; id: string; }[], tagIds: string[]) {
+  updateCake(id: string, cakeName: string, ingredients: string, instructions: string, selectedComponents: { type: string; id: string; }[], tagIds: string[], image: string) {
     return this.http.patch<{ data: any }>(this.baseUrl + '/cake', {
       id: id,
       name: cakeName,
@@ -154,6 +158,7 @@ export class ApiService {
       ingredients: ingredients,
       instructions: instructions,
       tags: tagIds,
+      image: image,
     }).pipe(map(response => response.data));
   }
 

@@ -32,12 +32,14 @@ describe('ApiService', () => {
     it('should fetch all doughs', () => {
       const dummyDoughs: Dough[] = [
         {
-          _id: '1', name: 'Dough 1', ingredients: [{ quantity: 100, description: 'g flour' }], 
-          instructions: 'mix', quantity: 10, tags: []
+          _id: '1', name: 'Dough 1', ingredients: [{ quantity: 100, description: 'g flour' }],
+          instructions: 'mix', quantity: 10, tags: [],
+          image: ''
         },
         {
-          _id: '2', name: 'Dough 2', ingredients: [{ quantity: 20, description: 'ml water' }], 
-          instructions: 'bake', quantity: 5, tags: []
+          _id: '2', name: 'Dough 2', ingredients: [{ quantity: 20, description: 'ml water' }],
+          instructions: 'bake', quantity: 5, tags: [],
+          image: ''
         }
       ];
       service.allDoughs().subscribe(doughs => {
@@ -50,8 +52,9 @@ describe('ApiService', () => {
 
     it('should fetch a single dough', () => {
       const dummyDough: Dough = {
-        _id: '1', name: 'Dough 1', ingredients: [{ quantity: 100, description: 'g flour' }], 
-        instructions: 'mix', quantity: 10, tags: []
+        _id: '1', name: 'Dough 1', ingredients: [{ quantity: 100, description: 'g flour' }],
+        instructions: 'mix', quantity: 10, tags: [],
+        image: ''
       };
       service.singleDough('1').subscribe(dough => {
         expect(dough).toEqual(dummyDough);
@@ -67,10 +70,11 @@ describe('ApiService', () => {
       const doughInstructions = 'mix well';
       const doughQuantity = 5;
       const doughTags: string[] = [];
+      const image = ""
 
       const response = { success: true };
 
-      service.addDough(doughName, doughIngredients, doughInstructions, doughQuantity, doughTags).subscribe(res => {
+      service.addDough(doughName, doughIngredients, doughInstructions, doughQuantity, doughTags, image).subscribe(res => {
         expect(res).toEqual(response);
       });
 
@@ -82,6 +86,7 @@ describe('ApiService', () => {
         instructions: doughInstructions,
         quantity: doughQuantity,
         tags: doughTags,
+        image: image
       });
       req.flush({data: response});
     });
@@ -94,8 +99,9 @@ describe('ApiService', () => {
       const doughQuantity = 7;
       const doughTags: any[] = [];
       const response = { success: true };
+      const image = 'base64data';
 
-      service.updateDough(id, doughName, doughIngredients, doughInstructions, doughQuantity, doughTags).subscribe(res => {
+      service.updateDough(id, doughName, doughIngredients, doughInstructions, doughQuantity, doughTags, image).subscribe(res => {
         expect(res).toEqual(response);
       });
 
@@ -108,6 +114,7 @@ describe('ApiService', () => {
         instructions: doughInstructions,
         quantity: doughQuantity,
         tags: doughTags,
+        image: image,
       });
       req.flush({data: response});
     });
@@ -131,12 +138,14 @@ describe('ApiService', () => {
     it('should fetch all fillings', () => {
       const dummyFillings: Filling[] = [
         {
-          _id: '1', name: 'Filling 1', ingredients: [{ quantity: 1, description: 'sugar' }], 
-          instructions: 'blend', quantity: 10, tags: []
+          _id: '1', name: 'Filling 1', ingredients: [{ quantity: 1, description: 'sugar' }],
+          instructions: 'blend', quantity: 10, tags: [],
+          image: ''
         },
         {
-          _id: '2', name: 'Filling 2', ingredients: [{ quantity: 2, description: 'cocoa' }], 
-          instructions: 'mix', quantity: 5, tags: []
+          _id: '2', name: 'Filling 2', ingredients: [{ quantity: 2, description: 'cocoa' }],
+          instructions: 'mix', quantity: 5, tags: [],
+          image: ''
         }
       ];
       service.allFillings().subscribe(fillings => {
@@ -150,7 +159,8 @@ describe('ApiService', () => {
     it('should fetch a single filling', () => {
       const dummyFilling: Filling = {
         _id: '1', name: 'Filling 1', ingredients: [{ quantity: 1, description: 'sugar' }],
-        instructions: 'blend', quantity: 10, tags: []
+        instructions: 'blend', quantity: 10, tags: [],
+        image: ''
       };
       service.singleFilling('1').subscribe(filling => {
         expect(filling).toEqual(dummyFilling);
@@ -192,8 +202,9 @@ describe('ApiService', () => {
       const fillingQuantity = 4;
       const fillingTags: string[] = [];
       const response = { success: true };
+      const image = 'base64data';
 
-      service.updateFilling(id, fillingName, fillingIngredients, fillingInstructions, fillingQuantity, fillingTags).subscribe(res => {
+      service.updateFilling(id, fillingName, fillingIngredients, fillingInstructions, fillingQuantity, fillingTags, image).subscribe(res => {
         expect(res).toEqual(response);
       });
 
@@ -206,6 +217,7 @@ describe('ApiService', () => {
         instructions: fillingInstructions,
         quantity: fillingQuantity,
         tags: fillingTags,
+        image: image,
       });
       req.flush({data: response});
     });
@@ -287,8 +299,9 @@ describe('ApiService', () => {
       const toppingQuantity = 4;
       const toppingTags: string[] = [];
       const response = { success: true };
+      const image = 'base64data';
 
-      service.updateTopping(id, toppingName, toppingIngredients, toppingInstructions, toppingQuantity, toppingTags).subscribe(res => {
+      service.updateTopping(id, toppingName, toppingIngredients, toppingInstructions, toppingQuantity, toppingTags, image).subscribe(res => {
         expect(res).toEqual(response);
       });
 
@@ -301,6 +314,7 @@ describe('ApiService', () => {
         instructions: toppingInstructions,
         quantity: toppingQuantity,
         tags: toppingTags,
+        image: image,
       });
       req.flush({data: response});
     });
@@ -373,6 +387,7 @@ describe('ApiService', () => {
       const instructions = 'mix and bake';
       const selectedComponents: [] = [];
       const tags: string[] = [];
+      const image = 'base64data';
 
       const expectedParsedIngredients = [
         { quantity: 1, description: 'flour' },
@@ -412,6 +427,7 @@ describe('ApiService', () => {
       const instructions = 'mix, bake, cool';
       const selectedComponents: [] = [];
       const tags: string[] = [];
+      const image = "";
 
       const expectedParsedIngredients = [
         { quantity: 2, description: 'flour' },
@@ -427,7 +443,7 @@ describe('ApiService', () => {
         tags: []
       };
 
-      service.updateCake(id, cakeName, ingredients, instructions, selectedComponents, tags).subscribe(res => {
+      service.updateCake(id, cakeName, ingredients, instructions, selectedComponents, tags, image).subscribe(res => {
         expect(res).toEqual(response);
       });
 
@@ -440,6 +456,7 @@ describe('ApiService', () => {
         instructions,
         components: selectedComponents,
         tags: tags,
+        image: "",
       });
       req.flush({data: response});
     });

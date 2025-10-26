@@ -5,4 +5,5 @@ export interface Filling{
     instructions: string;
     quantity: number;
     tags: string[];
+    image?: string;
 }

@@ -18,7 +18,18 @@
     <div class="form-group">
       <label for="KuchenName">Kuchenname:</label>
       <input id="KuchenName" placeholder="Kuchenname eintragen" [(ngModel)]="cakeName" />
-  
+      <div>
+        <label for="Image">Bild hinzufügen:</label>
+        <br>
+        <input type="file" id="Image" #imageInput (change)="onFileSelected($event)" />
+        <div *ngIf="previewSrc" class="image-preview">
+          <div class="image-preview-header">
+            <span class="image-preview-title">Vorschau</span>
+            <button type="button" class="image-clear-btn" (click)="clearImage(imageInput)">Bild entfernen</button>
+          </div>
+          <img [src]="previewSrc" alt="Bildvorschau" />
+        </div>
+      </div>
       <div *ngIf="useComponents() === 'yes'">
         <label>Teig(e):</label>
         <div class="options-list">

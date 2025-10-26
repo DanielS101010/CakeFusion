@@ -9,6 +9,7 @@ export const DoughSchema = new mongoose.Schema({
     instructions: {type: String, required: true},
     quantity: {type: Number, required: true},
     tags: {type: Array, required: false},
+    image: {type: String, required: false},
 });
 
 export interface Dough{
@@ -18,4 +19,5 @@ export interface Dough{
     instructions: string;
     quantity: number;
     tags: string[];
+    image: string;
 }

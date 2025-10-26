@@ -10,6 +10,7 @@ import { Filling } from '../add-filling/filling.model';
 import { Topping } from '../add-topping/topping.model';
 import { TagsService } from '../service/tags.service';
 import { signal } from '@angular/core';
+import { ImageService } from '../service/image.service';
 
 describe('EditRecipeComponent', () => {
   let component: EditRecipeComponent;
@@ -18,6 +19,7 @@ describe('EditRecipeComponent', () => {
   let sharedDataServiceSpy: jasmine.SpyObj<SharedDataService>;
   let activatedRouteSpy: any;
   let routerSpy: jasmine.SpyObj<Router>;
+  let imageServiceStub: ImageService;
 
   const tagsServiceStub = {
     addTagToComponent: (tagName: string, tags: any[]) => {
@@ -43,6 +45,7 @@ describe('EditRecipeComponent', () => {
       toppings$: of([])
     }
   );
+
 
     activatedRouteSpy = {
       snapshot: {
@@ -86,6 +89,7 @@ describe('EditRecipeComponent', () => {
       instructions: 'Mix well',
       quantity: 2,
       tags: [],
+      image:""
     };
     apiServiceSpy.singleDough.and.returnValue(of(doughData));
 
@@ -178,6 +182,7 @@ describe('EditRecipeComponent', () => {
     component.doughInstructions = signal('Mix well');
     component.doughQuantity = signal(3);
     component.doughTags = signal([{_id:'1', name:'chocolate'}, {_id:'2', name:'sugar'}]);
+    component.doughBase64Output.set('image-data');
 
     apiServiceSpy.updateDough.and.returnValue(of({}));
 
@@ -189,7 +194,8 @@ describe('EditRecipeComponent', () => {
       '10 g sugar\n1 g salt',
       'Mix well',
       3,
-      ["1", "2"]
+      ["1", "2"],
+      'image-data'
     );
     expect(sharedDataServiceSpy.refreshDoughs).toHaveBeenCalled();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['Rezept/123/dough']);
@@ -204,6 +210,7 @@ describe('EditRecipeComponent', () => {
     component.doughInstructions = signal('Stir well');
     component.doughQuantity = signal(1);
     component.doughTags = signal([]);
+    component.doughBase64Output.set('');
 
     apiServiceSpy.updateDough.and.returnValue(throwError(() => new Error('error')));
 
@@ -250,6 +257,7 @@ describe('EditRecipeComponent', () => {
     component.fillingInstructions = signal('Mix');
     component.fillingQuantity = signal(2);
     component.fillingTags = signal([{_id:'2', name:'chocolate'}]);
+    component.fillingBase64Output.set('image-data');
 
     apiServiceSpy.updateFilling.and.returnValue(of({}));
 
@@ -261,7 +269,8 @@ describe('EditRecipeComponent', () => {
       '50 g chocolate\n5 g butter',
       'Mix',
       2,
-      ['2']
+      ['2'],
+      'image-data'
     );
     expect(sharedDataServiceSpy.refreshFillings).toHaveBeenCalled();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['Rezept/123/filling']);
@@ -330,6 +339,7 @@ describe('EditRecipeComponent', () => {
     component.toppingInstructions = signal('Drizzle on top');
     component.toppingQuantity = signal(4);
     component.toppingTags = signal([{_id:'2', name:'crunchy'}]);
+    component.toppingBase64Output.set('image-data');
 
     apiServiceSpy.updateTopping.and.returnValue(of({}));
 
@@ -341,7 +351,8 @@ describe('EditRecipeComponent', () => {
       '15 ml syrup\n2 g nuts',
       'Drizzle on top',
       4,
-      ['2']
+      ['2'],
+      'image-data'
     );
     expect(sharedDataServiceSpy.refreshToppings).toHaveBeenCalled();
     expect(routerSpy.navigate).toHaveBeenCalledWith(['Rezept/t123/topping']);
@@ -411,6 +422,7 @@ it('should return "Unbekannte Komponente" for unknown component type', () => {
     component.cakeIngredients = signal('2 egg\n30g flour');
     component.cakeInstructions = signal('Bake at 350F');
     component.selectedComponents = signal([{ type: 'dough', id: '1', quantity: 1 }]);
+    component.cakeBase64Output.set('image-data');
 
     apiServiceSpy.updateCake.and.returnValue(of({}));
 
@@ -422,7 +434,8 @@ it('should return "Unbekannte Komponente" for unknown component type', () => {
       '2 egg\n30 g flour',
       'Bake at 350F',
       [ jasmine.objectContaining({ type: 'dough', id: '1', quantity: 1 }) ],
-      []
+      [],
+      'image-data'
     );
     
     expect(sharedDataServiceSpy.refreshCakes).toHaveBeenCalled();

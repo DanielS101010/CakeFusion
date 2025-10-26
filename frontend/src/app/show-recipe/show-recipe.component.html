@@ -1,13 +1,12 @@
 <div class="container">
     <mat-card *ngIf="dough()" class="card">
-      <mat-card-header>
-        <div>
-          <mat-card-title>{{ dough()!.name }}</mat-card-title>
-          <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
-        </div>
+      <mat-card-header class="header">
+        <mat-card-title>{{ dough()!.name }}</mat-card-title>
+        <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
       </mat-card-header>
   
       <mat-card-content>
+        <img *ngIf="doughImage()" [src]="doughImage()" [alt]="dough()!.name" class="recipe-image">
         <div class="form-group">
           <label>Das Rezept ergibt ... Böden</label>
           <input type="number" [(ngModel)]="doughQuantity">
@@ -31,6 +30,7 @@
       </mat-card-header>
   
       <mat-card-content>
+        <img *ngIf="fillingImage()" [src]="fillingImage()" [alt]="filling()!.name" class="recipe-image">
         <div class="form-group">
           <label>Das Rezept ergibt ... Portionen</label>
           <input type="number" [(ngModel)]="fillingQuantity">
@@ -53,6 +53,7 @@
       </mat-card-header>
   
       <mat-card-content>
+        <img *ngIf="toppingImage()" [src]="toppingImage()" [alt]="topping()!.name" class="recipe-image">
         <div class="form-group">
           <label>Das Rezept ergibt ... Portionen</label>
           <input type="number" [(ngModel)]="toppingQuantity">
@@ -75,6 +76,7 @@
       </mat-card-header>
 
       <mat-card-content>
+        <img *ngIf="cakeImage()" [src]="cakeImage()" [alt]="cake()!.name" class="recipe-image">
         <div class="form-group">
           <label>Das Rezept ergibt ... Kuchen</label>
           <input type="number" [(ngModel)]="cakeQuantity" min="1">
@@ -84,6 +86,7 @@
       <mat-card-content *ngIf="cake()!.instructions ==''">
         <div *ngFor="let comp of componentsToDisplay()">  
           <h4> {{ comp.name }}</h4>
+          <img *ngIf="comp.image" [src]="comp.image" [alt]="comp.name" class="recipe-image">
           <p *ngFor="let ingredient of comp.ingredients">
             {{ (ingredient.quantity/comp.baseQuantity)*comp.quantity*cakeQuantity() }}  {{ ingredient.description }}
           </p>

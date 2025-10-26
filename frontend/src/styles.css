@@ -80,7 +80,6 @@ input[type="checkbox"] {
 
 .submit-btn {
   padding: 0.8em 1.5em;
-  border-radius: 1px;
   border-radius: 999px;
   border: 1px solid #66bb6a;
   background: linear-gradient(135deg, rgba(102, 187, 106, 0.15), rgba(46, 125, 50, 0.2));
@@ -91,17 +90,7 @@ input[type="checkbox"] {
   transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.button {
-  width: 6em;
-  padding: 0.8em;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  text-align: center;
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
+
 
 .submit-btn:hover {
   background-color: rgba(76, 175, 80, 0.22);
@@ -207,4 +196,36 @@ body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.image-preview {
+  margin-top: 0.75rem;
+}
+
+.image-preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+  gap: 0.75rem;
+}
+
+.image-preview img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  display: block;
+}
+
+.image-clear-btn {
+  padding: 0.35rem 0.75rem;
+  border: none;
+  background-color: #d9534f;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.image-clear-btn:hover {
+  background-color: #c9302c;
 }

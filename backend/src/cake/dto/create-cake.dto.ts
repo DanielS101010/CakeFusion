@@ -34,5 +34,8 @@ export class CreateCakeDTO {
   instructions?: string;
 
   @IsArray()
-  tags: string[]; 
+  tags: string[];
+  
+  @IsString()
+  image: string;
 }

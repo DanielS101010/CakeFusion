@@ -9,9 +9,9 @@ export class ToppingController{
 
     @Post()
     async addTopping(@Body() createToppingsDTO: CreateToppingDTO){
-        const {name, ingredients, instructions, quantity, tags } = createToppingsDTO;
+        const {name, ingredients, instructions, quantity, tags, image } = createToppingsDTO;
 
-        const result = await this.toppingService.addTopping(name, ingredients, instructions, quantity, tags)
+        const result = await this.toppingService.addTopping(name, ingredients, instructions, quantity, tags, image)
         return {data: result };
     }
 
@@ -30,9 +30,9 @@ export class ToppingController{
 
     @Patch()
     async updateTopping(@Body() updateToppingsDTO: UpdateToppingDTO){
-        const {id, name, ingredients, instructions, quantity, tags } = updateToppingsDTO;
+        const {id, name, ingredients, instructions, quantity, tags, image } = updateToppingsDTO;
 
-        const result = await this.toppingService.updateTopping(id, name, ingredients, instructions, quantity, tags)
+        const result = await this.toppingService.updateTopping(id, name, ingredients, instructions, quantity, tags, image)
         return { data: result };
     }
     

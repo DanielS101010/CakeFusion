@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as os from 'os';
 import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
+import { json, urlencoded } from 'express';
 
 function getLocalIp(): string {
   const interfaces = os.networkInterfaces();
@@ -18,6 +19,10 @@ function getLocalIp(): string {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Allow larger request payloads so base64 images can be uploaded without hitting body limits.
+  app.use(json({ limit: '10mb' }));
+  app.use(urlencoded({ extended: true, limit: '10mb' }));
 
   const localIp = getLocalIp();
   const localFrontendUrl = `http://${localIp}:4200`;

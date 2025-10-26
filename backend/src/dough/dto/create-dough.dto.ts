@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { IsString, IsNotEmpty, IsNumber, Min, IsArray } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, Min, IsArray} from 'class-validator';
 
 export class CreateDoughDTO {
   @IsString()
@@ -24,4 +24,7 @@ export class CreateDoughDTO {
 
   @IsArray()
   tags: string[];
+
+  @IsString()
+  image: string;
 }

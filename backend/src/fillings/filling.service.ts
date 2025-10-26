@@ -12,15 +12,11 @@ export class FillingService{
     constructor(@InjectModel("Filling") private fillingModel: Model<Filling>){}
 
     async addFilling(
-        name: string,
-        ingredients: string,
-        instructions: string,
-        quantity: number,
-        tags: string[],
+name: string, ingredients: string, instructions: string, quantity: number, tags: string[], image: string,
     ){
         const ingredientList = parseIngredients(ingredients)
         
-        const newFilling = new this.fillingModel({name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity, tags: tags})
+        const newFilling = new this.fillingModel({name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity, tags: tags, image: image})
         const result = await newFilling.save();
         return result._id;
     }
@@ -41,14 +37,10 @@ export class FillingService{
     }
 
     async updateFilling(
-        id: string,
-        name: string,
-        ingredients: string,
-        instructions: string,
-        quantity: number,
+id: string, name: string, ingredients: string, instructions: string, quantity: number, tags: string[], image: string,
     ){
         const ingredientList = parseIngredients(ingredients)
-        const result = await this.fillingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity})
+        const result = await this.fillingModel.findByIdAndUpdate(id, {name: name, ingredients: ingredientList, instructions: instructions, quantity: quantity, tags: tags, image: image})
         return result
     }
 

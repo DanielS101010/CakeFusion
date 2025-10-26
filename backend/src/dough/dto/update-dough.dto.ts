@@ -29,4 +29,7 @@ export class UpdateDoughDTO {
 
   @IsArray()
   tags: string[];
+
+  @IsString()
+  image: string;
 }

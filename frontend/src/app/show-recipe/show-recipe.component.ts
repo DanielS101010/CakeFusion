@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ApiService } from '../service/api.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Dough } from '../add-dough/dough.model';
@@ -10,6 +10,7 @@ import { Cake } from '../add-cake/cake.model';
 import { FormsModule } from '@angular/forms';
 
 import { Ingredient } from '../add-cake/cake.model';
+import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-show-recipe',
@@ -36,8 +37,15 @@ export class ShowRecipeComponent {
 
   ingredients = signal<Ingredient[]>([]);
   instructions = signal("");
+  imageBase64Output: any;
+  imagePreview: any;
+  readonly doughImage = computed(() => this.dough()?.image ?? '');
+  readonly fillingImage = computed(() => this.filling()?.image ?? '');
+  readonly toppingImage = computed(() => this.topping()?.image ?? '');
+  readonly cakeImage = computed(() => this.cake()?.image ?? '');
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute){}
+  constructor(private apiService: ApiService, private route: ActivatedRoute, private imageService: ImageService,
+){}
   id!: string;
   component!: string;
   
@@ -47,37 +55,40 @@ export class ShowRecipeComponent {
     
     if(this.component === "dough"){
       this.apiService.singleDough(this.id).subscribe((data: Dough) => {
-        this.dough.set(data);
+        this.dough.set({ ...data, image: this.imageService.toDataUrl(data.image || '') });
         this.doughQuantity.set(data.quantity);
       });
     }
     else if(this.component==="filling"){
       this.apiService.singleFilling(this.id).subscribe((data: Filling) => {
-        this.filling.set(data);
+        this.filling.set({ ...data, image: this.imageService.toDataUrl(data.image ?? '') });
         this.fillingQuantity.set(data.quantity);
       });
     }
     else if(this.component==="topping"){
       this.apiService.singleTopping(this.id).subscribe((data: Topping) => {
-        this.topping.set(data);
+        this.topping.set({ ...data, image: this.imageService.toDataUrl(data.image ?? '') });
         this.toppingQuantity.set(data.quantity);
       });
     }
     else if(this.component==="cake"){
       this.apiService.singleCake(this.id).subscribe((data: Cake) => {
-          this.cake.set(data);
+          this.cake.set({ ...data, image: this.imageService.toDataUrl(data.image ?? '') });
           data.components.forEach((componentItem) => {
             if (componentItem.type === 'dough') {
               this.apiService.singleDough(componentItem.id).subscribe((doughData) => {
-                this.componentsToDisplay.update(list => [...list, {...doughData, type: 'dough', baseQuantity: doughData.quantity, quantity: componentItem.quantity}]);
+                const image = this.imageService.toDataUrl(doughData.image || '');
+                this.componentsToDisplay.update(list => [...list, {...doughData, image, type: 'dough', baseQuantity: doughData.quantity, quantity: componentItem.quantity}]);
               });
             } else if (componentItem.type === 'filling') {
               this.apiService.singleFilling(componentItem.id).subscribe((fillingData) => {
-                this.componentsToDisplay.update(list => [...list, {...fillingData, type: 'dough', baseQuantity: fillingData.quantity, quantity: componentItem.quantity}]);
+                const image = this.imageService.toDataUrl(fillingData.image ?? '');
+                this.componentsToDisplay.update(list => [...list, {...fillingData, image, type: 'filling', baseQuantity: fillingData.quantity, quantity: componentItem.quantity}]);
               });
             } else if (componentItem.type === 'topping') {
               this.apiService.singleTopping(componentItem.id).subscribe((toppingData) => {
-                this.componentsToDisplay.update(list => [...list, {...toppingData, type: 'dough', baseQuantity: toppingData.quantity, quantity: componentItem.quantity}]);
+                const image = this.imageService.toDataUrl(toppingData.image ?? '');
+                this.componentsToDisplay.update(list => [...list, {...toppingData, image, type: 'topping', baseQuantity: toppingData.quantity, quantity: componentItem.quantity}]);
               });
             }
           });

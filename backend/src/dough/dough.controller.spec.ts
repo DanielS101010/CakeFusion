@@ -38,7 +38,8 @@ describe('DoughController', () => {
         ingredients: '100 g sugar\n250 g flour\n100 g chocolate',
         instructions: 'Bake at 180°C for 30 minutes',
         quantity: 1,
-        tags: []
+        tags: [],
+        image: ''
       };
       const doughId = '123';
       mockDoughService.addDough.mockResolvedValue(doughId);
@@ -51,6 +52,7 @@ describe('DoughController', () => {
         dto.instructions,
         dto.quantity,
         dto.tags,
+        dto.image,
       );
       expect(result).toEqual({ data: doughId });
     });
@@ -59,8 +61,8 @@ describe('DoughController', () => {
   describe('getAllDough', () => {
     it('should return an array of doughs', async () => {
       const doughs = [
-        { id: '1', name: 'Dough 1', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [] },
-        { id: '2', name: 'Dough 2', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [] },
+        { id: '1', name: 'Dough 1', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [], image: "" },
+        { id: '2', name: 'Dough 2', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [], image: "" },
       ];
       mockDoughService.getAllDoughs.mockResolvedValue(doughs);
 
@@ -73,7 +75,7 @@ describe('DoughController', () => {
 
   describe('getSingleDough', () => {
     it('should return a single dough when found', async () => {
-      const dough = { id: '1', name: 'Dough 1', ingredients: [], instructions: 'Test', quantity: 1, tags: [] };
+      const dough = { id: '1', name: 'Dough 1', ingredients: [], instructions: 'Test', quantity: 1, tags: [], image:"" };
       mockDoughService.getSingleDough.mockResolvedValue(dough);
 
       const result = await controller.getSingleDough('1');
@@ -98,6 +100,7 @@ describe('updateDough', () => {
         instructions: 'Updated instructions',
         quantity: 2,
         tags: [],
+        image: ''
       };
       const updatedDough = {
         id: '1',
@@ -106,6 +109,7 @@ describe('updateDough', () => {
         instructions: dto.instructions,
         quantity: 2,
         tags: [],
+        image: ''
       };
       mockDoughService.updateDough.mockResolvedValue(updatedDough);
 
@@ -118,6 +122,7 @@ describe('updateDough', () => {
         dto.instructions,
         dto.quantity,
         dto.tags,
+        dto.image,
       );
       expect(result).toEqual({ data: updatedDough });
     });

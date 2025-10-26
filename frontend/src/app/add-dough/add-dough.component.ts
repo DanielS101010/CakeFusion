@@ -4,13 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { SharedDataService } from '../service/shared-data.service';
 import { Router } from '@angular/router'; 
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
+import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-add-dough',
-    imports: [FormsModule, TextFieldModule, NgFor],
+    imports: [FormsModule, TextFieldModule, NgFor, NgIf],
     templateUrl: './add-dough.component.html',
     styleUrl: './add-dough.component.css'
 })
@@ -23,9 +24,13 @@ export class AddDoughComponent {
   doughTags = signal<Tags[]>([]);
   tags = signal<Tags[]>([]);
   newTagName = signal("");
+  base64Output = "";
+  previewSrc = "";
+  image: File | undefined;
+
 
   constructor(private apiService: ApiService, private sharedDataService: SharedDataService, 
-    private router: Router, private tagsService: TagsService){}
+    private router: Router, private tagsService: TagsService, private imageService: ImageService){}
   
   /**
    * adds a dough with name, ingredients, instructions, quantity and tagIds. 
@@ -39,7 +44,7 @@ export class AddDoughComponent {
     }
 
     const tagIds = computed(() =>   this.doughTags().map(tag => tag._id))
-    this.apiService.addDough(this.doughName(), this.doughIngredients(), this.doughInstructions(), this.doughQuantity(), tagIds())
+    this.apiService.addDough(this.doughName(), this.doughIngredients(), this.doughInstructions(), this.doughQuantity(), tagIds(), this.base64Output)
     .subscribe({next:() => {
         this.sharedDataService.refreshDoughs();
         this.router.navigate(['/']);
@@ -66,5 +71,31 @@ export class AddDoughComponent {
    */
   deleteTagFromDough(id: string): void {
     this.doughTags.set(this.tagsService.deleteTagFromComponent(id, this.doughTags())); 
+  }
+
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement | null;
+    const file = input?.files?.[0];
+    this.image = file;
+    
+    if (!file) {
+      this.clearImage(input ?? undefined);
+      return;
+    }
+
+    this.imageService.readFileAsDataUrl(file)
+      .then(dataUrl => {
+        this.previewSrc = dataUrl;
+        this.base64Output = this.imageService.extractBase64Payload(dataUrl);
+      })
+      .catch(error => console.error('File conversion failed', error));
+  }
+
+  clearImage(fileInput?: HTMLInputElement): void {
+    this.image = undefined;
+    this.previewSrc = "";
+    this.base64Output = "";
+    this.imageService.resetFileInput(fileInput);
   }
 }

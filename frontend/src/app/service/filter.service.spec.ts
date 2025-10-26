@@ -45,9 +45,18 @@ describe('FilterService', () => {
 
   it('should filter items by selected tags and search term', () => {
     const doughs: Dough[] = [
-      { _id: '1', name: 'Chocolate Base', ingredients: [], instructions: '', quantity: 0, tags: ['sweet', 'base'] },
-      { _id: '2', name: 'Vanilla Base', ingredients: [], instructions: '', quantity: 0, tags: ['base'] },
-      { _id: '3', name: 'Berry Base', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'base'] }
+      {
+        _id: '1', name: 'Chocolate Base', ingredients: [], instructions: '', quantity: 0, tags: ['sweet', 'base'],
+        image: ''
+      },
+      {
+        _id: '2', name: 'Vanilla Base', ingredients: [], instructions: '', quantity: 0, tags: ['base'],
+        image: ''
+      },
+      {
+        _id: '3', name: 'Berry Base', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'base'],
+        image: ''
+      }
     ];
 
     sharedDataService.doughsSubject.next(doughs);
@@ -59,7 +68,7 @@ describe('FilterService', () => {
 
     service.setSelectedTags(['base', 'sweet']);
     expect(service.filteredDoughs()).toEqual([
-      { _id: '1', name: 'Chocolate Base', ingredients: [], instructions: '', quantity: 0, tags: ['sweet', 'base'] }
+      { _id: '1', name: 'Chocolate Base', ingredients: [], instructions: '', quantity: 0, tags: ['sweet', 'base'], image:"" }
     ]);
 
     service.setSearchTerm('berry');
@@ -67,7 +76,7 @@ describe('FilterService', () => {
 
     service.setSelectedTags(['base']);
     expect(service.filteredDoughs()).toEqual([
-      { _id: '3', name: 'Berry Base', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'base'] }
+      { _id: '3', name: 'Berry Base', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'base'], image:"" }
     ]);
 
     service.setSearchTerm('');
@@ -76,8 +85,14 @@ describe('FilterService', () => {
 
   it('should filter fillings, toppings and cakes with trimmed search term', () => {
     const fillings: Filling[] = [
-      { _id: 'f1', name: 'Summer Berry Cream', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'seasonal'] },
-      { _id: 'f2', name: 'Dark Chocolate Ganache', ingredients: [], instructions: '', quantity: 0, tags: ['sweet'] }
+      {
+        _id: 'f1', name: 'Summer Berry Cream', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'seasonal'],
+        image: ''
+      },
+      {
+        _id: 'f2', name: 'Dark Chocolate Ganache', ingredients: [], instructions: '', quantity: 0, tags: ['sweet'],
+        image: ''
+      }
     ];
     const toppings: Topping[] = [
       { _id: 't1', name: 'Cocoa Dust', ingredients: [], instructions: '', quantity: 0, tags: ['sweet'] },
@@ -109,7 +124,7 @@ describe('FilterService', () => {
     service.setSelectedTags(['fruit']);
 
     expect(service.filteredFillings()).toEqual([
-      { _id: 'f1', name: 'Summer Berry Cream', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'seasonal'] }
+      { _id: 'f1', name: 'Summer Berry Cream', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'seasonal'], image:"" }
     ]);
     expect(service.filteredToppings()).toEqual([
       { _id: 't2', name: 'Citrus Zest', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'fresh'] }
@@ -128,7 +143,7 @@ describe('FilterService', () => {
     service.setSearchTerm('  SUMMER   ');
 
     expect(service.filteredFillings()).toEqual([
-      { _id: 'f1', name: 'Summer Berry Cream', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'seasonal'] }
+      { _id: 'f1', name: 'Summer Berry Cream', ingredients: [], instructions: '', quantity: 0, tags: ['fruit', 'seasonal'], image:"" }
     ]);
     expect(service.filteredCakes()).toEqual([
       {

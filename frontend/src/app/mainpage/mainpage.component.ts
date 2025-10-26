@@ -22,7 +22,7 @@ export class MainpageComponent {
 
   constructor(
     private apiService: ApiService,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
   ){}
 
   /**

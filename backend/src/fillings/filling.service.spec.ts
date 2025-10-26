@@ -60,7 +60,7 @@ describe('addFilling', () => {
       save: jest.fn().mockResolvedValue({ _id: '123' }),
     })) as any;
 
-    const result = await service.addFilling(name, ingredients, instruction, quantity, tags);
+    const result = await service.addFilling(name, ingredients, instruction, quantity, tags, "");
 
     expect(parseIngredients).toHaveBeenCalledWith(ingredients);
     expect(result).toBe('123');
@@ -116,7 +116,7 @@ describe('addFilling', () => {
       const updatedFilling = { id, name: name, ingredients: parsedIngredients, instructions: instruction, quantity: quantity };
       (fillingModel.findByIdAndUpdate as jest.Mock).mockResolvedValue(updatedFilling);
 
-      const result = await service.updateFilling(id, name, ingredients, instruction, quantity);
+      const result = await service.updateFilling(id, name, ingredients, instruction, quantity, [], "");
 
       expect(parseIngredients).toHaveBeenCalledWith(ingredients);
       expect(fillingModel.findByIdAndUpdate).toHaveBeenCalledWith(id, {
@@ -124,6 +124,8 @@ describe('addFilling', () => {
         ingredients: parsedIngredients,
         instructions: instruction,
         quantity: quantity,
+        tags: [],
+        image: "",
       });
       expect(result).toEqual(updatedFilling);
     });

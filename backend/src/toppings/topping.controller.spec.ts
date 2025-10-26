@@ -39,6 +39,7 @@ describe('ToppingController', () => {
         instructions: 'Bake at 180°C for 30 minutes',
         quantity: 1,
         tags: [],
+        image: ''
       };
       const toppingId = '123';
       mockToppingService.addTopping.mockResolvedValue(toppingId);
@@ -51,6 +52,7 @@ describe('ToppingController', () => {
         dto.instructions,
         dto.quantity,
         dto.tags,
+        dto.image,
       );
       expect(result).toEqual({ data: toppingId });
     });
@@ -59,8 +61,8 @@ describe('ToppingController', () => {
   describe('getAllTopping', () => {
     it('should return an array of toppings', async () => {
       const toppings = [
-        { id: '1', name: 'Topping 1', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [] },
-        { id: '2', name: 'Topping 2', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [] },
+        { id: '1', name: 'Topping 1', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [], image:"" },
+        { id: '2', name: 'Topping 2', ingredients: ['100 g Flour, 20 ml Milk'], instructions: 'Test', quantity: 1, tags: [], image: "" },
       ];
       mockToppingService.getAllToppings.mockResolvedValue(toppings);
 
@@ -73,7 +75,7 @@ describe('ToppingController', () => {
 
   describe('getSingleTopping', () => {
     it('should return a single topping when found', async () => {
-      const topping = { id: '1', name: 'Topping 1', ingredients: [], instructions: 'Test', quantity: 1 };
+      const topping = { id: '1', name: 'Topping 1', ingredients: [], instructions: 'Test', quantity: 1, tags:[], image: "" };
       mockToppingService.getSingleTopping.mockResolvedValue(topping);
 
       const result = await controller.getSingleTopping('1');
@@ -98,6 +100,7 @@ describe('updateTopping', () => {
         instructions: 'Updated instructions',
         quantity: 2,
         tags: [],
+        image: ''
       };
       const updatedTopping = {
         id: '1',
@@ -106,6 +109,7 @@ describe('updateTopping', () => {
         instructions: dto.instructions,
         quantity: 2,
         tags: [],
+        image: "",
       };
       mockToppingService.updateTopping.mockResolvedValue(updatedTopping);
 
@@ -118,6 +122,7 @@ describe('updateTopping', () => {
         dto.instructions,
         dto.quantity,
         dto.tags,
+        dto.image,
       );
       expect(result).toEqual({ data: updatedTopping });
     });

@@ -38,7 +38,8 @@ describe('CakeController', () => {
         components: [],
         ingredients: '100 g sugar\n250 g flour\n100 g chocolate',
         instructions: 'Bake at 180°C for 30 minutes',
-        tags: []
+        tags: [],
+        image: ''
       };
       const cakeId = '123';
       mockCakeService.addCake.mockResolvedValue(cakeId);
@@ -51,6 +52,7 @@ describe('CakeController', () => {
         dto.ingredients,
         dto.instructions,
         dto.tags,
+        dto.image,
       );
       expect(result).toEqual({ data: cakeId });
     });
@@ -97,7 +99,8 @@ describe('CakeController', () => {
         components: [],
         ingredients: '100 g sugar\n300 g flour\n150 g chocolate, 50 ml Milk',
         instructions: 'Updated instructions',
-        tags: []
+        tags: [],
+        image: ''
       };
       const updatedCake = {
         id: '1',
@@ -118,6 +121,7 @@ describe('CakeController', () => {
         dto.ingredients,
         dto.instructions,
         dto.tags,
+        dto.image,
       );
       expect(result).toEqual({ data: updatedCake });
     });

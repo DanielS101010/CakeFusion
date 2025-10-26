@@ -17,6 +17,17 @@
         
       <h4>Anleitung:</h4>
       <textarea cdkTextareaAutosize [(ngModel)]="doughInstructions"></textarea>
+      <div class="form-group">
+        <label for="doughImage">Bild aktualisieren:</label>
+        <input type="file" id="doughImage" #doughImageInput (change)="onDoughFileSelected($event)" />
+        <div *ngIf="doughImagePreview()" class="image-preview">
+          <div class="image-preview-header">
+            <span class="image-preview-title">Vorschau</span>
+            <button type="button" class="image-clear-btn" (click)="clearDoughImage(doughImageInput)">Bild entfernen</button>
+          </div>
+          <img [src]="doughImagePreview()" alt="Bildvorschau" />
+        </div>
+      </div>
       <div>
         <label for="newTag">Tag hinzufügen:</label>
         <br>
@@ -53,6 +64,17 @@
 
       <h4>Anleitung:</h4>
       <textarea cdkTextareaAutosize [(ngModel)]="fillingInstructions"></textarea>
+      <div class="form-group">
+        <label for="fillingImage">Bild aktualisieren:</label>
+        <input type="file" id="fillingImage" #fillingImageInput (change)="onFillingFileSelected($event)" />
+        <div *ngIf="fillingImagePreview()" class="image-preview">
+          <div class="image-preview-header">
+            <span class="image-preview-title">Vorschau</span>
+            <button type="button" class="image-clear-btn" (click)="clearFillingImage(fillingImageInput)">Bild entfernen</button>
+          </div>
+          <img [src]="fillingImagePreview()" alt="Bildvorschau" />
+        </div>
+      </div>
       <div>
         <label for="newTag">Tag hinzufügen:</label>
         <br>
@@ -89,6 +111,17 @@
 
       <h4>Anleitung:</h4>
       <textarea cdkTextareaAutosize [(ngModel)]="toppingInstructions"></textarea>
+      <div class="form-group">
+        <label for="toppingImage">Bild aktualisieren:</label>
+        <input type="file" id="toppingImage" #toppingImageInput (change)="onToppingFileSelected($event)" />
+        <div *ngIf="toppingImagePreview()" class="image-preview">
+          <div class="image-preview-header">
+            <span class="image-preview-title">Vorschau</span>
+            <button type="button" class="image-clear-btn" (click)="clearToppingImage(toppingImageInput)">Bild entfernen</button>
+          </div>
+          <img [src]="toppingImagePreview()" alt="Bildvorschau" />
+        </div>
+      </div>
 
       <div>
         <label for="newTag">Tag hinzufügen:</label>
@@ -117,6 +150,17 @@
     </mat-card-header>
 
     <mat-card-content>
+      <div class="form-group">
+        <label for="cakeImage">Bild aktualisieren:</label>
+        <input type="file" id="cakeImage" #cakeImageInput (change)="onCakeFileSelected($event)" />
+        <div *ngIf="cakeImagePreview()" class="image-preview">
+          <div class="image-preview-header">
+            <span class="image-preview-title">Vorschau</span>
+            <button type="button" class="image-clear-btn" (click)="clearCakeImage(cakeImageInput)">Bild entfernen</button>
+          </div>
+          <img [src]="cakeImagePreview()" alt="Bildvorschau" />
+        </div>
+      </div>
       <div *ngIf="cakeUseComponents() === 'yes'">
         <label>Teig(e):</label>
         <div class="options-list">
