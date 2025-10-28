@@ -16,6 +16,7 @@
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s, box-shadow 0.3s;
+  margin-left: 0.4em;
 }
 
 mat-card-title {

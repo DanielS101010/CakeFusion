@@ -2,7 +2,10 @@
     <mat-card *ngIf="dough()" class="card">
       <mat-card-header class="header">
         <mat-card-title>{{ dough()!.name }}</mat-card-title>
-        <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+        <div class="buttons">
+          <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+          <button class="button" (click)="onPDFClick()">Erstelle PDF</button>
+        </div>
       </mat-card-header>
   
       <mat-card-content>
@@ -25,8 +28,10 @@
     <mat-card *ngIf="filling()" class="card">
       <mat-card-header class="header">
         <mat-card-title>{{ filling()!.name }}</mat-card-title>
-        <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
-  
+        <div class="buttons">
+          <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+          <button class="button" (click)="onPDFClick()">Erstelle PDF</button>
+        </div>
       </mat-card-header>
   
       <mat-card-content>
@@ -49,7 +54,10 @@
     <mat-card *ngIf="topping()" class="card">
       <mat-card-header class="header">
         <mat-card-title>{{ topping()!.name }}</mat-card-title>
-        <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+        <div class="buttons">
+          <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+          <button class="button" (click)="onPDFClick()">Erstelle PDF</button>
+        </div>
       </mat-card-header>
   
       <mat-card-content>
@@ -72,7 +80,10 @@
     <mat-card *ngIf="cake()" class="card">
       <mat-card-header class="header">
         <mat-card-title>{{ cake()!.name }}</mat-card-title>
-        <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+        <div class="buttons">
+          <button class="button" [routerLink]="['/edit', id, component]">Bearbeiten</button>
+          <button class="button" (click)="onPDFClick()">Erstelle PDF</button>
+        </div>
       </mat-card-header>
 
       <mat-card-content>

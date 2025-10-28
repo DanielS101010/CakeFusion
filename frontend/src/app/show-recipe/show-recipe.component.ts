@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 
 import { Ingredient } from '../add-cake/cake.model';
 import { ImageService } from '../service/image.service';
+import { PdfGenetatorService } from '../service/pdf-genetator.service';
 
 @Component({
     selector: 'app-show-recipe',
@@ -44,8 +45,12 @@ export class ShowRecipeComponent {
   readonly toppingImage = computed(() => this.topping()?.image ?? '');
   readonly cakeImage = computed(() => this.cake()?.image ?? '');
 
-  constructor(private apiService: ApiService, private route: ActivatedRoute, private imageService: ImageService,
-){}
+  constructor(
+    private apiService: ApiService,
+    private route: ActivatedRoute,
+    private imageService: ImageService,
+    private pdfGenerator: PdfGenetatorService
+  ) {}
   id!: string;
   component!: string;
   
@@ -96,5 +101,149 @@ export class ShowRecipeComponent {
           this.instructions.set(data.instructions);
         });
       }
+  }
+
+  onPDFClick(): void {
+    this.exportDoughRecipe();
+  }
+
+  private exportDoughRecipe(): void {
+    const dough = this.dough();
+    if (!dough) {
+      return;
+    }
+
+    const scaledIngredients = dough.ingredients.map(ingredient => {
+      const scaledQuantity =
+        (dough.quantity ? ingredient.quantity / dough.quantity : ingredient.quantity) *
+        this.doughQuantity();
+      return `${scaledQuantity} ${ingredient.description}`.trim();
+    });
+
+    const steps = this.splitInstructions(dough.instructions);
+
+    this.pdfGenerator.exportRecipe({
+      title: dough.name,
+      description: `Ergibt ${this.doughQuantity()} ${
+        this.doughQuantity() === 1 ? 'Boden' : 'Böden'
+      }`,
+      image: dough.image,
+      ingredients: scaledIngredients.filter(Boolean),
+      steps: steps.length ? steps : ['Keine Anleitung verfügbar.']
+    });
+  }
+
+  private exportFillingRecipe(): void {
+    const filling = this.filling();
+    if (!filling) {
+      return;
+    }
+
+    const scaledIngredients = filling.ingredients.map(ingredient => {
+      const scaledQuantity =
+        (filling.quantity ? ingredient.quantity / filling.quantity : ingredient.quantity) *
+        this.fillingQuantity();
+      return `${scaledQuantity} ${ingredient.description}`.trim();
+    });
+
+    const steps = this.splitInstructions(filling.instructions);
+
+    this.pdfGenerator.exportRecipe({
+      title: filling.name,
+      description: `Ergibt ${this.fillingQuantity()} ${
+        this.fillingQuantity() === 1 ? 'Portion' : 'Portionen'
+      }`,
+      image: filling.image,
+      ingredients: scaledIngredients.filter(Boolean),
+      steps: steps.length ? steps : ['Keine Anleitung verfügbar.']
+    });
+  }
+
+  private exportToppingRecipe(): void {
+    const topping = this.topping();
+    if (!topping) {
+      return;
+    }
+
+    const scaledIngredients = topping.ingredients.map(ingredient => {
+      const scaledQuantity =
+        (topping.quantity ? ingredient.quantity / topping.quantity : ingredient.quantity) *
+        this.toppingQuantity();
+      return `${scaledQuantity} ${ingredient.description}`.trim();
+    });
+
+    const steps = this.splitInstructions(topping.instructions);
+
+    this.pdfGenerator.exportRecipe({
+      title: topping.name,
+      description: `Ergibt ${this.toppingQuantity()} ${
+        this.toppingQuantity() === 1 ? 'Portion' : 'Portionen'
+      }`,
+      image: topping.image,
+      ingredients: scaledIngredients.filter(Boolean),
+      steps: steps.length ? steps : ['Keine Anleitung verfügbar.']
+    });
+  }
+
+  private exportCakeRecipe(): void {
+    const cake = this.cake();
+    if (!cake) {
+      return;
+    }
+
+    let ingredients: string[] = [];
+    let steps: string[] = [];
+
+    if (cake.instructions?.trim()) {
+      ingredients = cake.ingredients.map(ingredient => {
+        const scaledQuantity = ingredient.quantity * this.cakeQuantity();
+        return `${scaledQuantity} ${ingredient.description}`.trim();
+      });
+      steps = this.splitInstructions(cake.instructions);
+    } else {
+      const components = this.componentsToDisplay();
+      const aggregatedIngredients: string[] = [];
+      const aggregatedSteps: string[] = [];
+
+      components.forEach(component => {
+        aggregatedIngredients.push(`${component.name}:`);
+        component.ingredients.forEach((ingredient: Ingredient) => {
+          const baseQuantity = component.baseQuantity || 1;
+          const scaledQuantity =
+            (ingredient.quantity / baseQuantity) * component.quantity * this.cakeQuantity();
+          aggregatedIngredients.push(
+            `${scaledQuantity} ${ingredient.description}`.trim()
+          );
+        });
+
+        const componentSteps = this.splitInstructions(component.instructions);
+        if (componentSteps.length) {
+          aggregatedSteps.push(`${component.name}:`, ...componentSteps);
+        }
+      });
+
+      ingredients = aggregatedIngredients.filter(Boolean);
+      steps = aggregatedSteps.length ? aggregatedSteps : ['Keine Anleitung verfügbar.'];
+    }
+
+    this.pdfGenerator.exportRecipe({
+      title: cake.name,
+      description: `Ergibt ${this.cakeQuantity()} ${
+        this.cakeQuantity() === 1 ? 'Kuchen' : 'Kuchen'
+      }`,
+      image: cake.image,
+      ingredients: ingredients.length ? ingredients : ['Keine Zutaten verfügbar.'],
+      steps: steps.length ? steps : ['Keine Anleitung verfügbar.']
+    });
+  }
+
+  private splitInstructions(instructions?: string): string[] {
+    if (!instructions) {
+      return [];
+    }
+    return instructions
+      .split(/\r?\n/)
+      .map(line => line.trim())
+      .filter(line => line.length > 0);
   }
 }

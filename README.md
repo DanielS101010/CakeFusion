@@ -195,8 +195,8 @@ Once everything is installed, open a browser and navigate to your Raspberry Pi's
 
 ## Planned features:
 - ~~Search for doughs, fillings, toppings and cakes by name~~
-- Add a picture to a recipe
-- Export a recipe as a pdf
+- ~~Add a picture to a recipe~~
+- ~~Export a recipe as a pdf~~
 - English localisation
 
 ## UI Images
