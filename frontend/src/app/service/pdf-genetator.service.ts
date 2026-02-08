@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import pdfMake from 'pdfmake/build/pdfmake';
-import { vfs as pdfMakeVfs } from 'pdfmake/build/vfs_fonts';
+import pdfMake from 'pdfmake/build/pdfmake.js';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts.js';
 import type {
   Content,
   ContentStack,
@@ -24,7 +24,18 @@ export interface RecipePdfData {
 })
 export class PdfGenetatorService {
   constructor(private readonly imageService: ImageService) {
-    pdfMake.vfs = pdfMakeVfs;
+    const fontsSource = (pdfFonts as any);
+    const vfs =
+      fontsSource?.pdfMake?.vfs ??
+      fontsSource?.default?.vfs ??
+      fontsSource?.default ??
+      fontsSource;
+
+    if (typeof (pdfMake as any).addVirtualFileSystem === 'function') {
+      (pdfMake as any).addVirtualFileSystem(vfs);
+    } else {
+      (pdfMake as any).vfs = vfs;
+    }
   }
 
   public exportRecipe(recipe: RecipePdfData): void {

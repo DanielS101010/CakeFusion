@@ -66,13 +66,14 @@ export class ApiService {
       .pipe(map(response => response.data));
   }
 
-  addFilling(fillingName: string, fillingIngredients: string, fillingInstructions: string, fillingQuantity: number, tagIds: string[]): Observable<any> {
+  addFilling(fillingName: string, fillingIngredients: string, fillingInstructions: string, fillingQuantity: number, tagIds: string[], image: string): Observable<any> {
     return this.http.post<{ data: any }>(this.baseUrl + '/filling', {
       name: fillingName,
       ingredients: fillingIngredients,
       instructions: fillingInstructions,
       quantity: fillingQuantity,
       tags: tagIds,
+      image: image,
     }).pipe(map(response => response.data));
   }
 
@@ -103,13 +104,14 @@ export class ApiService {
       .pipe(map(response => response.data));
   }
 
-  addTopping(toppingName: string, toppingIngredients: string, toppingInstructions: string, toppingQuantity: number, tagIds: string[]): Observable<any> {
+  addTopping(toppingName: string, toppingIngredients: string, toppingInstructions: string, toppingQuantity: number, tagIds: string[], image: string): Observable<any> {
     return this.http.post<{ data: any }>(this.baseUrl + '/topping', {
       name: toppingName,
       ingredients: toppingIngredients,
       instructions: toppingInstructions,
       quantity: toppingQuantity,
       tags: tagIds,
+      image: image,
     }).pipe(map(response => response.data));
   }
 
@@ -140,13 +142,14 @@ export class ApiService {
       .pipe(map(response => response.data));
   }
 
-  addCake(cakeName: string, ingredients: string, instructions: string, selectedComponents: { type: string; id: string; }[], tagIds: string[]): Observable<any> {
+  addCake(cakeName: string, ingredients: string, instructions: string, selectedComponents: { type: string; id: string; }[], tagIds: string[], image: string): Observable<any> {
     return this.http.post<{ data: any }>(this.baseUrl + '/cake', {
       name: cakeName,
       components: selectedComponents,
       ingredients: ingredients,
       instructions: instructions,
       tags: tagIds,
+      image: image,
     }).pipe(map(response => response.data));
   }
 

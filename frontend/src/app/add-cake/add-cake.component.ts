@@ -95,7 +95,7 @@ export class CakeComponent {
 
     const tagIds = computed(() =>   this.cakeTags().map(tag => tag._id))
 
-    this.apiService.addCake(this.cakeName(), this.ingredients(), this.instructions(), this.selectedComponents(), tagIds()).subscribe({next: () => {
+    this.apiService.addCake(this.cakeName(), this.ingredients(), this.instructions(), this.selectedComponents(), tagIds(), this.base64Output).subscribe({next: () => {
           this.sharedDataService.refreshCakes();
           this.router.navigate(['/']);
         },

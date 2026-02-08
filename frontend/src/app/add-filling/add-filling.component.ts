@@ -42,7 +42,7 @@ export class AddFillingComponent {
     }
     const tagIds = computed(() =>   this.fillingTags().map(tag => tag._id))
 
-    this.apiServie.addFilling(this.fillingName(), this.fillingIngredients(), this.fillingInstructions(), this.fillingQuantity(), tagIds())
+    this.apiServie.addFilling(this.fillingName(), this.fillingIngredients(), this.fillingInstructions(), this.fillingQuantity(), tagIds(), this.base64Output)
     .subscribe({next:() => {
       this.sharedDataService.refreshFillings();
       this.router.navigate(['/']);

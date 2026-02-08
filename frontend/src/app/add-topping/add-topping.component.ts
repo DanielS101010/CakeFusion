@@ -41,7 +41,7 @@ export class AddToppingComponent {
     }
     const tagIds = computed(() =>   this.toppingTags().map(tag => tag._id))
 
-    this.apiServie.addTopping(this.toppingName(), this.toppingIngredients(), this.toppingInstructions(), this.toppingQuantity(), tagIds()).subscribe({next:() => {
+    this.apiServie.addTopping(this.toppingName(), this.toppingIngredients(), this.toppingInstructions(), this.toppingQuantity(), tagIds(), this.base64Output).subscribe({next:() => {
       this.sharedDataService.refreshToppings()
       this.router.navigate(['/']);
     },
