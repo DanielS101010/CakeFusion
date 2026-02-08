@@ -4,14 +4,14 @@ import { FormsModule } from '@angular/forms';
 import { SharedDataService } from '../service/shared-data.service';
 import { Router } from '@angular/router'; 
 import { TextFieldModule } from '@angular/cdk/text-field';
-import { NgFor, NgIf } from '@angular/common';
+
 import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
 import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-add-dough',
-    imports: [FormsModule, TextFieldModule, NgFor, NgIf],
+    imports: [FormsModule, TextFieldModule],
     templateUrl: './add-dough.component.html',
     styleUrl: './add-dough.component.css'
 })

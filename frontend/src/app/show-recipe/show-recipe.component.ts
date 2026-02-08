@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { ApiService } from '../service/api.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Dough } from '../add-dough/dough.model';
-import { NgFor, NgIf } from '@angular/common';
+
 import { MatCardModule } from '@angular/material/card';
 import { Filling } from '../add-filling/filling.model';
 import { Topping } from '../add-topping/topping.model';
@@ -15,7 +15,7 @@ import { PdfGenetatorService } from '../service/pdf-genetator.service';
 
 @Component({
     selector: 'app-show-recipe',
-    imports: [NgIf, NgFor, MatCardModule, RouterLink, FormsModule],
+    imports: [MatCardModule, RouterLink, FormsModule],
     templateUrl: './show-recipe.component.html',
     styleUrl: './show-recipe.component.css'
 })

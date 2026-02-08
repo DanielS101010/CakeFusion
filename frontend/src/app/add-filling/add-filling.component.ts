@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { TagsService } from '../service/tags.service';
 import { Tags } from '../service/tags.model';
-import { NgFor, NgIf } from '@angular/common';
+
 import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-add-filling',
-    imports: [FormsModule, TextFieldModule, NgFor, NgIf],
+    imports: [FormsModule, TextFieldModule],
     templateUrl: './add-filling.component.html',
     styleUrl: './add-filling.component.css'
 })

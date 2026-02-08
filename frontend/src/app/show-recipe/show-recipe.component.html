@@ -1,5 +1,6 @@
 <div class="container">
-    <mat-card *ngIf="dough()" class="card">
+  @if (dough()) {
+    <mat-card class="card">
       <mat-card-header class="header">
         <mat-card-title>{{ dough()!.name }}</mat-card-title>
         <div class="buttons">
@@ -7,25 +8,28 @@
           <button class="button" (click)="onPDFClick()">Erstelle PDF</button>
         </div>
       </mat-card-header>
-  
       <mat-card-content>
-        <img *ngIf="doughImage()" [src]="doughImage()" [alt]="dough()!.name" class="recipe-image">
+        @if (doughImage()) {
+          <img [src]="doughImage()" [alt]="dough()!.name" class="recipe-image">
+        }
         <div class="form-group">
           <label>Das Rezept ergibt ... Böden</label>
           <input type="number" [(ngModel)]="doughQuantity">
         </div>
         <h4>Zutaten:</h4>
-        <p *ngFor="let ingredient of dough()!.ingredients  ">
-          {{ (ingredient.quantity/dough()!.quantity)*doughQuantity() }}  {{ ingredient.description }}
-        </p>
-  
+        @for (ingredient of dough()!.ingredients  ; track ingredient) {
+          <p>
+            {{ (ingredient.quantity/dough()!.quantity)*doughQuantity() }}  {{ ingredient.description }}
+          </p>
+        }
         <h4>Anleitung:</h4>
         <p class="instructions">{{ dough()!.instructions }}</p>
-          
       </mat-card-content>
     </mat-card>
-  
-    <mat-card *ngIf="filling()" class="card">
+  }
+
+  @if (filling()) {
+    <mat-card class="card">
       <mat-card-header class="header">
         <mat-card-title>{{ filling()!.name }}</mat-card-title>
         <div class="buttons">
@@ -33,25 +37,28 @@
           <button class="button" (click)="onPDFClick()">Erstelle PDF</button>
         </div>
       </mat-card-header>
-  
       <mat-card-content>
-        <img *ngIf="fillingImage()" [src]="fillingImage()" [alt]="filling()!.name" class="recipe-image">
+        @if (fillingImage()) {
+          <img [src]="fillingImage()" [alt]="filling()!.name" class="recipe-image">
+        }
         <div class="form-group">
           <label>Das Rezept ergibt ... Portionen</label>
           <input type="number" [(ngModel)]="fillingQuantity">
         </div>
         <h4>Zutaten:</h4>
-        <p *ngFor="let ingredient of filling()!.ingredients">
-          {{ (ingredient.quantity/filling()!.quantity)*fillingQuantity() }}  {{ ingredient.description }}
-        </p>
-  
+        @for (ingredient of filling()!.ingredients; track ingredient) {
+          <p>
+            {{ (ingredient.quantity/filling()!.quantity)*fillingQuantity() }}  {{ ingredient.description }}
+          </p>
+        }
         <h4>Anleitung:</h4>
         <p class="instructions">{{ filling()!.instructions }}</p>
-          
       </mat-card-content>
     </mat-card>
-  
-    <mat-card *ngIf="topping()" class="card">
+  }
+
+  @if (topping()) {
+    <mat-card class="card">
       <mat-card-header class="header">
         <mat-card-title>{{ topping()!.name }}</mat-card-title>
         <div class="buttons">
@@ -59,25 +66,28 @@
           <button class="button" (click)="onPDFClick()">Erstelle PDF</button>
         </div>
       </mat-card-header>
-  
       <mat-card-content>
-        <img *ngIf="toppingImage()" [src]="toppingImage()" [alt]="topping()!.name" class="recipe-image">
+        @if (toppingImage()) {
+          <img [src]="toppingImage()" [alt]="topping()!.name" class="recipe-image">
+        }
         <div class="form-group">
           <label>Das Rezept ergibt ... Portionen</label>
           <input type="number" [(ngModel)]="toppingQuantity">
         </div>
         <h4>Zutaten:</h4>
-        <p *ngFor="let ingredient of topping()!.ingredients">
-          {{ (ingredient.quantity/topping()!.quantity)*toppingQuantity() }} {{ ingredient.description }}
-        </p>
-  
+        @for (ingredient of topping()!.ingredients; track ingredient) {
+          <p>
+            {{ (ingredient.quantity/topping()!.quantity)*toppingQuantity() }} {{ ingredient.description }}
+          </p>
+        }
         <h4>Anleitung:</h4>
         <p class="instructions">{{ topping()!.instructions }}</p>
-          
       </mat-card-content>
     </mat-card>
-  
-    <mat-card *ngIf="cake()" class="card">
+  }
+
+  @if (cake()) {
+    <mat-card class="card">
       <mat-card-header class="header">
         <mat-card-title>{{ cake()!.name }}</mat-card-title>
         <div class="buttons">
@@ -85,37 +95,48 @@
           <button class="button" (click)="onPDFClick()">Erstelle PDF</button>
         </div>
       </mat-card-header>
-
       <mat-card-content>
-        <img *ngIf="cakeImage()" [src]="cakeImage()" [alt]="cake()!.name" class="recipe-image">
+        @if (cakeImage()) {
+          <img [src]="cakeImage()" [alt]="cake()!.name" class="recipe-image">
+        }
         <div class="form-group">
           <label>Das Rezept ergibt ... Kuchen</label>
           <input type="number" [(ngModel)]="cakeQuantity" min="1">
         </div>
       </mat-card-content>
-
-      <mat-card-content *ngIf="cake()!.instructions ==''">
-        <div *ngFor="let comp of componentsToDisplay()">  
-          <h4> {{ comp.name }}</h4>
-          <img *ngIf="comp.image" [src]="comp.image" [alt]="comp.name" class="recipe-image">
-          <p *ngFor="let ingredient of comp.ingredients">
-            {{ (ingredient.quantity/comp.baseQuantity)*comp.quantity*cakeQuantity() }}  {{ ingredient.description }}
-          </p>
-          <p class="instructions">{{ comp.instructions }}</p>
-        </div>
-        
+      @if (cake()!.instructions =='') {
+        <mat-card-content>
+          @for (comp of componentsToDisplay(); track comp) {
+            <div>
+              <h4> {{ comp.name }}</h4>
+              @if (comp.image) {
+                <img [src]="comp.image" [alt]="comp.name" class="recipe-image">
+              }
+              @for (ingredient of comp.ingredients; track ingredient) {
+                <p>
+                  {{ (ingredient.quantity/comp.baseQuantity)*comp.quantity*cakeQuantity() }}  {{ ingredient.description }}
+                </p>
+              }
+              <p class="instructions">{{ comp.instructions }}</p>
+            </div>
+          }
+        </mat-card-content>
+      }
+      <mat-card-content>
+        @if (cake()!.instructions) {
+          <div>
+            <h4>Zutaten:</h4>
+            @for (ingredient of cake()!.ingredients; track ingredient) {
+              <p>
+                {{ ingredient.quantity*cakeQuantity() }} {{ ingredient.description }}
+              </p>
+            }
+            <h4>Anleitung:</h4>
+            <p class="instructions">{{ cake()!.instructions }}</p>
+          </div>
+        }
       </mat-card-content>
-  
-    <mat-card-content>
-      <div *ngIf="cake()!.instructions">
-        <h4>Zutaten:</h4>
-        <p *ngFor="let ingredient of cake()!.ingredients">
-          {{ ingredient.quantity*cakeQuantity() }} {{ ingredient.description }}
-        </p>
-        <h4>Anleitung:</h4>
-        <p class="instructions">{{ cake()!.instructions }}</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
+    </mat-card>
+  }
 </div>
-    
+

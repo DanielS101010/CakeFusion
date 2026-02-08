@@ -1,11 +1,11 @@
-import { NgFor, NgIf } from '@angular/common';
+
 import { Component, EventEmitter, Output, computed, signal } from '@angular/core';
 import { SharedDataService } from '../service/shared-data.service';
 import { Tags } from '../service/tags.model';
 
 @Component({
   selector: 'app-filter',
-  imports: [NgFor, NgIf],
+  imports: [],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.css'
 })

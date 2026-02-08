@@ -6,7 +6,7 @@ import { Dough } from '../add-dough/dough.model';
 import { Filling } from '../add-filling/filling.model';
 import { Topping } from '../add-topping/topping.model';
 
-import { NgFor, NgIf } from '@angular/common';
+
 import { Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { Tags } from '../service/tags.model';
@@ -15,7 +15,7 @@ import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-cake',
-    imports: [NgFor, NgIf, FormsModule, TextFieldModule],
+    imports: [FormsModule, TextFieldModule],
     templateUrl: './add-cake.component.html',
     styleUrl: './add-cake.component.css'
 })

@@ -1,95 +1,107 @@
 <div class="add-container">
-    <h2>Kuchenrezept hinzufügen</h2>
-  
-    <div class="form-group">
-      <label>Andere Komponenten benutzen?</label>
-      
-      <div class="radio-container">
-        <input type="radio" id="useComponentsYes" name="useComponents" value="yes" [(ngModel)]="useComponents"/>
-        <label for="useComponentsYes">Ja</label>
-      </div>
-  
-      <div class="radio-container">
-        <input type="radio" id="useComponentsNo" name="useComponents" value="no" [(ngModel)]="useComponents"/>
-        <label for="useComponentsNo">Nein</label>
-      </div>
+  <h2>Kuchenrezept hinzufügen</h2>
+
+  <div class="form-group">
+    <label>Andere Komponenten benutzen?</label>
+
+    <div class="radio-container">
+      <input type="radio" id="useComponentsYes" name="useComponents" value="yes" [(ngModel)]="useComponents"/>
+      <label for="useComponentsYes">Ja</label>
     </div>
-  
-    <div class="form-group">
-      <label for="KuchenName">Kuchenname:</label>
-      <input id="KuchenName" placeholder="Kuchenname eintragen" [(ngModel)]="cakeName" />
-      <div>
-        <label for="Image">Bild hinzufügen:</label>
-        <br>
+
+    <div class="radio-container">
+      <input type="radio" id="useComponentsNo" name="useComponents" value="no" [(ngModel)]="useComponents"/>
+      <label for="useComponentsNo">Nein</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="KuchenName">Kuchenname:</label>
+    <input id="KuchenName" placeholder="Kuchenname eintragen" [(ngModel)]="cakeName" />
+    <div>
+      <label for="Image">Bild hinzufügen:</label>
+      <br>
         <input type="file" id="Image" #imageInput (change)="onFileSelected($event)" />
-        <div *ngIf="previewSrc" class="image-preview">
-          <div class="image-preview-header">
-            <span class="image-preview-title">Vorschau</span>
-            <button type="button" class="image-clear-btn" (click)="clearImage(imageInput)">Bild entfernen</button>
+        @if (previewSrc) {
+          <div class="image-preview">
+            <div class="image-preview-header">
+              <span class="image-preview-title">Vorschau</span>
+              <button type="button" class="image-clear-btn" (click)="clearImage(imageInput)">Bild entfernen</button>
+            </div>
+            <img [src]="previewSrc" alt="Bildvorschau" />
           </div>
-          <img [src]="previewSrc" alt="Bildvorschau" />
-        </div>
+        }
       </div>
-      <div *ngIf="useComponents() === 'yes'">
-        <label>Teig(e):</label>
-        <div class="options-list">
-          <div *ngFor="let dough of doughs()" class="checkbox-item">
-            <input type="checkbox" id="dough-{{ dough._id }}" [value]="dough._id" (change)="onComponentChange($event, 'dough', 1)" [checked]="isComponentSelected('dough', dough._id)"/>
-            <label for="dough-{{ dough._id }}">{{ dough.name }}</label>
+      @if (useComponents() === 'yes') {
+        <div>
+          <label>Teig(e):</label>
+          <div class="options-list">
+            @for (dough of doughs(); track dough) {
+              <div class="checkbox-item">
+                <input type="checkbox" id="dough-{{ dough._id }}" [value]="dough._id" (change)="onComponentChange($event, 'dough', 1)" [checked]="isComponentSelected('dough', dough._id)"/>
+                <label for="dough-{{ dough._id }}">{{ dough.name }}</label>
+              </div>
+            }
           </div>
-        </div>
-  
-        <label>Füllung(en):</label>
-        <div class="options-list">
-          <div *ngFor="let filling of fillings()" class="checkbox-item">
-            <input type="checkbox" id="filling-{{ filling._id }}" [value]="filling._id" (change)="onComponentChange($event, 'filling', 1)" [checked]="isComponentSelected('filling', filling._id)"/>
-            <label for="filling-{{ filling._id }}">{{ filling.name }}</label>
+          <label>Füllung(en):</label>
+          <div class="options-list">
+            @for (filling of fillings(); track filling) {
+              <div class="checkbox-item">
+                <input type="checkbox" id="filling-{{ filling._id }}" [value]="filling._id" (change)="onComponentChange($event, 'filling', 1)" [checked]="isComponentSelected('filling', filling._id)"/>
+                <label for="filling-{{ filling._id }}">{{ filling.name }}</label>
+              </div>
+            }
           </div>
-        </div>
-  
-        <label>Topping(s):</label>
-        <div class="options-list">
-          <div *ngFor="let topping of toppings()" class="checkbox-item">
-            <input type="checkbox" id="topping-{{ topping._id }}" [value]="topping._id" (change)="onComponentChange($event, 'topping', 1)" [checked]="isComponentSelected('topping', topping._id)"/>
-            <label for="topping-{{ topping._id }}">{{ topping.name }}</label>
+          <label>Topping(s):</label>
+          <div class="options-list">
+            @for (topping of toppings(); track topping) {
+              <div class="checkbox-item">
+                <input type="checkbox" id="topping-{{ topping._id }}" [value]="topping._id" (change)="onComponentChange($event, 'topping', 1)" [checked]="isComponentSelected('topping', topping._id)"/>
+                <label for="topping-{{ topping._id }}">{{ topping.name }}</label>
+              </div>
+            }
           </div>
+          <h4>Ausgewählte Komponenten in der Reihenfolge der Auswahl:</h4>
+          <ol>
+            @for (component of selectedComponents(); track component; let i = $index) {
+              <li>
+                {{ getComponentName(component.type, component.id) }}
+                <input type="number" [(ngModel)]="component.quantity" min="1">
+                <button class="recipe-order-btn" (click)="moveUp(i)" [disabled]="i === 0">Up</button>
+                <button class="recipe-order-btn" (click)="moveDown(i)" [disabled]="i === selectedComponents().length - 1">Down</button>
+              </li>
+            }
+          </ol>
         </div>
-  
-        <h4>Ausgewählte Komponenten in der Reihenfolge der Auswahl:</h4>
-        <ol>
-          <li *ngFor="let component of selectedComponents(); let i = index">
-            {{ getComponentName(component.type, component.id) }}
-            <input type="number" [(ngModel)]="component.quantity" min="1">
-            <button class="recipe-order-btn" (click)="moveUp(i)" [disabled]="i === 0">Up</button>
-            <button class="recipe-order-btn" (click)="moveDown(i)" [disabled]="i === selectedComponents().length - 1">Down</button>
-          </li>
-        </ol>
-      </div>
-  
-      <div *ngIf="useComponents() === 'no'">
-        <label> Zutaten:</label>
-        <textarea cdkTextareaAutosize placeholder="Zutaten einfügen" [(ngModel)]="ingredients"></textarea>
-  
-        <label> Anleitung:</label>
-        <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="instructions"></textarea>
-      </div>
-      
+      }
+
+      @if (useComponents() === 'no') {
+        <div>
+          <label> Zutaten:</label>
+          <textarea cdkTextareaAutosize placeholder="Zutaten einfügen" [(ngModel)]="ingredients"></textarea>
+          <label> Anleitung:</label>
+          <textarea cdkTextareaAutosize placeholder="Anleitung einfügen" [(ngModel)]="instructions"></textarea>
+        </div>
+      }
+
       <div>
         <label for="newTag">Tag hinzufügen:</label>
         <br>
-        <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" class="tag-add-btn" (click)="addTagToCake()">Tag hinzufügen</button>
-      </div>
-      
-      <div>
-        <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of cakeTags()">
-          {{tag.name}}
-          <button (click)="deleteTagFromCake(tag._id)">Tag entfernen</button>
+          <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
+          <button type="button" class="tag-add-btn" (click)="addTagToCake()">Tag hinzufügen</button>
         </div>
-      </div>
 
-      <button class="submit-btn" (click)="addCake()">Rezept hinzufügen</button>
+        <div>
+          <label>Ausgewählte Tags:</label>
+          @for (tag of cakeTags(); track tag) {
+            <div>
+              {{tag.name}}
+              <button (click)="deleteTagFromCake(tag._id)">Tag entfernen</button>
+            </div>
+          }
+        </div>
+
+        <button class="submit-btn" (click)="addCake()">Rezept hinzufügen</button>
+      </div>
     </div>
-  </div>
-  
+

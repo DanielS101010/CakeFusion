@@ -1,244 +1,258 @@
 <div class="container">
-  <mat-card *ngIf= "component() == 'dough'" class="card">
-    <mat-card-header>
-      <mat-card-title>
-        <input [(ngModel)] = "doughName">
-      </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-      <div class="form-group">
-        <label>Das Rezept ergibt ... Böden</label>
-        <input type="number" [(ngModel)]="doughQuantity">
-      </div>
-
-      <h4>Zutaten:</h4>
-      <textarea cdkTextareaAutosize [(ngModel)] = doughIngredients></textarea>
-        
-      <h4>Anleitung:</h4>
-      <textarea cdkTextareaAutosize [(ngModel)]="doughInstructions"></textarea>
-      <div class="form-group">
-        <label for="doughImage">Bild aktualisieren:</label>
-        <input type="file" id="doughImage" #doughImageInput (change)="onDoughFileSelected($event)" />
-        <div *ngIf="doughImagePreview()" class="image-preview">
-          <div class="image-preview-header">
-            <span class="image-preview-title">Vorschau</span>
-            <button type="button" class="image-clear-btn" (click)="clearDoughImage(doughImageInput)">Bild entfernen</button>
+  @if (component() == 'dough') {
+    <mat-card class="card">
+      <mat-card-header>
+        <mat-card-title>
+          <input [(ngModel)] = "doughName">
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="form-group">
+          <label>Das Rezept ergibt ... Böden</label>
+          <input type="number" [(ngModel)]="doughQuantity">
+        </div>
+        <h4>Zutaten:</h4>
+        <textarea cdkTextareaAutosize [(ngModel)] = doughIngredients></textarea>
+        <h4>Anleitung:</h4>
+        <textarea cdkTextareaAutosize [(ngModel)]="doughInstructions"></textarea>
+        <div class="form-group">
+          <label for="doughImage">Bild aktualisieren:</label>
+          <input type="file" id="doughImage" #doughImageInput (change)="onDoughFileSelected($event)" />
+          @if (doughImagePreview()) {
+            <div class="image-preview">
+              <div class="image-preview-header">
+                <span class="image-preview-title">Vorschau</span>
+                <button type="button" class="image-clear-btn" (click)="clearDoughImage(doughImageInput)">Bild entfernen</button>
+              </div>
+              <img [src]="doughImagePreview()" alt="Bildvorschau" />
+            </div>
+          }
+        </div>
+        <div>
+          <label for="newTag">Tag hinzufügen:</label>
+          <br>
+            <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
+            <button type="button" class="tag-add-btn" (click)="addTag('dough')">Tag hinzufügen</button>
           </div>
-          <img [src]="doughImagePreview()" alt="Bildvorschau" />
-        </div>
-      </div>
-      <div>
-        <label for="newTag">Tag hinzufügen:</label>
-        <br>
-        <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" class="tag-add-btn" (click)="addTag('dough')">Tag hinzufügen</button>
-      </div>
-      
-      <div>
-        <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of doughTags()">
-          {{tag.name}}
-          <button (click)="deleteTag(tag._id, 'dough')">Tag entfernen</button>
-        </div>
-      </div>
-      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
-    </mat-card-content>
-  </mat-card>
-    
-  <mat-card *ngIf="component() == 'filling'" class="card">
-    <mat-card-header>
-      <mat-card-title>
-        <input [(ngModel)] = "fillingName">
-      </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-      <div class="form-group">
-        <label>Das Rezept ergibt ... Portionen</label>
-        <input type="number" [(ngModel)]="fillingQuantity">
-      </div>
-
-      <h4>Zutaten:</h4>
-      <textarea cdkTextareaAutosize [(ngModel)] = fillingIngredients></textarea>
-
-      <h4>Anleitung:</h4>
-      <textarea cdkTextareaAutosize [(ngModel)]="fillingInstructions"></textarea>
-      <div class="form-group">
-        <label for="fillingImage">Bild aktualisieren:</label>
-        <input type="file" id="fillingImage" #fillingImageInput (change)="onFillingFileSelected($event)" />
-        <div *ngIf="fillingImagePreview()" class="image-preview">
-          <div class="image-preview-header">
-            <span class="image-preview-title">Vorschau</span>
-            <button type="button" class="image-clear-btn" (click)="clearFillingImage(fillingImageInput)">Bild entfernen</button>
+          <div>
+            <label>Ausgewählte Tags:</label>
+            @for (tag of doughTags(); track tag) {
+              <div>
+                {{tag.name}}
+                <button (click)="deleteTag(tag._id, 'dough')">Tag entfernen</button>
+              </div>
+            }
           </div>
-          <img [src]="fillingImagePreview()" alt="Bildvorschau" />
-        </div>
-      </div>
-      <div>
-        <label for="newTag">Tag hinzufügen:</label>
-        <br>
-        <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" class="tag-add-btn" (click)="addTag('filling')">Tag hinzufügen</button>
-      </div>
-      
-      <div>
-        <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of fillingTags()">
-          {{tag.name}}
-          <button (click)="deleteTag(tag._id, 'filling')">Tag entfernen</button>
-        </div>
-      </div>
-      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
-    </mat-card-content>
-  </mat-card>
+          <button class="submit-btn" (click)="saveEdit()">Speichern</button>
+        </mat-card-content>
+      </mat-card>
+    }
 
-
-  <mat-card *ngIf="component() == 'topping'" class="card">
-    <mat-card-header>
-      <mat-card-title>
-        <input [(ngModel)] = "toppingName">
-      </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-      <div class="form-group">
-        <label>Das Rezept ergibt ... Portionen</label>
-        <input type="number" [(ngModel)]="toppingQuantity">
-      </div>
-      <h4>Zutaten:</h4>
-      <textarea cdkTextareaAutosize [(ngModel)] = toppingIngredients></textarea>
-
-      <h4>Anleitung:</h4>
-      <textarea cdkTextareaAutosize [(ngModel)]="toppingInstructions"></textarea>
-      <div class="form-group">
-        <label for="toppingImage">Bild aktualisieren:</label>
-        <input type="file" id="toppingImage" #toppingImageInput (change)="onToppingFileSelected($event)" />
-        <div *ngIf="toppingImagePreview()" class="image-preview">
-          <div class="image-preview-header">
-            <span class="image-preview-title">Vorschau</span>
-            <button type="button" class="image-clear-btn" (click)="clearToppingImage(toppingImageInput)">Bild entfernen</button>
+    @if (component() == 'filling') {
+      <mat-card class="card">
+        <mat-card-header>
+          <mat-card-title>
+            <input [(ngModel)] = "fillingName">
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="form-group">
+            <label>Das Rezept ergibt ... Portionen</label>
+            <input type="number" [(ngModel)]="fillingQuantity">
           </div>
-          <img [src]="toppingImagePreview()" alt="Bildvorschau" />
-        </div>
-      </div>
-
-      <div>
-        <label for="newTag">Tag hinzufügen:</label>
-        <br>
-        <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" class="tag-add-btn" (click)="addTag('topping')">Tag hinzufügen</button>
-      </div>
-      
-      <div>
-        <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of toppingTags()">
-          {{tag.name}}
-          <button (click)="deleteTag(tag._id, 'topping')">Tag entfernen</button>
-        </div>
-      </div>
-
-      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card *ngIf="component() == 'cake'" class="card">
-    <mat-card-header>
-      <mat-card-title>
-        <input [(ngModel)]="cakeName">
-      </mat-card-title>
-    </mat-card-header>
-
-    <mat-card-content>
-      <div class="form-group">
-        <label for="cakeImage">Bild aktualisieren:</label>
-        <input type="file" id="cakeImage" #cakeImageInput (change)="onCakeFileSelected($event)" />
-        <div *ngIf="cakeImagePreview()" class="image-preview">
-          <div class="image-preview-header">
-            <span class="image-preview-title">Vorschau</span>
-            <button type="button" class="image-clear-btn" (click)="clearCakeImage(cakeImageInput)">Bild entfernen</button>
+          <h4>Zutaten:</h4>
+          <textarea cdkTextareaAutosize [(ngModel)] = fillingIngredients></textarea>
+          <h4>Anleitung:</h4>
+          <textarea cdkTextareaAutosize [(ngModel)]="fillingInstructions"></textarea>
+          <div class="form-group">
+            <label for="fillingImage">Bild aktualisieren:</label>
+            <input type="file" id="fillingImage" #fillingImageInput (change)="onFillingFileSelected($event)" />
+            @if (fillingImagePreview()) {
+              <div class="image-preview">
+                <div class="image-preview-header">
+                  <span class="image-preview-title">Vorschau</span>
+                  <button type="button" class="image-clear-btn" (click)="clearFillingImage(fillingImageInput)">Bild entfernen</button>
+                </div>
+                <img [src]="fillingImagePreview()" alt="Bildvorschau" />
+              </div>
+            }
           </div>
-          <img [src]="cakeImagePreview()" alt="Bildvorschau" />
-        </div>
-      </div>
-      <div *ngIf="cakeUseComponents() === 'yes'">
-        <label>Teig(e):</label>
-        <div class="options-list">
-          <div *ngFor="let dough of doughs()" class="checkbox-item">
-            <input
-              type="checkbox"
-              id="dough-{{dough._id}}"
-              [value]="dough._id"
-              (change)="onComponentChange('dough', dough._id, $event)"
-              [checked]="isComponentSelected('dough', dough._id)"
-            />
-            <label for="dough-{{dough._id}}">{{ dough.name }}</label>
-          </div>
-        </div>
+          <div>
+            <label for="newTag">Tag hinzufügen:</label>
+            <br>
+              <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
+              <button type="button" class="tag-add-btn" (click)="addTag('filling')">Tag hinzufügen</button>
+            </div>
+            <div>
+              <label>Ausgewählte Tags:</label>
+              @for (tag of fillingTags(); track tag) {
+                <div>
+                  {{tag.name}}
+                  <button (click)="deleteTag(tag._id, 'filling')">Tag entfernen</button>
+                </div>
+              }
+            </div>
+            <button class="submit-btn" (click)="saveEdit()">Speichern</button>
+          </mat-card-content>
+        </mat-card>
+      }
 
-        <label>Füllung(en):</label>
-        <div class="options-list">
-          <div *ngFor="let filling of fillings()" class="checkbox-item">
-            <input
-              type="checkbox"
-              id="filling-{{filling._id}}"
-              [value]="filling._id"
-              (change)="onComponentChange('filling', filling._id, $event)"
-              [checked]="isComponentSelected('filling', filling._id)"
-            />
-            <label for="filling-{{filling._id}}">{{ filling.name }}</label>
-          </div>
-        </div>
 
-        <label>Topping(s):</label>
-        <div class="options-list">
-          <div *ngFor="let topping of toppings()" class="checkbox-item">
-            <input
-              type="checkbox"
-              id="topping-{{topping._id}}"
-              [value]="topping._id"
-              (change)="onComponentChange('topping', topping._id, $event)"
-              [checked]="isComponentSelected('topping', topping._id)"
-            />
-            <label for="topping-{{topping._id}}">{{ topping.name }}</label>
-          </div>
-        </div>
+      @if (component() == 'topping') {
+        <mat-card class="card">
+          <mat-card-header>
+            <mat-card-title>
+              <input [(ngModel)] = "toppingName">
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <div class="form-group">
+              <label>Das Rezept ergibt ... Portionen</label>
+              <input type="number" [(ngModel)]="toppingQuantity">
+            </div>
+            <h4>Zutaten:</h4>
+            <textarea cdkTextareaAutosize [(ngModel)] = toppingIngredients></textarea>
+            <h4>Anleitung:</h4>
+            <textarea cdkTextareaAutosize [(ngModel)]="toppingInstructions"></textarea>
+            <div class="form-group">
+              <label for="toppingImage">Bild aktualisieren:</label>
+              <input type="file" id="toppingImage" #toppingImageInput (change)="onToppingFileSelected($event)" />
+              @if (toppingImagePreview()) {
+                <div class="image-preview">
+                  <div class="image-preview-header">
+                    <span class="image-preview-title">Vorschau</span>
+                    <button type="button" class="image-clear-btn" (click)="clearToppingImage(toppingImageInput)">Bild entfernen</button>
+                  </div>
+                  <img [src]="toppingImagePreview()" alt="Bildvorschau" />
+                </div>
+              }
+            </div>
+            <div>
+              <label for="newTag">Tag hinzufügen:</label>
+              <br>
+                <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
+                <button type="button" class="tag-add-btn" (click)="addTag('topping')">Tag hinzufügen</button>
+              </div>
+              <div>
+                <label>Ausgewählte Tags:</label>
+                @for (tag of toppingTags(); track tag) {
+                  <div>
+                    {{tag.name}}
+                    <button (click)="deleteTag(tag._id, 'topping')">Tag entfernen</button>
+                  </div>
+                }
+              </div>
+              <button class="submit-btn" (click)="saveEdit()">Speichern</button>
+            </mat-card-content>
+          </mat-card>
+        }
 
-        <h4>Ausgewählte Komponenten in der Reihenfolge der Auswahl:</h4>
-        <ol>
-          <li *ngFor="let component of selectedComponents(); let i = index">
-            {{ getComponentName(component.type, component.id) }}
-            <input type="number" [(ngModel)]="component.quantity" min="1">
-            <button class="recipe-order-btn recipe-order-btn--up" (click)="moveUp(i)" [disabled]="i === 0">Up</button>
-            <button class="recipe-order-btn recipe-order-btn--down" (click)="moveDown(i)" [disabled]="i === selectedComponents().length - 1">Down</button>
-          </li>
-        </ol>
-      </div>
-
-      <div *ngIf="cakeUseComponents() === 'no'">
-        <label>Zutaten:</label>
-        <textarea cdkTextareaAutosize [(ngModel)]="cakeIngredients"></textarea>
-
-        <label>Anleitung:</label>
-        <textarea cdkTextareaAutosize [(ngModel)]="cakeInstructions"></textarea>
-      </div>
-
-      <div>
-        <label for="newTag">Tag hinzufügen:</label>
-        <br>
-        <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
-        <button type="button" class="tag-add-btn" (click)="addTag('cake')">Tag hinzufügen</button>
-      </div>
-      
-      <div>
-        <label>Ausgewählte Tags:</label>
-        <div *ngFor="let tag of cakeTags()">
-          {{tag.name}}
-          <button (click)="deleteTag(tag._id, 'cake')">Tag entfernen</button>
-        </div>
-      </div>
-
-      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
-    </mat-card-content>
-  </mat-card>
-</div>
+        @if (component() == 'cake') {
+          <mat-card class="card">
+            <mat-card-header>
+              <mat-card-title>
+                <input [(ngModel)]="cakeName">
+              </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="form-group">
+                <label for="cakeImage">Bild aktualisieren:</label>
+                <input type="file" id="cakeImage" #cakeImageInput (change)="onCakeFileSelected($event)" />
+                @if (cakeImagePreview()) {
+                  <div class="image-preview">
+                    <div class="image-preview-header">
+                      <span class="image-preview-title">Vorschau</span>
+                      <button type="button" class="image-clear-btn" (click)="clearCakeImage(cakeImageInput)">Bild entfernen</button>
+                    </div>
+                    <img [src]="cakeImagePreview()" alt="Bildvorschau" />
+                  </div>
+                }
+              </div>
+              @if (cakeUseComponents() === 'yes') {
+                <div>
+                  <label>Teig(e):</label>
+                  <div class="options-list">
+                    @for (dough of doughs(); track dough) {
+                      <div class="checkbox-item">
+                        <input
+                          type="checkbox"
+                          id="dough-{{dough._id}}"
+                          [value]="dough._id"
+                          (change)="onComponentChange('dough', dough._id, $event)"
+                          [checked]="isComponentSelected('dough', dough._id)"
+                          />
+                          <label for="dough-{{dough._id}}">{{ dough.name }}</label>
+                        </div>
+                      }
+                    </div>
+                    <label>Füllung(en):</label>
+                    <div class="options-list">
+                      @for (filling of fillings(); track filling) {
+                        <div class="checkbox-item">
+                          <input
+                            type="checkbox"
+                            id="filling-{{filling._id}}"
+                            [value]="filling._id"
+                            (change)="onComponentChange('filling', filling._id, $event)"
+                            [checked]="isComponentSelected('filling', filling._id)"
+                            />
+                            <label for="filling-{{filling._id}}">{{ filling.name }}</label>
+                          </div>
+                        }
+                      </div>
+                      <label>Topping(s):</label>
+                      <div class="options-list">
+                        @for (topping of toppings(); track topping) {
+                          <div class="checkbox-item">
+                            <input
+                              type="checkbox"
+                              id="topping-{{topping._id}}"
+                              [value]="topping._id"
+                              (change)="onComponentChange('topping', topping._id, $event)"
+                              [checked]="isComponentSelected('topping', topping._id)"
+                              />
+                              <label for="topping-{{topping._id}}">{{ topping.name }}</label>
+                            </div>
+                          }
+                        </div>
+                        <h4>Ausgewählte Komponenten in der Reihenfolge der Auswahl:</h4>
+                        <ol>
+                          @for (component of selectedComponents(); track component; let i = $index) {
+                            <li>
+                              {{ getComponentName(component.type, component.id) }}
+                              <input type="number" [(ngModel)]="component.quantity" min="1">
+                              <button class="recipe-order-btn recipe-order-btn--up" (click)="moveUp(i)" [disabled]="i === 0">Up</button>
+                              <button class="recipe-order-btn recipe-order-btn--down" (click)="moveDown(i)" [disabled]="i === selectedComponents().length - 1">Down</button>
+                            </li>
+                          }
+                        </ol>
+                      </div>
+                    }
+                    @if (cakeUseComponents() === 'no') {
+                      <div>
+                        <label>Zutaten:</label>
+                        <textarea cdkTextareaAutosize [(ngModel)]="cakeIngredients"></textarea>
+                        <label>Anleitung:</label>
+                        <textarea cdkTextareaAutosize [(ngModel)]="cakeInstructions"></textarea>
+                      </div>
+                    }
+                    <div>
+                      <label for="newTag">Tag hinzufügen:</label>
+                      <br>
+                        <input id="newTag" type="text" [(ngModel)]="newTagName" placeholder="Tag benennen">
+                        <button type="button" class="tag-add-btn" (click)="addTag('cake')">Tag hinzufügen</button>
+                      </div>
+                      <div>
+                        <label>Ausgewählte Tags:</label>
+                        @for (tag of cakeTags(); track tag) {
+                          <div>
+                            {{tag.name}}
+                            <button (click)="deleteTag(tag._id, 'cake')">Tag entfernen</button>
+                          </div>
+                        }
+                      </div>
+                      <button class="submit-btn" (click)="saveEdit()">Speichern</button>
+                    </mat-card-content>
+                  </mat-card>
+                }
+              </div>

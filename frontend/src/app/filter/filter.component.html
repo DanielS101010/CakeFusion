@@ -1,4 +1,4 @@
-<ng-container *ngIf="tags().length; else emptyState">
+@if (tags().length) {
   <section class="filter-panel">
     <header class="filter-panel__header">
       <h3 id="filter-title">Filtern nach Tags</h3>
@@ -9,35 +9,34 @@
           class="filter-panel__reset"
           (click)="resetFilters()"
           [disabled]="!selectedCount()"
-        >
+          >
           Zurücksetzen
         </button>
       </div>
     </header>
-
     <div class="tag-grid" role="list">
-      <label
-        class="tag-chip"
-        *ngFor="let tag of tags(); trackBy: trackByTagId"
-        [class.tag-chip--checked]="isTagSelected(tag._id)"
-        role="listitem"
-      >
-        <input
-          type="checkbox"
-          [checked]="isTagSelected(tag._id)"
-          (change)="onChange($event, tag._id)"
-          [attr.aria-checked]="isTagSelected(tag._id)"
-        >
-        <span class="tag-chip__content">
-          <span class="tag-chip__label">{{ tag.name }}</span>
-        </span>
-      </label>
-    </div>
-  </section>
-</ng-container>
+      @for (tag of tags(); track trackByTagId($index, tag)) {
+        <label
+          class="tag-chip"
+          [class.tag-chip--checked]="isTagSelected(tag._id)"
+          role="listitem"
+          >
+          <input
+            type="checkbox"
+            [checked]="isTagSelected(tag._id)"
+            (change)="onChange($event, tag._id)"
+            [attr.aria-checked]="isTagSelected(tag._id)"
+            >
+            <span class="tag-chip__content">
+              <span class="tag-chip__label">{{ tag.name }}</span>
+            </span>
+          </label>
+        }
+      </div>
+    </section>
+  } @else {
+    <section class="filter-panel filter-panel--empty">
+      <p class="filter-empty">Noch keine Tags verfügbar.</p>
+    </section>
+  }
 
-<ng-template #emptyState>
-  <section class="filter-panel filter-panel--empty">
-    <p class="filter-empty">Noch keine Tags verfügbar.</p>
-  </section>
-</ng-template>

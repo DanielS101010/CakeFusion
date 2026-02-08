@@ -6,7 +6,7 @@ import { Dough } from '../add-dough/dough.model';
 import { Topping } from '../add-topping/topping.model';
 import { ApiService } from '../service/api.service';
 import { MatCardModule } from '@angular/material/card';
-import { NgFor, NgIf } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { SharedDataService } from '../service/shared-data.service';
 import {TextFieldModule} from '@angular/cdk/text-field';
@@ -16,7 +16,7 @@ import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-edit-recipe',
-    imports: [MatCardModule, NgFor, NgIf, FormsModule, TextFieldModule],
+    imports: [MatCardModule, FormsModule, TextFieldModule],
     templateUrl: './edit-recipe.component.html',
     styleUrls: ['./edit-recipe.component.css']
 })

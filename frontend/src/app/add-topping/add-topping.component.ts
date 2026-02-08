@@ -6,12 +6,12 @@ import { Router } from '@angular/router';
 import { TextFieldModule } from '@angular/cdk/text-field';
 import { Tags } from '../service/tags.model';
 import { TagsService } from '../service/tags.service';
-import { NgFor, NgIf } from '@angular/common';
+
 import { ImageService } from '../service/image.service';
 
 @Component({
     selector: 'app-add-topping',
-    imports: [FormsModule, TextFieldModule, NgFor, NgIf],
+    imports: [FormsModule, TextFieldModule],
     templateUrl: './add-topping.component.html',
     styleUrl: './add-topping.component.css'
 })

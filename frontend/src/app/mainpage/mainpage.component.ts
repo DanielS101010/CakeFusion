@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { NgFor } from '@angular/common';
+
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../service/api.service';
 import { FilterComponent } from '../filter/filter.component';
@@ -8,7 +8,7 @@ import { SharedDataService } from '../service/shared-data.service';
 
 @Component({
     selector: 'app-mainpage',
-    imports: [NgFor, RouterLink, FilterComponent],
+    imports: [RouterLink, FilterComponent],
     templateUrl: './mainpage.component.html',
     styleUrl: './mainpage.component.css'
 })
