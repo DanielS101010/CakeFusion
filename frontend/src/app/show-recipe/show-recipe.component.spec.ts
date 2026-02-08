@@ -38,7 +38,8 @@ describe('ShowRecipeComponent', () => {
     ingredients: [],
     instructions: '',
     name: '',
-    tags: []
+    tags: [],
+    image: ''
   };
 
   // Helper function to create a fake ActivatedRoute.

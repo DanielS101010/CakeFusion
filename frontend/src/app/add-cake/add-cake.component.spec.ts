@@ -122,6 +122,7 @@ describe('CakeComponent', () => {
         '',
         component.selectedComponents(),
         [],
+        '',
       );
       expect(mockSharedDataService.refreshCakes).toHaveBeenCalled();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);
@@ -140,6 +141,7 @@ describe('CakeComponent', () => {
         'Mix well',
         [],
         [],
+        '',
       );
       expect(mockSharedDataService.refreshCakes).toHaveBeenCalled();
       expect(mockRouter.navigate).toHaveBeenCalledWith(['/']);

@@ -31,13 +31,13 @@ describe('NavBarComponent', () => {
 
   it('should render all navigation links', () => {
     const compiled = fixture.nativeElement as HTMLElement;
-    const links = compiled.querySelectorAll('a.button');
+    const links = compiled.querySelectorAll('a.nav-button');
     expect(links.length).toBe(5);
-    expect(links[0].getAttribute('ng-reflect-router-link')).toBe('');
-    expect(links[1].getAttribute('ng-reflect-router-link')).toBe('./Teig');
-    expect(links[2].getAttribute('ng-reflect-router-link')).toBe('./Füllung');
-    expect(links[3].getAttribute('ng-reflect-router-link')).toBe('./Topping');
-    expect(links[4].getAttribute('ng-reflect-router-link')).toBe('./Kuchen');
+    expect(links[0].getAttribute('href')).toBe('/');
+    expect(links[1].getAttribute('href')).toBe('/Teig');
+    expect(links[2].getAttribute('href')).toBe('/F%C3%BCllung');
+    expect(links[3].getAttribute('href')).toBe('/Topping');
+    expect(links[4].getAttribute('href')).toBe('/Kuchen');
   });
 
   it('should defer filtering until the search button is pressed', () => {

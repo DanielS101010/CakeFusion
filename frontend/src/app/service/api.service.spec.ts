@@ -177,8 +177,9 @@ describe('ApiService', () => {
       const fillingQuantity = 3;
       const fillingTags: string[] = [];
       const response = { success: true };
+      const fillingImage: string = '';
 
-      service.addFilling(fillingName, fillingIngredients, fillingInstructions, fillingQuantity, fillingTags).subscribe(res => {
+      service.addFilling(fillingName, fillingIngredients, fillingInstructions, fillingQuantity, fillingTags, fillingImage).subscribe(res => {
         expect(res).toEqual(response);
       });
 
@@ -190,6 +191,7 @@ describe('ApiService', () => {
         instructions: fillingInstructions,
         quantity: fillingQuantity,
         tags: fillingTags,
+        image: fillingImage,
       });
       req.flush({data: response});
     });
@@ -274,8 +276,9 @@ describe('ApiService', () => {
       const toppingQuantity = 3;
       const toppingTags: string[] = [];
       const response = { success: true };
+      const toppingImage: string = '';
 
-      service.addTopping(toppingName, toppingIngredients, toppingInstructions, toppingQuantity, toppingTags).subscribe(res => {
+      service.addTopping(toppingName, toppingIngredients, toppingInstructions, toppingQuantity, toppingTags, toppingImage).subscribe(res => {
         expect(res).toEqual(response);
       });
 
@@ -287,6 +290,7 @@ describe('ApiService', () => {
         instructions: toppingInstructions,
         quantity: toppingQuantity,
         tags: toppingTags,
+        image:toppingImage,
       });
       req.flush({data: response});
     });
@@ -371,7 +375,8 @@ describe('ApiService', () => {
         ingredients: [{ quantity: 1, description: 'flour' }],
         instructions: 'bake',
         components: [],
-        tags: []
+        tags: [],
+        image: ''
       };
       service.singleCake('1').subscribe(cake => {
         expect(cake).toEqual(dummyCake);
@@ -402,9 +407,10 @@ describe('ApiService', () => {
         instructions: instructions,
         components: selectedComponents,
         tags: tags,
+        image:image,
       };
 
-      service.addCake(cakeName, ingredients, instructions, selectedComponents, tags).subscribe(res => {
+      service.addCake(cakeName, ingredients, instructions, selectedComponents, tags, image).subscribe(res => {
         expect(res).toEqual(response);
       });
 
@@ -415,7 +421,8 @@ describe('ApiService', () => {
         ingredients,
         instructions,
         components: selectedComponents,
-        tags: tags
+        tags: tags,
+        image: image,
       });
       req.flush({data: response});
     });

@@ -74,6 +74,7 @@ describe('AddToppingComponent with mocks', () => {
       'Mix thoroughly',
       1,
       [],
+      '',
     );
     expect(sharedDataServiceMock.refreshToppings).toHaveBeenCalled();
     expect(routerMock.navigate).toHaveBeenCalledWith(['/']);
